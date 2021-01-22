@@ -14,8 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
+# 静态资源文件服务
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-]
+	              path('admin/', admin.site.urls),
+	              # 以api/mgr/开头的url，由mgr模块的urls.py处理
+	              path('api/mgr/', include('mgr.urls')),
+	              # 静态资源目录
+              ] + static("/", document_root="./source")  # 若上面的路由没有匹配上，就匹配这个z_dist目录下
