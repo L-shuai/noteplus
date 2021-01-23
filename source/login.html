@@ -22,9 +22,10 @@
 	<!-- CSS Files -->
 	<link rel="stylesheet" href="./src/assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="./src/assets/css/azzara.min.css">
-
+<!--	自定义的js-->
+	<script src="./src/m_js/login.js"></script>
 </head>
-<body class="login">
+<body class="login" onkeydown="keyLogin()">
 <!--<h1>hhhh</h1>-->
 <!-- Logo Header -->
       <div class="logo-header" style="padding-top: 10px;padding-left:30px;position: absolute">
@@ -60,7 +61,7 @@
 					<a href="#" class="link float-right">忘记密码?</a>
 				</div>
 				<div class="form-action mb-3">
-					<a href="#" class="btn btn-primary btn-rounded btn-login" onclick="login()">登录</a>
+					<a href="#" id="login-btn" class="btn btn-primary btn-rounded btn-login" onclick="login()">登录</a>
 				</div>
 				<div class="login-account">
 					<span class="msg">还没有账号?</span>
@@ -73,23 +74,23 @@
 			<h1 class="text-center">注册</h1>
 			<div class="login-form">
 				<div class="form-group form-floating-label">
-					<input  id="fullname" name="fullname" type="text" class="form-control input-border-bottom" required>
-					<label for="fullname" class="placeholder">用户名</label>
+					<input  id="username1" name="username1" type="text" class="form-control input-border-bottom" required>
+					<label for="username1" class="placeholder">用户名</label>
 				</div>
 				<div class="form-group form-floating-label">
 					<input  id="email" name="email" type="email" class="form-control input-border-bottom" required>
 					<label for="email" class="placeholder">邮箱</label>
 				</div>
 				<div class="form-group form-floating-label">
-					<input  id="passwordsignin" name="passwordsignin" type="password" class="form-control input-border-bottom" required>
-					<label for="passwordsignin" class="placeholder">密码</label>
+					<input  id="password1" name="password1" type="password" class="form-control input-border-bottom" required>
+					<label for="password1" class="placeholder">密码</label>
 					<div class="show-password">
 						<i class="flaticon-interface"></i>
 					</div>
 				</div>
 				<div class="form-group form-floating-label">
-					<input  id="confirmpassword" name="confirmpassword" type="password" class="form-control input-border-bottom" required>
-					<label for="confirmpassword" class="placeholder">确认密码</label>
+					<input  id="password2" name="password2" type="password" class="form-control input-border-bottom" required>
+					<label for="password2" class="placeholder">确认密码</label>
 					<div class="show-password">
 						<i class="flaticon-interface"></i>
 					</div>
@@ -102,47 +103,21 @@
 				</div>
 				<div class="form-action">
 					<a href="#" id="show-signin" class="btn btn-danger btn-rounded btn-login mr-3">取消</a>
-					<a href="#" class="btn btn-primary btn-rounded btn-login">注册</a>
+					<a href="#" class="btn btn-primary btn-rounded btn-login" onclick="register()">注册</a>
 				</div>
 			</div>
 		</div>
 	</div>
 <script>
-    function login(){
-        // alert('登录')
-        var _username = document.getElementById('username').value
-        var _password = document.getElementById('password').value
-        var jsonstr = {'username':_username,'password':_password};
-        $.ajax({
-            type: "POST",
-            url: '/api/mgr/signin',
-            // data: JSON.stringify(jsonstr),//将json对象转换成json字符串发送
 
-            //登录使用的是django内置的方法  http 请求消息 body 中 参数以 格式 x-www-form-urlencoded 存储    必须是'username='+_username+'&password='+_password,这种
-            data: 'username='+_username+'&password='+_password,
-            dataType: "json",
-            success: function (data) {
-                if (data.ret == 0)
-                {
-                    alert('登录成功')
-                    var url = 'http://127.0.0.1:8000/index.html'
-                    location.href=url
-                }
-                else
-                    alert('登录失败')
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
-            }
-        });
-    }
 </script>
 	<script src="./src/assets/js/core/jquery.3.2.1.min.js"></script>
 	<script src="./src/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 	<script src="./src/assets/js/core/popper.min.js"></script>
 	<script src="./src/assets/js/core/bootstrap.min.js"></script>
 	<script src="./src/assets/js/ready.js"></script>
+	<!-- Bootstrap Notify -->
+	<script src="./src/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+
 </body>
 </html>

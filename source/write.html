@@ -35,7 +35,7 @@
     <script src="./src/m_js/index.js"></script>
 </head>
 
-<body onload="initPage()">
+<body>
 <div class="wrapper" id="app1">
     <!--
 			Tip 1: You can change the background color of the main header using: data-background-color="blue | purple | light-blue | green | orange | red"
@@ -379,10 +379,13 @@
                                     <div class="avatar-lg"><img src="./src/assets/img/profile.jpg" alt="image profile"
                                                                 class="avatar-img rounded"></div>
                                     <div class="u-text">
-                                                              <h4 id="username"></h4>
-                                        <input type="hidden" id="userid">
-                                        <p class="text-muted" id="useremail"></p><a href="profile.html"
-                                                                                      class="btn btn-rounded btn-danger btn-sm">修改个人信息</a>
+                                        <!--                      <h4>李帅</h4>-->
+                                        {% if request.session.username %} {
+                                        <h4>{{ request.session.username }}</h4>
+                                        {% endif %}
+                                        <p class="text-muted">hello@example.com</p><a href="profile.html"
+                                                                                      class="btn btn-rounded btn-danger btn-sm">View
+                                        Profile</a>
                                     </div>
                                 </div>
                             </li>
@@ -559,93 +562,346 @@
     <div class="main-panel" id='app'>
         <div class="content">
             <div class="page-inner">
-<div class="page-header">
-						<h4 class="page-title">数据面板</h4>
-						<div class="btn-group btn-group-page-header ml-auto">
+                <!-- <div class="page-header">
+                              <h4 class="page-title">Dashboard</h4>
+                              <div class="btn-group btn-group-page-header ml-auto">
+                                  <button type="button" class="btn btn-light btn-round btn-page-header-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <i class="fa fa-ellipsis-h"></i>
+                                  </button>
+                                  <div class="dropdown-menu">
+                                      <div class="arrow"></div>
+                                      <a class="dropdown-item" href="#">Action</a>
+                                      <a class="dropdown-item" href="#">Another action</a>
+                                      <a class="dropdown-item" href="#">Something else here</a>
+                                      <div class="dropdown-divider"></div>
+                                      <a class="dropdown-item" href="#">Separated link</a>
+                                  </div>
+                              </div>
+                          </div> -->
 
-
-                            <h4>上次登录：<code id="user_last_login"></code></h4>
-
-						</div>
-            </div>
                 <div class="row">
-						<div class="col-sm-6 col-md-3">
-							<div class="card card-stats card-round">
-								<div class="card-body ">
-									<div class="row align-items-center">
-										<div class="col-icon">
-											<div class="icon-big text-center icon-primary bubble-shadow-small">
-												<i class="fas fa-users"></i>
-											</div>
-										</div>
-										<div class="col col-stats ml-3 ml-sm-0">
-											<div class="numbers">
-												<p class="card-category">Visitors</p>
-												<h4 class="card-title">1,294</h4>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6 col-md-3">
-							<div class="card card-stats card-round">
-								<div class="card-body">
-									<div class="row align-items-center">
-										<div class="col-icon">
-											<div class="icon-big text-center icon-info bubble-shadow-small">
-												<i class="far fa-newspaper"></i>
-											</div>
-										</div>
-										<div class="col col-stats ml-3 ml-sm-0">
-											<div class="numbers">
-												<p class="card-category">Subscribers</p>
-												<h4 class="card-title">1303</h4>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6 col-md-3">
-							<div class="card card-stats card-round">
-								<div class="card-body">
-									<div class="row align-items-center">
-										<div class="col-icon">
-											<div class="icon-big text-center icon-success bubble-shadow-small">
-												<i class="far fa-chart-bar"></i>
-											</div>
-										</div>
-										<div class="col col-stats ml-3 ml-sm-0">
-											<div class="numbers">
-												<p class="card-category">Sales</p>
-												<h4 class="card-title">$ 1,345</h4>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6 col-md-3">
-							<div class="card card-stats card-round">
-								<div class="card-body">
-									<div class="row align-items-center">
-										<div class="col-icon">
-											<div class="icon-big text-center icon-secondary bubble-shadow-small">
-												<i class="far fa-check-circle"></i>
-											</div>
-										</div>
-										<div class="col col-stats ml-3 ml-sm-0">
-											<div class="numbers">
-												<p class="card-category">Order</p>
-												<h4 class="card-title">576</h4>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header" style="padding-bottom: 5px;">
+                                <h4 class="card-title" style="float: left;">我的笔记标题</h4>
+                                <button onclick="getMD()">获取markdown</button>
+                                <button onclick="getHtml()">获取Html</button>
+                                <button onclick="setMD()">赋值</button>
+                                <h5 style="float: right;">
+                                    <i class="fas fa-pencil-alt" style="font-size: 16px;"></i>
+                                    <code>2020/12/12 12:12:12</code></h5>
+
+                                <!-- <code>Python</code> -->
+                                <!-- <span class="label label-success">Success</span> -->
+                                <!-- <button type="button" class="btn btn-danger" id="alert_demo_8">Show me</button>	 -->
+
+                                <!-- <textarea name="" id="textarea" cols="30" rows="10"></textarea>
+                               <button onclick="setMD()">为editor赋值</button> -->
+
+                            </div>
+                            <div class="btns" style="padding-bottom: 0px;">
+                                <div style="float: left;padding-left: 10px;padding-top: 15px;display: inline;">
+                                    <ul style="list-style-type: none;">
+                                        <li style="float: left;margin-left: 10px;">
+                                            <button class="btn btn-default btn-round  btn-xs">Python</button>
+                                        </li>
+                                        <li style="float: left;margin-left: 10px;">
+                                            <button class="btn btn-default btn-round  btn-xs">Python</button>
+                                        </li>
+                                        <li style="float: left;margin-left: 10px;">
+                                            <button class="btn btn-default btn-round  btn-xs">Python</button>
+                                        </li>
+                                        <li style="float: left;margin-left: 10px;">
+                                            <button class="btn btn-default btn-round  btn-xs">Python</button>
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+                                <div style="float: right;display: inline;">
+                                    <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
+                                        <li class="nav-item" style="">
+                                            <a class="nav-link btn-xs active" id="pills-home-tab" data-toggle="pill"
+                                               href="#pills-home"
+                                               role="tab" aria-controls="pills-home" aria-selected="true">编辑</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link btn-xs" id="pills-profile-tab" data-toggle="pill"
+                                               href="#pills-profile"
+                                               role="tab" aria-controls="pills-profile" aria-selected="false"
+                                               onclick="preview()">预览</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link btn-xs" style="background-color: #f3545d;color: white;"
+                                               id="pills-contact-tab" data-toggle="pill" href="#pills-contact"
+                                               role="tab"
+                                               aria-controls="pills-contact" aria-selected="false">删除</a>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body" style="padding:3px;">
+
+                                <div class="tab-content mt-2 mb-3" id="pills-tabContent">
+                                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                                         aria-labelledby="pills-home-tab">
+                                        <!-- 这里放置editor -->
+                                        <div id="test-editormd">
+                                            <textarea style="display:none;" class="form-control" id="editormd"
+                                                      name="editormd"></textarea>
+                                        </div>
+                                        <script src="./src/assets/js/jquery.min.js"></script>
+                                        <script src="./src/assets/editor.md-master/editormd.js?v=1"></script>
+                                        <script type="text/javascript">
+                                            // var vm = new Vue({
+                                            //     el:'#app',
+                                            //     data:{
+
+                                            //     },
+                                            //     methods: {
+                                            //         getMD(){
+                                            //             // 获取markdown值
+                                            //             var md = testEditor.getMarkdown()
+                                            //             alert(md)
+                                            //         },
+                                            //         getHtml(){
+                                            //             // 获取html值
+                                            //             var html = testEditor.getHTML()
+                                            //             alert(html)
+                                            //         }
+                                            //     },
+                                            // })
+
+                                            var testEditor;
+                                            $(function () {
+                                                testEditor = editormd("test-editormd", {
+                                                    width: "100%",  //宽度
+                                                    height: 640,  //高度
+                                                    syncScrolling: "single",  //
+                                                    // 一定要改
+                                                    path: "./src/assets/editor.md-master/lib/",
+                                                    autoFocus: true,  //页面打开时不自动获取焦点
+                                                    //这个配置可以让构造出来的HTML代码直接在第二个隐藏的textarea域中，方便post提交表单。
+                                                    saveHTMLToTextarea: true,
+                                                });
+                                                // 这里必须先声明，上面的js按钮才能用
+                                                testEditor.getMarkdown();       // 获取 Markdown 源码
+                                                testEditor.getHTML();           // 获取 Textarea 保存的 HTML 源码
+                                                testEditor.getPreviewedHTML();  // 获取预览窗口里的 HTML，在开启 watch 且没有开启 saveHTMLToTextarea 时使用
+                                            });
+
+                                            // 点击右上角的预览按钮
+
+                                            function preview() {
+                                                // alert(1)
+                                                // 获取html值
+                                                var html = testEditor.getHTML()
+                                                $('#pills-profile').html(html)
+                                            }
+
+                                            function getMD() {
+                                                // 获取markdown值
+                                                var md = testEditor.getMarkdown()
+                                                alert(md)
+                                                testEditor.value = ""
+                                            }
+
+                                            function getHtml() {
+                                                // 获取html值
+                                                var html = testEditor.getHTML()
+                                                alert(html)
+                                            }
+
+                                            function setMD() {
+                                                var cont = ""
+                                                // testEditor.setMarkdown();
+                                                // document.getElementById("editormd").value="这是editormd"
+                                                // cont = document.getElementById("textarea").value;
+                                                // alert(cont)
+                                                // 直接从数据库中读出   可以得
+                                                testEditor.setMarkdown(cont)
+                                            }
+
+                                        </script>
+                                        <!-- 放置editor结束 -->
+                                        <hr>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                                         aria-labelledby="pills-profile-tab">
+                                        preview
+                                        <hr>
+                                        <hr>
+                                        <hr>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-contact" role="tabpanel"
+                                         aria-labelledby="pills-contact-tab">
+                                        <p>Pityful a rethoric question ran over her cheek, then she continued her way.
+                                            On her way she met
+                                            a copy. The copy warned the Little Blind Text, that where it came from it
+                                            would have been
+                                            rewritten a thousand times and everything that was left from its origin
+                                            would be the word "and"
+                                            and the Little Blind Text should turn around and return to its own, safe
+                                            country.</p>
+
+                                        <p> But nothing the copy said could convince her and so it didn’t take long
+                                            until a few insidious
+                                            Copy Writers ambushed her, made her drunk with Longe and Parole and dragged
+                                            her into their
+                                            agency, where they abused her for their</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 底部摘要begin -->
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card card-default bg-default-gradient bubble-shadow">
+                                        <div class="card-body">
+                                            <h2 class="mt-3 b-b1 pb-2 mb-4 fw-bold">笔记摘要</h2>
+
+                                            <ol style="padding-left:10px;margin: 0px;">
+                                                <li>
+                                                    <p>Page view per minutes</p>
+                                                </li>
+                                                <li>
+                                                    <p>Page view per minutes</p>
+                                                </li>
+                                                <li>
+                                                    <p>Page view per minutes</p>
+                                                </li>
+
+                                            </ol>
+                                            <div id="activeUsersChart"></div>
+                                            <h2 class="mt-5 pb-3 mb-0 fw-bold">关键词</h2>
+                                            <ul class="list-unstyled">
+                                                <li class="d-flex justify-content-between pb-1 pt-1"
+                                                    style="float: left;margin-left: 10px;">
+                                                    <button class="btn btn-default btn-round  btn-xs">Python</button>
+
+                                                </li>
+                                                <li class="d-flex justify-content-between pb-1 pt-1"
+                                                    style="float: left;margin-left: 10px;">
+                                                    <button class="btn btn-default btn-round  btn-xs">Python</button>
+
+                                                </li>
+                                                <li class="d-flex justify-content-between pb-1 pt-1"
+                                                    style="float: left;margin-left: 10px;">
+                                                    <button class="btn btn-default btn-round  btn-xs">Python</button>
+
+                                                </li>
+                                                <li class="d-flex justify-content-between pb-1 pt-1"
+                                                    style="float: left;margin-left: 10px;">
+                                                    <button class="btn btn-default btn-round  btn-xs">Python</button>
+
+                                                </li>
+                                                <li class="d-flex justify-content-between pb-1 pt-1"
+                                                    style="float: left;margin-left: 10px;">
+                                                    <button class="btn btn-default btn-round  btn-xs">Python</button>
+
+                                                </li>
+                                                <li class="d-flex justify-content-between pb-1 pt-1"
+                                                    style="float: left;margin-left: 10px;">
+                                                    <button class="btn btn-default btn-round  btn-xs">Python</button>
+
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <!-- <div class="card card-primary bg-primary-gradient bubble-shadow"></div> -->
+                                    <div class="card card-secondary bg-default-gradient bubble-shadow">
+                                        <div class="card-body">
+                                            <div class="card-title fw-mediumbold">
+                                                <h2 class="mt-3 b-b1 pb-2 mb-4 fw-bold">相关推荐</h2>
+                                            </div>
+                                            <div class="">
+                                                <ul class="" style="padding-left: 10px;margin-top: 0px;z-index: 100;">
+
+
+                                                    <li class="">
+                                                        <div>
+                                                            <p><a href="#" style="float: left;">推荐文章111</a>
+                                                                <button
+                                                                        class="btn btn-icon btn-primary btn-round btn-sm"
+                                                                        style="float: right;">
+                                                                    <i class="fa fa-plus"></i>
+                                                                </button>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+
+                                                    <li class="">
+                                                        <div>
+                                                            <p><a href="#" style="float: left;">推荐文章111</a>
+                                                                <button
+                                                                        class="btn btn-icon btn-primary btn-round btn-sm"
+                                                                        style="float: right;">
+                                                                    <i class="fa fa-plus"></i>
+                                                                </button>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+
+                                                    <li class="">
+                                                        <div>
+                                                            <p><a href="#" style="float: left;">推荐文章111</a>
+                                                                <button
+                                                                        class="btn btn-icon btn-primary btn-round btn-sm"
+                                                                        style="float: right;">
+                                                                    <i class="fa fa-plus"></i>
+                                                                </button>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+
+                                                    <li class="">
+                                                        <div>
+                                                            <p><a href="#" style="float: left;">推荐文章111</a>
+                                                                <button
+                                                                        class="btn btn-icon btn-primary btn-round btn-sm"
+                                                                        style="float: right;">
+                                                                    <i class="fa fa-plus"></i>
+                                                                </button>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+
+
+                                                </ul>
+                                                <p>以上信息来自互联网</p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4" style="width: 100%">
+                                    <div class="card card-default bg-default-gradient bubble-shadow-small">
+                                        <div class="card-header" style="margin: 0;margin-bottom: -40px;">
+                                            <div class="card-title">
+                                                <h2 class="mt-3 b-b1 pb-2 mb-4 fw-bold">词云图</h2>
+
+                                            </div>
+                                        </div>
+                                        <div class="card-body pb-0" style="padding: 0;margin-top: 0;padding-top: 0">
+                                            <img src="./src/assets/img/word.jpg" width="100%" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--底部摘要end  -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
         </div>
 

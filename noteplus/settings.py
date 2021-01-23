@@ -81,7 +81,7 @@ DATABASES = {
 		'NAME': 'noteplus',  # 数据库名，先前创建的
 		'USER': 'root',  # 用户名，可以自己创建用户
 		'PASSWORD': 'lishuai4899',  # 密码
-		'HOST': '127.0.0.1',  # mysql服务所在的主机ip
+		'HOST': '209.141.62.113',  # mysql服务所在的主机ip   这里改为远程主机
 		'PORT': '3306',  # mysql服务端口
 	}
 
@@ -113,14 +113,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
+# TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

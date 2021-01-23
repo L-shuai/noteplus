@@ -16,15 +16,17 @@ def signin(request):
 	# 如果能找到用户，并且密码正确
 	if user is not None:
 		if user.is_active:
-			if user.is_superuser:
-				login(request, user)
-				# 在session中存入用户类型
-				# request.session['usertype'] = 'mgr'
-				# 在session中存入用户名username
-				request.session['username'] = userName
-				return JsonResponse({'ret': 0})
-			else:
-				return JsonResponse({'ret': 1, 'msg': '请使用管理员账户登录'})
+			# if user.is_superuser:   # 这里不需要超级管理员
+			login(request, user)
+			# 在session中存入用户类型
+			# request.session['usertype'] = 'mgr'
+			# 在session中存入用户名username
+			request.session['username'] = userName
+			request.session['userid'] = user.id
+			# print('username:',userName,'userid:',user.id)
+			return JsonResponse({'ret': 0})
+			# else:
+				# return JsonResponse({'ret': 1, 'msg': '请使用管理员账户登录'})
 		else:
 			return JsonResponse({'ret': 0, 'msg': '用户已经被禁用'})
 
