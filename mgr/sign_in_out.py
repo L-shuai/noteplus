@@ -21,9 +21,12 @@ def signin(request):
 			# 在session中存入用户类型
 			# request.session['usertype'] = 'mgr'
 			# 在session中存入用户名username
-			request.session['username'] = userName
-			request.session['userid'] = user.id
-			# print('username:',userName,'userid:',user.id)
+			# request.session['username'] = userName
+			# request.session['userid'] = user.id
+			# 将字典存入session
+			user_dic = {'username':userName,'id':user.id}
+			request.session['user'] = user_dic
+			print('username:',userName,'userid:',user.id)
 			return JsonResponse({'ret': 0})
 			# else:
 				# return JsonResponse({'ret': 1, 'msg': '请使用管理员账户登录'})

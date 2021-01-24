@@ -65,11 +65,11 @@
     
     editormd.toolbarModes = {
         full : [
-            "undo", "redo", "|", 
-            "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|", 
-            "list-ul", "list-ol", "hr", "|",
-            "link",  "image", "code", "preformatted-text", "code-block", "table", "datetime",  "pagebreak", "|",
-            "goto-line", "watch", "preview",  "clear", "search", "|",
+            "undo", "redo", "|",
+            "bold", "del", "italic", "quote", "|",
+            "list-ul", "list-ol", "|",
+           "code", "code-block", "table",  "|",
+            "watch",
             
         ],
         simple : [
@@ -103,7 +103,7 @@
         delay                : 300,            // Delay parse markdown to html, Uint : ms
         autoLoadModules      : true,           // Automatic load dependent module files
         watch                : false,
-        placeholder          : "Enjoy NotePlus! coding now...",
+        placeholder          : "Enjoy NotePlus! 开始你的第一行笔记...",
         gotoLine             : true,
         codeFold             : false,
         autoHeight           : false,

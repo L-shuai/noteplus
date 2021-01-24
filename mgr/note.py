@@ -1,4 +1,4 @@
-# 处理和用户相关的请求
+# 处理和笔记相关的请求
 
 
 # 分发函数
@@ -47,10 +47,10 @@ def dispatcher(request):
 
 	# 	根据不同action分派给不同的函数进行处理
 	# action = request.params['action']
-	if action == 'init_page':
-		return init_page(request)
-	elif action == 'register':
-		return register(request)
+	if action == 'init_page_note':
+		return init_page_note(request)
+	# elif action == 'register':
+	# 	return register(request)
 	# elif action == 'modify_customer':
 	# 	return modifycustomer(request)
 	# elif action == 'del_customer':
@@ -64,66 +64,38 @@ def dispatcher(request):
 # ==========================================================================================================================
 
 
-def init_page(request):
+def init_page_note(request):
 	"""
-	这是登录成功后到index.html的请求
+	这是登录成功后到note.html的请求
 	这里要处理的业务：
 		1，获取session中登录的用户username和userid以及email和last_login
-		2，查询数据库，获取笔记总数，各个分类的总数，以及各个分类的笔记标题列表（title,id,）,以及收藏的笔记列表和删除的笔记列表
-		3，将第2步查询到的内容，全部存入session，以后做修改时（比如增删改查），则对session中的数据也做同步修改，这能大大减少数据库IO时间
+		2，获取session中存的各种分类列表等
+		3，完成笔记的添加和编辑删除等
 	:param request:
 	:return:
 	"""
 	# username = request.session['username']
 	# userid = request.session['userid']
-	user_dic = request.session['user']
-	print('user_dic:',user_dic)
-	print('username11:', user_dic['username'], 'id:', user_dic['id'])
-	user = User.objects.get(id=user_dic['id'])
-	print('user', user.email)
-	last_login = str(user.last_login)  # 2021-01-23T03:18:54.836Z
+	user = request.session['user']
+	# print('username11:', user_dic['username'], 'userid:', user_dic['userid'])
+	# user = User.objects.get(id=user_dic['userid'])
+	# print('user', user.email)
+	# last_login = str(user.last_login)  # 2021-01-23T03:18:54.836Z
 
-	tmp = last_login[0:10] + ' '
+	# tmp = last_login[0:10] + ' '
 
-	tmp += last_login[11:19]
+	# tmp += last_login[11:19]
 
-	print(tmp)
-	user = {
-		'id': user.id,
-		'username': user.username,
-		'email': user.email,
-		'last_login': tmp,
-	}
+	# print(tmp)
+	# user = {
+	# 	'id': user.id,
+	# 	'username': user.username,
+	# 	'email': user.email,
+	# 	'last_login': tmp,
+	# }
 	print("user:", user)
-	request.session['user'] = user
+	# request.session['user'] = user
 	return JsonResponse({'ret': 0, 'user': user})
 
 
 # ==========================================================================================================================
-
-
-# ==========================================================================================================================
-
-# 用户注册
-def register(request):
-	try:
-		# data是传过来的json  我自定义的data            var jsonstr = {"action": 'add_customer', 'data': {'name': _name, 'phonenumber': _phonenumber, 'address': _address}};
-		info = request.params['data']
-		username = info['username']
-		password = info['password']
-		email = info['email']
-		# 判断用户名是否存在
-		if User.objects.filter(username=username).exists():
-			# context = {}
-			# context['register_info'] = True
-			# context['previous_page'] = request.GET.get('from_page')
-			return JsonResponse({'ret':1,'msg':'用户名已被注册！'})
-			# return render(request, 'register.html', context)
-		else:
-			user = User.objects.create_user(username=username,email=email, password=password)
-			user.save()
-			return JsonResponse({'ret':0,'msg':'注册成功！'})
-
-			# return HttpResponseRedirect(request.GET.get('from_page'))
-	except:
-		return JsonResponse({'ret': 1, 'msg': '注册过程异常，请重新注册！！'})
