@@ -26,14 +26,14 @@ urlpatterns = [
 	              # 以api/mgr/开头的url，由mgr模块的urls.py处理
 	              path('api/mgr/', include('mgr.urls')),
 	              # 静态资源目录
-              ] + static("/", document_root="./source")  # 若上面的路由没有匹配上，就匹配这个z_dist目录下
+              ] + static("/", document_root="./templates")  # 若上面的路由没有匹配上，就匹配这个z_dist目录下
 
 
 # 自定义错误页面
-# handler400 = views.bad_request
-# handler403 = views.permission_denied
-# handler404 = views.page_not_found
-# handler500 = views.server_error
+handler400 = views.bad_request
+handler403 = views.permission_denied
+handler404 = views.page_not_found
+handler500 = views.server_error
 
 # handler400 = views.bad_request
 # handler403 = views.permission_denied

@@ -49,7 +49,7 @@ class TextRank4Sentence(object):
 		Keyword arguments:
 		text                 --  文本内容，字符串。
 		lower                --  是否将文本转换为小写。默认为False。
-		source               --  选择使用words_no_filter, words_no_stop_words, words_all_filters中的哪一个来生成句子之间的相似度。
+		static               --  选择使用words_no_filter, words_no_stop_words, words_all_filters中的哪一个来生成句子之间的相似度。
 								 默认值为`'all_filters'`，可选值为`'no_filter', 'no_stop_words', 'all_filters'`。
 		sim_func             --  指定计算句子相似度的函数。
 		"""

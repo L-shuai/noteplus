@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>notePlus</title>
+    <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
+    <link rel="icon" href="../static/src/assets/img/icon.ico" type="image/x-icon"/>
+
+    <!-- vue CDN -->
+      <link rel="stylesheet" href="../static/src/assets/editor.md-master/css/editormd.css"/>
+    <script src="../static/src/assets/js/core/jquery.3.2.1.min.js"></script>
+
+    <script src="../static/src/assets/editor.md-master/editormd.js?v=1"></script>
+
+ <!--    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+    <!-- Fonts and icons -->
+    <script src="../static/src/assets/js/plugin/webfont/webfont.min.js"></script>
+    <script src="../static/src/m_js/note.js"></script>
+    <script>
+        WebFont.load({
+            google: {"families": ["Open+Sans:300,400,600,700"]},
+            custom: {
+                "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands"],
+                urls: ['../static/src/assets/css/fonts.css']
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../static/src/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/src/assets/css/azzara.min.css">
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link rel="stylesheet" href="../static/src/assets/css/demo.css">
+<!--    <script src="../static/src/m_js/note.js"></script>-->
+</head>
+
+<!--<body onload="initPage()">-->
+<body>
+<div class="wrapper" id="app1">
+    <!--
+			Tip 1: You can change the background color of the main header using: data-background-color="blue | purple | light-blue | green | orange | red"
+		-->
+    <div class="main-header" data-background-color="purple">
+        <!-- Logo Header -->
+        <div class="logo-header">
+
+            <a href="note.html" class="logo">
+                <img src="../static/src/assets/img/logoNotePlus.png" alt="navbar brand" class="navbar-brand" width="150px">
+            </a>
+            <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
+                    data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon">
+            <i class="fa fa-bars"></i>
+          </span>
+            </button>
+            <button class="topbar-toggler more"><i class="fa fa-ellipsis-v"></i></button>
+            <div class="navbar-minimize">
+                <button class="btn btn-minimize btn-rounded">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- End Logo Header -->
+
+        <!-- Navbar Header -->
+        <nav class="navbar navbar-header navbar-expand-lg">
+
+            <div class="container-fluid">
+                <div class="collapse" id="search-nav">
+                    <form class="navbar-left navbar-form nav-search mr-md-3 nav-item dropdown hidden-caret">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button type="submit" class="btn btn-search pr-1 nav-link dropdown-toggle"
+                                        id="messageDropdown"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-search search-icon"></i>
+                                </button>
+                                <ul class="dropdown-menu messages-notif-box animated fadeIn"
+                                    aria-labelledby="messageDropdown"
+                                    style="width: 100%;">
+                                    <li>
+                                        <div class="dropdown-title d-flex justify-content-between align-items-center">
+                                            查询结果
+                                            <a href="#" class="small">共5条</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="message-notif-scroll scrollbar-outer">
+                                            <div class="notif-center">
+                                                <a href="#">
+                                                    <div class="notif-img">
+                                                        <img src="../static/src/assets/img/jm_denis.jpg" alt="Img Profile">
+                                                    </div>
+                                                    <div class="notif-content">
+                                                        <span class="subject">Jimmy Denis</span>
+                                                        <span class="block">
+                                How are you ?
+                              </span>
+                                                        <span class="time">5 minutes ago</span>
+                                                    </div>
+                                                </a>
+                                                <a href="#">
+                                                    <div class="notif-img">
+                                                        <img src="../static/src/assets/img/chadengle.jpg" alt="Img Profile">
+                                                    </div>
+                                                    <div class="notif-content">
+                                                        <span class="subject">Chad</span>
+                                                        <span class="block">
+                                Ok, Thanks !
+                              </span>
+                                                        <span class="time">12 minutes ago</span>
+                                                    </div>
+                                                </a>
+                                                <a href="#">
+                                                    <div class="notif-img">
+                                                        <img src="../static/src/assets/img/mlane.jpg" alt="Img Profile">
+                                                    </div>
+                                                    <div class="notif-content">
+                                                        <span class="subject">Jhon Doe</span>
+                                                        <span class="block">
+                                Ready for the meeting today...
+                              </span>
+                                                        <span class="time">12 minutes ago</span>
+                                                    </div>
+                                                </a>
+                                                <a href="#">
+                                                    <div class="notif-img">
+                                                        <img src="../static/src/assets/img/talha.jpg" alt="Img Profile">
+                                                    </div>
+                                                    <div class="notif-content">
+                                                        <span class="subject">Talha</span>
+                                                        <span class="block">
+                                Hi, Apa Kabar ?
+                              </span>
+                                                        <span class="time">17 minutes ago</span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="see-all" href="javascript:void(0);">See all messages<i
+                                                class="fa fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <input type="text" placeholder="Search ..." class="form-control">
+
+                        </div>
+                    </form>
+
+                </div>
+                <!-- drop -->
+
+
+                <!-- drop -->
+                <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+                    <li class="nav-item toggle-nav-search hidden-caret">
+                        <a class="nav-link" data-toggle="collapse" href="#search-nav" role="button"
+                           aria-expanded="false"
+                           aria-controls="search-nav">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown hidden-caret">
+                        <a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button"
+                           data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-heart"></i>
+                        </a>
+                        <ul class="dropdown-menu messages-notif-box animated fadeIn" aria-labelledby="messageDropdown">
+                            <li>
+                                <div class="dropdown-title d-flex justify-content-between align-items-center">
+                                    我的收藏
+                                    <a href="#" class="small">共5条收藏</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="message-notif-scroll scrollbar-outer">
+                                    <div class="notif-center">
+                                        <a href="#">
+                                            <div class="notif-img">
+                                                <img src="../static/src/assets/img/jm_denis.jpg" alt="Img Profile">
+                                            </div>
+                                            <div class="notif-content">
+                                                <span class="subject">Jimmy Denis</span>
+                                                <span class="block">
+                            How are you ?
+                          </span>
+                                                <span class="time">5 minutes ago</span>
+                                            </div>
+                                        </a>
+                                        <a href="#">
+                                            <div class="notif-img">
+                                                <img src="../static/src/assets/img/chadengle.jpg" alt="Img Profile">
+                                            </div>
+                                            <div class="notif-content">
+                                                <span class="subject">Chad</span>
+                                                <span class="block">
+                            Ok, Thanks !
+                          </span>
+                                                <span class="time">12 minutes ago</span>
+                                            </div>
+                                        </a>
+                                        <a href="#">
+                                            <div class="notif-img">
+                                                <img src="../static/src/assets/img/mlane.jpg" alt="Img Profile">
+                                            </div>
+                                            <div class="notif-content">
+                                                <span class="subject">Jhon Doe</span>
+                                                <span class="block">
+                            Ready for the meeting today...
+                          </span>
+                                                <span class="time">12 minutes ago</span>
+                                            </div>
+                                        </a>
+                                        <a href="#">
+                                            <div class="notif-img">
+                                                <img src="../static/src/assets/img/talha.jpg" alt="Img Profile">
+                                            </div>
+                                            <div class="notif-content">
+                                                <span class="subject">Talha</span>
+                                                <span class="block">
+                            Hi, Apa Kabar ?
+                          </span>
+                                                <span class="time">17 minutes ago</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="see-all" href="/notecollection.html">See all messages<i
+                                        class="fa fa-angle-right"></i> </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown hidden-caret">
+                        <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
+                           data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-trash"></i>
+                            <span class="notification">4</span>
+                        </a>
+                        <!-- 回收站开始 -->
+                        <!-- <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown"> -->
+                        <ul class="dropdown-menu messages-notif-box animated fadeIn" aria-labelledby="notifDropdown">
+                            <li>
+                                <div class="dropdown-title d-flex justify-content-between align-items-center">
+                                    回收站
+                                    <a href="#" class="small">共5条笔记</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="message-notif-scroll scrollbar-outer">
+                                    <div class="notif-center">
+                                        <a href="#">
+                                            <div class="notif-img">
+                                                <img src="../static/src/assets/img/jm_denis.jpg" alt="Img Profile">
+                                            </div>
+                                            <div class="notif-content">
+                                                <span class="subject">Jimmy Denis</span>
+                                                <span class="block">
+                            How are you ?
+                          </span>
+                                                <span class="time">5 minutes ago</span>
+                                            </div>
+                                        </a>
+                                        <a href="#">
+                                            <div class="notif-img">
+                                                <img src="../static/src/assets/img/chadengle.jpg" alt="Img Profile">
+                                            </div>
+                                            <div class="notif-content">
+                                                <span class="subject">Chad</span>
+                                                <span class="block">
+                            Ok, Thanks !
+                          </span>
+                                                <span class="time">12 minutes ago</span>
+                                            </div>
+                                        </a>
+                                        <a href="#">
+                                            <div class="notif-img">
+                                                <img src="../static/src/assets/img/mlane.jpg" alt="Img Profile">
+                                            </div>
+                                            <div class="notif-content">
+                                                <span class="subject">Jhon Doe</span>
+                                                <span class="block">
+                            Ready for the meeting today...
+                          </span>
+                                                <span class="time">12 minutes ago</span>
+                                            </div>
+                                        </a>
+                                        <a href="#">
+                                            <div class="notif-img">
+                                                <img src="../static/src/assets/img/talha.jpg" alt="Img Profile">
+                                            </div>
+                                            <div class="notif-content">
+                                                <span class="subject">Talha</span>
+                                                <span class="block">
+                            Hi, Apa Kabar ?
+                          </span>
+                                                <span class="time">17 minutes ago</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="see-all" href="/noterecycle.html">See all messages<i
+                                        class="fa fa-angle-right"></i> </a>
+                            </li>
+                        </ul>
+
+                        <!-- 回收站结束 -->
+                    </li>
+                    <li class="nav-item dropdown hidden-caret">
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
+                            <div class="avatar-sm">
+                                <img src="../static/src/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user animated fadeIn">
+                            <li>
+                                <div class="user-box">
+                                    <div class="avatar-lg"><img src="../static/src/assets/img/profile.jpg" alt="image profile"
+                                                                class="avatar-img rounded"></div>
+                                    <div class="u-text">
+                                        <h4 id="username"></h4>
+                                        <input type="hidden" id="userid">
+                                        <p class="text-muted" id="useremail"></p><a href="profile.html"
+                                                                                    class="btn btn-rounded btn-danger btn-sm">修改个人信息</a>
+
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/notelist.html">管理笔记</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/timeline.html">笔记归档</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/notecollection.html">我的收藏</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/noterecycle.html">回收站</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" onclick="signout()">退出登录</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+        <!-- End Navbar -->
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        <div class="sidebar-background"></div>
+        <div class="sidebar-wrapper scrollbar-inner">
+            <div class="sidebar-content">
+                <div class="user">
+                    <div class="avatar-sm float-left mr-2">
+                        <!-- <img src="../static/src/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle"> -->
+                        <!-- <div class="icon-preview"><i class="fas fa-edit"></i></div> -->
+                        <div class="demo-icon">
+                            <div class="icon-preview">
+
+                                <i class="fas fa-plus-circle" style="color:#6f42c1"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <!-- <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+                                          <span>
+                                              李帅
+                                              <span class="user-level">Administrator</span>
+                                              <span class="caret"></span>
+                                          </span>
+                        </a> -->
+
+                        <a href="#">
+                            <button class="btn btn-primary btn-round btn-border" style="width:70%;margin-top: 5px;">
+                                新建笔记
+                            </button>
+                        </a>
+
+                        <div class="clearfix"></div>
+
+
+                    </div>
+                </div>
+                <ul class="nav">
+                    <li class="nav-item active">
+                        <a href="note.html">
+                            <i class="fas fa-home"></i>
+                            <p>使用教程</p>
+                            <span class="badge badge-count">5</span>
+                        </a>
+                    </li>
+                    <li class="nav-section">
+              <span class="sidebar-mini-icon">
+                <i class="fa fa-ellipsis-h"></i>
+              </span>
+                        <h4 class="text-section">共99篇笔记</h4>
+                    </li>
+                   <li class="nav-item">
+                        <a data-toggle="collapse" href="#python">
+                            <i class="fab fa-python"></i>
+                            <p>Python</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="python">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#java">
+                            <i class="fab fa-java"></i>
+                            <p>Java</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="java">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#web">
+                            <i class="fas fa-code"></i>
+                            <p>Web开发</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="web">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#db">
+                            <i class="fas fa-database"></i>
+                            <p>数据库</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="db">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#5g">
+                            <i class="fas fa-broadcast-tower"></i>
+                            <p>5G</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="5g">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#game">
+                            <i class="fas fa-gamepad"></i>
+                            <p>游戏开发</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="game">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#mobile">
+                            <i class="fas fa-mobile-alt"></i>
+                            <p>移动应用开发</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="mobile">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#ops">
+                            <i class="fas fa-power-off"></i>
+                            <p>运维</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="ops">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#sec">
+                            <i class="fas fa-user-secret"></i>
+                            <p>网络安全</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="sec">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#iot">
+                            <i class="fab fa-soundcloud"></i>
+                            <p>物联网</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="iot">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#fund">
+                            <i class="fas fa-boxes"></i>
+                            <p>计算机基础</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="fund">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#avi">
+                            <i class="fas fa-video"></i>
+                            <p>音视频开发</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="fund">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#other">
+                            <i class="fas fa-layer-group"></i>
+                            <p>其他</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="other">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- End Sidebar -->
+
+    <div class="main-panel" id='app'>
+        <div class="content">
+            <div class="page-inner">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header" style="padding-bottom: 0px ;">
+                                <!--                                <h4 class="card-title" style="float: left;">我的笔记标题</h4>-->
+
+
+                                <div class="input-group" style="width: 70%;float: left">
+                                    <!--                                    <i class="fas fa-feather" style="font-size: 20px;margin-top: 8px;"></i>-->
+                                    <!--                                <div class="input-group-prepend">-->
+                                    <div class="input-group-prepend" style="height: 35px;">
+                                        <span class="input-group-text" id="basic-addon1">标题：</span>
+                                    </div>
+                                    <input type="text" id="title" placeholder="笔记标题" class="form-control"
+                                           style="font-weight: bold;font-size: 20px;height: 35px;width: 30%;">
+                                    <div class="input-group-append" style="height: 35px;">
+                                        <select class="form-control form-control" id="defaultSelect"
+                                                style="padding-top: 0;padding-bottom:0px;height: 35px;">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </div>
+
+                                    <!--                                <button onclick="getMD()">获取markdown</button>-->
+                                    <!--                                <button onclick="getHtml()">获取Html</button>-->
+                                    <!--                                <button onclick="setMD()">赋值</button>-->
+                                    <!--                                    </div>-->
+
+                                </div>
+                                <p style="top: 30px;display: inline;">保存成功</p>
+                                <h5 style="float: right;">
+                                    <!--                                         <i class="fas fa-heart" style="font-size: 25px;color: #f3545d;"></i>已收藏-->
+                                    <!--                                    <i class="fas fa-pencil-alt" style="font-size: 16px;"></i>-->
+                                    <!--                                        <button type="button" class="btn btn-icon btn-round btn-danger">-->
+                                    <!--											<i class="fa fa-heart"></i>-->
+                                    <!--										</button>-->
+                                    <button class="btn btn-link">
+                                        <i class="fas fa-heart" style="font-size: 25px;color: #f3545d;"></i>
+                                    </button>
+                                    上次修改：
+                                    <code>2020/12/12 12:12:12</code></h5>
+
+                                <!-- <code>Python</code> -->
+                                <!-- <span class="label label-success">Success</span> -->
+                                <!-- <button type="button" class="btn btn-danger" id="alert_demo_8">Show me</button>	 -->
+
+                                <!-- <textarea name="" id="textarea" cols="30" rows="10"></textarea>
+                               <button onclick="setMD()">为editor赋值</button> -->
+
+                            </div>
+
+                            <div class="card-body" style="padding:3px;">
+
+                                <div class="tab-content mt-2 mb-3" id="pills-tabContent">
+                                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                                         aria-labelledby="pills-home-tab">
+                                        <!-- 这里放置editor -->
+                                        <div id="test-editormd">
+                                            <textarea style="display:none;" class="form-control" id="editormd"
+                                                      name="editormd"></textarea>
+                                        </div>
+
+                                        <script type="text/javascript">
+                                            // var vm = new Vue({
+                                            //     el:'#app',
+                                            //     data:{
+
+                                            //     },
+                                            //     methods: {
+                                            //         getMD(){
+                                            //             // 获取markdown值
+                                            //             var md = testEditor.getMarkdown()
+                                            //             alert(md)
+                                            //         },
+                                            //         getHtml(){
+                                            //             // 获取html值
+                                            //             var html = testEditor.getHTML()
+                                            //             alert(html)
+                                            //         }
+                                            //     },
+                                            // })
+
+
+                                        </script>
+                                        <!-- 放置editor结束 -->
+                                        <!--                                        <hr>-->
+
+                                    </div>
+
+
+                                    <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                                         aria-labelledby="pills-profile-tab">
+
+
+                                    </div>
+
+
+                                    <div id="preview" class="" style="margin: 20px;">
+                                        <!--                                            这里展示预览内容-->
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div id="append" style="padding-left: 30px;padding-right: 30px;">
+                <div class="row">
+                    <!--                        笔记摘要开始-->
+                    <div class="col-md-4">
+                        <div class="card card-post card-round">
+                            <div class="card-body">
+                                <h2 class="mt-3 b-b1 pb-2 mb-4 fw-bold">笔记摘要</h2>
+                                <hr>
+                                <ol style="padding-left:10px;margin: 0px;">
+                                    <li>
+                                        <p>Page view per minutes</p>
+                                    </li>
+                                    <li>
+                                        <p>Page view per minutes</p>
+                                    </li>
+                                    <li>
+                                        <p>Page view per minutes</p>
+                                    </li>
+
+                                </ol>
+                                <div id="activeUsersChart"></div>
+                                <h2 class="mt-5 pb-3 mb-0 fw-bold">关键词</h2>
+                                <ul class="list-unstyled">
+                                    <li class="d-flex justify-content-between pb-1 pt-1"
+                                        style="float: left;margin-left: 10px;">
+                                        <button class="btn btn-default btn-round  btn-xs">Python</button>
+
+                                    </li>
+                                    <li class="d-flex justify-content-between pb-1 pt-1"
+                                        style="float: left;margin-left: 10px;">
+                                        <button class="btn btn-default btn-round  btn-xs">Python</button>
+
+                                    </li>
+                                    <li class="d-flex justify-content-between pb-1 pt-1"
+                                        style="float: left;margin-left: 10px;">
+                                        <button class="btn btn-default btn-round  btn-xs">Python</button>
+
+                                    </li>
+                                    <li class="d-flex justify-content-between pb-1 pt-1"
+                                        style="float: left;margin-left: 10px;">
+                                        <button class="btn btn-default btn-round  btn-xs">Python</button>
+
+                                    </li>
+                                    <li class="d-flex justify-content-between pb-1 pt-1"
+                                        style="float: left;margin-left: 10px;">
+                                        <button class="btn btn-default btn-round  btn-xs">Python</button>
+
+                                    </li>
+                                    <li class="d-flex justify-content-between pb-1 pt-1"
+                                        style="float: left;margin-left: 10px;">
+                                        <button class="btn btn-default btn-round  btn-xs">Python</button>
+
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--                        笔记摘要结束-->
+                    <!--相关推荐开始-->
+                    <div class="col-md-4">
+                        <!-- <div class="card card-primary bg-primary-gradient bubble-shadow"></div> -->
+                        <div class="card card-post card-round">
+                            <div class="card-body">
+                                <div class="card-title fw-mediumbold">
+                                    <h2 class="mt-3 b-b1 pb-2 mb-4 fw-bold">相关推荐</h2>
+                                    <hr>
+                                </div>
+                                <div class="">
+                                    <ul class="" style="padding-left: 10px;margin-top: 0px;z-index: 100;">
+
+
+                                        <li class="">
+                                            <div>
+                                                <p><a href="#" style="float: left;">推荐文章111</a>
+                                                    <button
+                                                            class="btn btn-icon btn-primary btn-round btn-sm"
+                                                            style="float: right;">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                        <li class="">
+                                            <div>
+                                                <p><a href="#" style="float: left;">推荐文章111</a>
+                                                    <button
+                                                            class="btn btn-icon btn-primary btn-round btn-sm"
+                                                            style="float: right;">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                        <li class="">
+                                            <div>
+                                                <p><a href="#" style="float: left;">推荐文章111</a>
+                                                    <button
+                                                            class="btn btn-icon btn-primary btn-round btn-sm"
+                                                            style="float: right;">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                        <li class="">
+                                            <div>
+                                                <p><a href="#" style="float: left;">推荐文章111</a>
+                                                    <button
+                                                            class="btn btn-icon btn-primary btn-round btn-sm"
+                                                            style="float: right;">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </li>
+
+
+                                    </ul>
+                                    <p>以上信息来自互联网</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--相关推荐结束-->
+
+                    <!--                        词云图开始-->
+                    <div class="col-md-4" style="width: 100%">
+                        <div class="card card-post card-round">
+                            <div class="card-header" style="margin: 0;margin-bottom: -40px;">
+                                <div class="card-title">
+                                    <h2 class="mt-3 b-b1 pb-2 mb-4 fw-bold">词云图</h2>
+
+                                </div>
+                            </div>
+                            <div class="card-body pb-0" style="padding: 0;margin-top: 0;padding-top: 0">
+                                <img src="../static/src/assets/img/word.jpg" width="100%" alt="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--                        词云图结束-->
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Custom template | don't include it in your project! -->
+    <div class="custom-template" style="width: ;">
+
+        <div class="custom-toggle" style="height:105px ;padding: 0;background: none">
+            <!-- <i class="fas fa-file-import"></i> -->
+            <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist"
+                style="list-style-type: none;margin-left: 10px;margin-top:0px;">
+                <li>
+                    <button class="btn btn-secondary btn-sm" class="nav-link btn-xs active" id="pills-home-tab"
+                            data-toggle="pill"
+                            href="#pills-home"
+                            role="tab" aria-controls="pills-home" aria-selected="true">编辑
+                    </button>
+                </li>
+
+                <li>
+                    <button class="btn btn-info btn-sm" id="pills-profile-tab" data-toggle="pill"
+                            href="#pills-profile"
+                            role="tab" aria-controls="pills-profile" aria-selected="false"
+                            onclick="preview()">预览
+                    </button>
+                </li>
+                <li>
+                    <button id="add_note" onclick="addnote()" class="btn btn-success btn-sm">保存</button>
+                </li>
+
+                <li>
+                    <button id="pills-contact-tab" class="btn btn-danger btn-sm">删除</button>
+                </li>
+                <li>
+                    <button onclick="getMD()" class="btn btn-default btn-sm">MD值</button>
+                </li>
+                <li>
+                    <button onclick="getHtml()" class="btn btn-default btn-sm">Html</button>
+                </li>
+                <li>
+                    <button onclick="setMD()" class="btn btn-default btn-sm">赋值</button>
+                </li>
+                <!--                    <li><div class="icon-class">保存1</div></li>-->
+
+            </ul>
+            <!--                <div class="icon-class">保存1</div>-->
+            <!--                <div class="icon-class">保存1</div>-->
+        </div>
+
+    </div>
+    <!-- End Custom template -->
+</div>
+</div>
+
+
+<!--   Core JS Files   -->
+<script src="../static/src/assets/js/core/popper.min.js"></script>
+<script src="../static/src/assets/js/core/bootstrap.min.js"></script>
+
+<!-- jQuery UI -->
+<script src="../static/src/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="../static/src/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+
+<!-- jQuery Scrollbar -->
+<script src="../static/src/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+<!-- Sweet Alert -->
+<script src="../static/src/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+
+
+<!-- Moment JS -->
+<!-- <script src="../static/src/assets/js/plugin/moment/moment.min.js"></script> -->
+
+<!-- Chart JS -->
+<!-- <script src="../static/src/assets/js/plugin/chart.js/chart.min.js"></script> -->
+
+<!-- jQuery Sparkline -->
+<!-- <script src="../static/src/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script> -->
+
+<!-- Chart Circle -->
+<!-- <script src="../static/src/assets/js/plugin/chart-circle/circles.min.js"></script> -->
+
+<!-- Datatables -->
+<!-- <script src="../static/src/assets/js/plugin/datatables/datatables.min.js"></script> -->
+
+<!-- Bootstrap Notify -->
+<script src="../static/src/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+<!-- Bootstrap Toggle -->
+<script src="../static/src/assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+
+<!-- jQuery Vector Maps -->
+<!-- <script src="../static/src/assets/js/plugin/jqvmap/jquery.vmap.min.js"></script> -->
+<!-- <script src="../static/src/assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script> -->
+
+<!-- Google Maps Plugin -->
+<!-- <script src="../static/src/assets/js/plugin/gmaps/gmaps.js"></script> -->
+
+<!-- Sweet Alert -->
+<script src="../static/src/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+
+<!-- Azzara JS -->
+<script src="../static/src/assets/js/ready.min.js"></script>
+
+<!-- Azzara DEMO methods, don't include it in your project! -->
+<!-- <script src="../static/src/assets/js/setting-demo.js"></script> -->
+<!-- <script src="../static/src/assets/js/demo.js"></script> -->
+
+
+<script>
+    //== Class definition
+
+    var SweetAlert2Demo = function () {
+
+        //== Demos
+        var initDemos = function () {
+            //== Sweetalert Demo 1
+            $('#alert_demo_1').click(function (e) {
+                swal('Good job!', {
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-success'
+                        }
+                    },
+                });
+            });
+
+            //== Sweetalert Demo 2
+            $('#alert_demo_2').click(function (e) {
+                swal("Here's the title!", "...and here's the text!", {
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-success'
+                        }
+                    },
+                });
+            });
+
+            //== Sweetalert Demo 3
+            $('#alert_demo_3_1').click(function (e) {
+                swal("Good job!", "You clicked the button!", {
+                    icon: "warning",
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-warning'
+                        }
+                    },
+                });
+            });
+
+            $('#alert_demo_3_2').click(function (e) {
+                swal("Good job!", "You clicked the button!", {
+                    icon: "error",
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-danger'
+                        }
+                    },
+                });
+            });
+
+            $('#alert_demo_3_3').click(function (e) {
+                swal("Good job!", "You clicked the button!", {
+                    icon: "success",
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-success'
+                        }
+                    },
+                });
+            });
+
+            $('#alert_demo_3_4').click(function (e) {
+                swal("Good job!", "You clicked the button!", {
+                    icon: "info",
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-info'
+                        }
+                    },
+                });
+            });
+
+            //== Sweetalert Demo 4
+            $('#alert_demo_4').click(function (e) {
+                swal({
+                    title: "Good job!",
+                    text: "You clicked the button!",
+                    icon: "success",
+                    buttons: {
+                        confirm: {
+                            text: "Confirm Me",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-success",
+                            closeModal: true
+                        }
+                    }
+                });
+            });
+
+            $('#alert_demo_5').click(function (e) {
+                swal({
+                    title: 'Input Something',
+                    html: '<br><input class="form-control" placeholder="Input Something" id="input-field">',
+                    content: {
+                        element: "input",
+                        attributes: {
+                            placeholder: "Input Something",
+                            type: "text",
+                            id: "input-field",
+                            className: "form-control"
+                        },
+                    },
+                    buttons: {
+                        cancel: {
+                            visible: true,
+                            className: 'btn btn-danger'
+                        },
+                        confirm: {
+                            className: 'btn btn-success'
+                        }
+                    },
+                }).then(
+                    function () {
+                        swal("", "You entered : " + $('#input-field').val(), "success");
+                    }
+                );
+            });
+
+            $('#alert_demo_6').click(function (e) {
+                swal("This modal will disappear soon!", {
+                    buttons: false,
+                    timer: 3000,
+                });
+            });
+
+            $('#alert_demo_7').click(function (e) {
+                swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    buttons: {
+                        confirm: {
+                            text: 'Yes, delete it!',
+                            className: 'btn btn-success'
+                        },
+                        cancel: {
+                            visible: true,
+                            className: 'btn btn-danger'
+                        }
+                    }
+                }).then((Delete) => {
+                    if (Delete) {
+                        swal({
+                            title: 'Deleted!',
+                            text: 'Your file has been deleted.',
+                            type: 'success',
+                            buttons: {
+                                confirm: {
+                                    className: 'btn btn-success'
+                                }
+                            }
+                        });
+                    } else {
+                        swal.close();
+                    }
+                });
+            });
+
+            $('#pills-contact-tab').click(function (e) {
+                swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    buttons: {
+                        cancel: {
+                            visible: true,
+                            text: 'No, cancel!',
+                            className: 'btn btn-danger'
+                        },
+                        confirm: {
+                            text: 'Yes, delete it!',
+                            className: 'btn btn-success'
+                        }
+                    }
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                            buttons: {
+                                confirm: {
+                                    className: 'btn btn-success'
+                                }
+                            }
+                        });
+                    } else {
+                        swal("Your imaginary file is safe!", {
+                            buttons: {
+                                confirm: {
+                                    className: 'btn btn-success'
+                                }
+                            }
+                        });
+                    }
+                });
+            })
+
+        };
+
+        return {
+            //== Init
+            init: function () {
+                initDemos();
+            },
+        };
+    }();
+
+    //== Class Initialization
+    jQuery(document).ready(function () {
+        SweetAlert2Demo.init();
+    });
+</script>
+</body>
+
+</html>
