@@ -22,9 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '39x5e944lq!gux!7o*l8y^sc)=+t21$$cv@lm&2oog=(it0y55'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# 要想显示404页面，必须关闭debug
 DEBUG = True
 
-ALLOWED_HOSTS = ['*',]
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -125,10 +126,12 @@ USE_L10N = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
-
+STATIC_URL = '/source/'
+STATICFILES_DIRS =(os.path.join(os.path.dirname(__file__),'../source/').replace('\\','/'),)
 # 设置js
 import mimetypes
 
 mimetypes.add_type('text/css', '.css')
 mimetypes.add_type('application/javascript', '.js')
+
+

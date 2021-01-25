@@ -27,7 +27,7 @@ def signin(request):
 			user_dic = {'username':userName,'id':user.id}
 			request.session['user'] = user_dic
 			print('username:',userName,'userid:',user.id)
-			return JsonResponse({'ret': 0})
+			return JsonResponse({'ret': 0,'msg':'登录成功','redirect': '/index.html'})
 			# else:
 				# return JsonResponse({'ret': 1, 'msg': '请使用管理员账户登录'})
 		else:

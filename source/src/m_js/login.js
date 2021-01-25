@@ -52,7 +52,7 @@ function login(){
             //    注册成功
 
 
-                    var url = 'http://127.0.0.1:8000/index.html'
+                    var url = data.redirect
                     location.href=url
                 }
                 else

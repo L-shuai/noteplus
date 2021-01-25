@@ -1,5 +1,10 @@
 // 处理创建笔记
 // alert('note.js')
+
+$(document).ready(function(){
+        initPage()
+})
+
 var testEditor;
 $(function () {
     testEditor = editormd("test-editormd", {
@@ -30,18 +35,22 @@ function preview() {
 function getMD() {
     // 获取markdown值
     var md = testEditor.getMarkdown()
-    alert(md)
+    // alert(md)
+    console.log('获取到的md:'+md)
     testEditor.value = ""
+    return md;
 }
 
 function getHtml() {
     // 获取html值
     var html = testEditor.getHTML()
-    alert(html)
+    // alert(html)
+    console.log('获取到的html:'+html)
+    return html;
 }
 
 function setMD() {
-    var cont = ""
+    var cont = "为Editor赋值..."
     // testEditor.setMarkdown();
     // document.getElementById("editormd").value="这是editormd"
     // cont = document.getElementById("textarea").value;
@@ -86,6 +95,40 @@ function initPage() {
     });
 }
 
+
+function addnote(){
+//    添加笔记
+    var title = document.getElementById('title').value
+    var content_md = getMD()
+    var content_html = getHtml()
+    var userid = document.getElementById('userid').value
+
+    var jsonstr = {"action": 'add_note', 'data': {'userid':userid,'note':{'title':title,'content_md':content_md,'content_html':content_html}}};
+        $.ajax({
+            type: "POST",
+            url: '/api/mgr/note',
+            data: JSON.stringify(jsonstr),//将json对象转换成json字符串发送
+            dataType: "json",
+            success: function (data) {
+                alert('添加成功  id=' + data.id)
+                // alert(data.id)
+                swal("保存成功", "You clicked the button!", {
+                    icon: "success",
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-success'
+                        }
+                    },
+                });
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+}
 
 // alert('note.js  over')
 

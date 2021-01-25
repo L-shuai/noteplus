@@ -28,13 +28,20 @@ def dispatcher(request):
 	# 根据session判断用户是否登录
 	action = request.params['action']
 	# 若是注册时的请求  则直接跳过  不验证登录
+	login = True
 	if action != 'register':
-		if 'username' not in request.session['user']:
-			return JsonResponse({
-				'ret': 302,
-				'msg': '未登录',
-				'redirect': 'http://127.0.0.1:8000/login.html'},
-				status=200)
+		user = request.session.get('user',default = None)
+		if user is not None:
+			if 'username' not in user:
+				login = False
+		else:
+			login = False
+	if not login:
+		return JsonResponse({
+			'ret': 302,
+			'msg': '未登录',
+			'redirect': '/login.html'},
+			status=200)
 
 	# if request.session['usertype'] != 'mgr':
 	# 	return JsonResponse({

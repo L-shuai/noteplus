@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from django.conf.urls import handler400, handler403, handler404, handler500
 # 静态资源文件服务
 from django.conf.urls.static import static
+
+from noteplus import views
 
 urlpatterns = [
 	              path('admin/', admin.site.urls),
@@ -25,3 +27,15 @@ urlpatterns = [
 	              path('api/mgr/', include('mgr.urls')),
 	              # 静态资源目录
               ] + static("/", document_root="./source")  # 若上面的路由没有匹配上，就匹配这个z_dist目录下
+
+
+# 自定义错误页面
+# handler400 = views.bad_request
+# handler403 = views.permission_denied
+# handler404 = views.page_not_found
+# handler500 = views.server_error
+
+# handler400 = views.bad_request
+# handler403 = views.permission_denied
+# handler404 = views.bad_request
+# handler500 = views.page_error
