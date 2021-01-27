@@ -83,7 +83,7 @@ def init_page(request):
 	"""
 	# username = request.session['username']
 	# userid = request.session['userid']
-	user_dic = request.session['user']
+	user_dic = request.session.get('user',default = None)
 	print('user_dic:',user_dic)
 	print('username11:', user_dic['username'], 'id:', user_dic['id'])
 	user = User.objects.get(id=user_dic['id'])

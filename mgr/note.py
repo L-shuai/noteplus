@@ -11,6 +11,8 @@ from django.contrib.auth.models import User
 from datetime import datetime
 
 # ==========================================================================================================================
+from django.shortcuts import render
+
 from common.models import Note, Sort
 
 
@@ -32,6 +34,7 @@ def dispatcher(request):
 	login = True
 	if action != 'register':
 		user = request.session.get('user', default=None)
+		print('note dispatch：user:',user)
 		if user is not None:
 			if 'username' not in user:
 				login = False
@@ -57,8 +60,8 @@ def dispatcher(request):
 		return init_page_note(request)
 	elif action == 'add_note':
 		return add_note(request)
-	# elif action == 'modify_customer':
-	# 	return modifycustomer(request)
+	elif action == 'list_note':
+		return listnote(request)
 	# elif action == 'del_customer':
 	# 	return deletecustomer(request)
 	# elif action == 'find_customer':
@@ -133,9 +136,31 @@ def add_note(request):
 	# (外键对象) author    sort    keyword collected deleted
 	record = Note.objects.create(title=note['title'], content_md=note['content_md'], content_html=note['content_html'],
 	                             content=content,
-	                             abstract=abstract, img_url=img_url, author=user, sort=sort, keyword=keyword,
+	                             abstract=abstract, img_url=img_url, user=user, sort=sort, keyword=keyword,
 	                             collected=False, deleted=False)
 	# print(record.id)
 	return JsonResponse({'ret': 0, 'id': record.id})
 
+
 # ==========================================================================================================================
+
+
+# ==========================================================================================================================
+def listnote(request):
+	"""
+	根据当前登录的用户，查询所有属于该用户的笔记，不包含已删除的
+	:param request:
+	:return:
+	"""
+	print('*'*100)
+	# 先获取session中登录的用户id
+	user = request.session.get('user', default=None)
+	userid = user['id']
+	print('userid:', id)
+	# qs是QuerySet对象，包含属于该用户的未被删除的全部笔记
+	qs = Note.objects.filter(user_id=userid,deleted=False).values()
+	# 将QuerySet对象转换为list类型。否则不能转化为json字符串
+	retlist = list(qs)
+	# return JsonResponse({'ret':0,'user':user,'retlist':retlist})
+	return JsonResponse({'data':retlist})
+	# return render(request, 'list.html', {'retlist': retlist})

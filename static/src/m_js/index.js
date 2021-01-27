@@ -15,6 +15,7 @@ function initPage() {
                 alert('未登录')
                 url = data.redirect; //获取服务端返回的要重定向的页面
                 location.href = url
+                alert('请登录')
             }
 
             user = data.user

@@ -35,7 +35,7 @@ class Note(models.Model):
 	# 内容  纯文本格式的   长文本
 	content = models.TextField()
 	# 作者  # 外键 User表的主键   在数据库中的列为user_id
-	author = models.ForeignKey(User,on_delete=models.PROTECT)
+	user = models.ForeignKey(User,on_delete=models.PROTECT)
 	# 分类  外键  Sort表的主键  sort_id
 	sort = models.ForeignKey(Sort,on_delete=models.PROTECT)
 	# 内容摘要  自动生成的
