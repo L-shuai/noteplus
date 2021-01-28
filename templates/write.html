@@ -17,7 +17,7 @@
  <!--    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
     <!-- Fonts and icons -->
     <script src="../static/src/assets/js/plugin/webfont/webfont.min.js"></script>
-    <script src="../static/src/m_js/note.js"></script>
+    <script src="../static/src/m_js/write.js"></script>
     <script>
         WebFont.load({
             google: {"families": ["Open+Sans:300,400,600,700"]},
@@ -672,22 +672,13 @@
                                     <input type="text" id="title" placeholder="笔记标题" class="form-control"
                                            style="font-weight: ;font-size: 20px;height: 35px;width: 30%;">
                                     <div class="input-group-append" style="height: 35px;">
-                                        <select class="form-control form-control" id="sortSelect"
+                                        <select class="form-control form-control" id="defaultSelect"
                                                 style="padding-top: 0;padding-bottom:0px;height: 35px;">
-                                            <option value="1">python</option>
-                                            <option value="2">java</option>
-                                            <option value="3">Web开发</option>
-                                            <option value="4">数据库</option>
-                                            <option value="5">5G</option>
-                                            <option value="6">游戏开发</option>
-                                            <option value="7">移动应用开发</option>
-                                            <option value="8">运维</option>
-                                            <option value="9">网络安全</option>
-                                            <option value="10">物联网</option>
-                                            <option value="11">计算机基础</option>
-                                            <option value="12">音视频开发</option>
-                                            <option value="13">其他</option>
-
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
                                         </select>
                                     </div>
 
@@ -760,8 +751,7 @@
 
                                     <div class="tab-pane fade" id="pills-profile" role="tabpanel"
                                          aria-labelledby="pills-profile-tab">
-                                        <input type="hidden" id="preview-input">
-                                         <div id="preview" class="" style="margin: 20px;">
+ <div id="preview" class="" style="margin: 20px;">
                                         <!--                                            这里展示预览内容-->
                                     </div>
 

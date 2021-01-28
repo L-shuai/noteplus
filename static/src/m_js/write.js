@@ -27,16 +27,9 @@ $(function () {
 
 function preview() {
     // alert(1)
-    var b = document.getElementById('preview-input').value
-    if (b!=1)
-    {
-            // 获取html值
+    // 获取html值
     var html = testEditor.getHTML()
-    console.log('html-preview:'+html)
-        $('#preview').html(html)
-    }
-
-
+    $('#preview').html(html)
 }
 
 function getMD() {
@@ -56,8 +49,8 @@ function getHtml() {
     return html;
 }
 
-function setMD(cont) {
-    // var cont = "为Editor赋值..."
+function setMD() {
+    var cont = "为Editor赋值..."
     // testEditor.setMarkdown();
     // document.getElementById("editormd").value="这是editormd"
     // cont = document.getElementById("textarea").value;
@@ -71,41 +64,20 @@ function setMD(cont) {
 function initPage() {
     $.ajax({
         type: "GET",
-        url: '/api/mgr/note?action=get_note_byid',
+        url: '/api/mgr/note?action=init_page_note',
         // data:'id='+id,
         dataType: "json",
         success: function (data) {
             if (data.ret == 302 && data.msg == '未登录') {
                 alert('未登录')
-                var url = data.redirect; //获取服务端返回的要重定向的页面
+                url = data.redirect; //获取服务端返回的要重定向的页面
                 location.href = url
             }
             // alert('ok')
-            if (data.ret == 0)
-            {
-                var user = data.user
+            user = data.user
             document.getElementById('username').innerText = user.username
             document.getElementById('useremail').innerText = user.email
             document.getElementById('userid').value = user.id
-            var note = data.note
-            setMD(note.content_md)
-                document.getElementById('title').value = note.title
-                document.getElementById('preview-input').value = 1
-            //选中sort select
-                console.log('note.sort_id:'+note.sort)
-                $('#sortSelect').val(note.sort)
-            //判断是查看还是编辑   n_type=0 | 1
-            if (data.n_type==0)//是查看   需进入预览
-            {
-                // alert('0')
-                // preview()
-                document.getElementById('preview').innerHTML = note.content_html
-                console.log('note.content_html:'+note.content_html)
-                document.getElementById('pills-profile-tab').click()
-                // preview()
-            }
-            }
-
             // document.getElementById('user_last_login').innerText = user.last_login
             // alert(data.retlist);
             // console.log(data.retlist)

@@ -53,6 +53,11 @@ class Note(models.Model):
 	# 被收藏标志
 	collected = models.BooleanField(default=False)
 
+	def to_dict(self):
+		data = {}
+		for f in self._meta.concrete_fields:
+			data[f.name] = f.value_from_object(self)
+		return data
 
 
 

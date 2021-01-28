@@ -31,15 +31,15 @@ $(document).ready(function () {
             "data": null,
             "render": function (data, type, row) {
                 var id = '"' + row.id + '"';
-                var html = "<a href='javascript:void(0);'  class='delete btn btn-link btn-xs'  ><i class='far fa-folder-open'></i> 查看</a>"
-                html += "<a href='javascript:void(0);' class='up btn btn-link btn-xs'><i class='fas fa-edit'></i> 编辑</a>"
-                html += "<i class='delete'></i><a href='javascript:void(0);'    class='btn btn-link btn-danger btn-xs' onclick='delete_note(" + id +',this'+ ")' ><i class='fa fa-times'></i> 删除</a>"
+                var html = "<a href='javascript:void(0);' onclick='get_note(" + id + ',0' + ")'  class='btn btn-link btn-xs'  ><i class='far fa-folder-open'></i> 查看</a>"
+                html += "<a href='javascript:void(0);' onclick='get_note(" + id + ',1' + ")' class='btn btn-link btn-xs'><i class='fas fa-edit'></i> 编辑</a>"
+                html += "<i class='delete' style='display: none'></i><a href='javascript:void(0);'    class='btn btn-link btn-danger btn-xs' onclick='delete_note(" + id + ',this' + ")' ><i class='fa fa-times'></i> 删除</a>"
                 return html;
             }
         }],
 
 
-language: {
+        language: {
             "processing": "处理中...",
             "lengthMenu": "显示 _MENU_ 项结果",
             "zeroRecords": "没有匹配结果",
@@ -66,94 +66,117 @@ language: {
 
     });
 
+    //获取其他数据
+
+    initPage()
+    //获取其他数据
+
+
     // 初始化刪除按钮
-    //             $('#notelist tbody').on('click', 'a.delete', function(e) {
-    //                 alert('del')
-    //                 e.preventDefault();
-    //                 console.log('$(this):'+$(this).innerText)
-    //                 console.log('e:'+e.innerHtml)
-    //                 console.log('$e:'+$(e))
-    //                 // if (confirm("确定要删除该属性？")) {
-    //                     var table = $('#notelist').DataTable();
-    //                     table.row($(this).parents('tr')).remove().draw();
-    //                     // console.log(table.row($(this).parents('tr')).data())
-    //
-    //                 // }
-    //
-    //
-    //             });
+    $('#notelist tbody').on('click', 'i.delete', function (e) {
+        // alert('del')
+        e.preventDefault();
+        console.log('$(this):' + $(this).innerText)
+        console.log('e:' + e.innerHtml)
+        console.log('$e:' + $(e))
+        // if (confirm("确定要删除该属性？")) {
+        var table = $('#notelist').DataTable();
+        table.row($(this).parents('tr')).remove().draw();
+        // console.log(table.row($(this).parents('tr')).data())
+
+        // }
+
+
+    });
 
     // alert(1)
 })
 
+//查看或者编辑笔记
+function get_note(nid,n_type){
+    //type = 0 为查看笔记    type=1 为编辑笔记
+    console.log('nid : '+nid+'  n_type: '+n_type);
+    var jsonstr = {"action": 'get_note', "nid": nid,'n_type':n_type};
+    $.ajax({
+        type: "GET",
+        url: '/api/mgr/note?action=get_note&nid='+nid+'&n_type='+n_type,
+        data: JSON.stringify(jsonstr),//将json对象转换成json字符串发送
+        dataType: "json",
+        success: function (data) {
+            if (data.ret == 0) {
+                console.log('传参成功')
+                url = data.redirect; //获取服务端返回的要重定向的页面
+                location.href = url
+            }
+
+
+            //获取触发函数的元素
+            // let obj = this;
+            // var tab = $('#notelist')
+            // var rowIndex = obj.parentElement.parentElement.rowIndex;
+            // console.log('rowIndex:'+rowIndex)
+            // // // alert(rowIndex)
+            // tab.deleteRow(rowIndex);  //测试成功  删除成功
+            // alert(obj.parent().parent())
+            // obj.parent().parent().remove();
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+}
 
 //删除该笔记
-function delete_note(nid,obj){
-    alert('del2')
-
-
-    // delDT(table,DT)
+function delete_note(nid, obj) {
+    // alert('del2')
     // var table = $('#notelist').DataTable();
     //                     table.row($(this).parents('tr')).remove().draw();
-    console.log('nid:'+nid)
-    console.log('this:'+obj)
+    console.log('nid:' + nid)
+    console.log('this:' + obj)
     var rowIndex = obj.parentElement.parentElement.rowIndex;
-                console.log('rowIndex:'+rowIndex)
-    if (rowIndex<0)
+    console.log('rowIndex:' + rowIndex)
+    if (rowIndex < 0)
         return;
-                // // alert(rowIndex)
+    // // alert(rowIndex)
     var tab = document.getElementById('notelist')
     // obj.parents().parents().remove();
     //             tab.deleteRow(rowIndex);  //测试成功  删除成功
-    var jsonstr = {"action": 'del_note', "id": nid};
+    var jsonstr = {"action": 'delete_note', "id": nid};
 
 
-        $.ajax({
-            type: "DELETE",
-            url: '/api/mgr/note',
-            data: JSON.stringify(jsonstr),//将json对象转换成json字符串发送
-            dataType: "json",
-            success: function (data) {
+    $.ajax({
+        type: "DELETE",
+        url: '/api/mgr/note',
+        data: JSON.stringify(jsonstr),//将json对象转换成json字符串发送
+        dataType: "json",
+        success: function (data) {
+            if (data.ret == 0 && data.msg == '删除成功') {
                 console.log('删除成功')
-
-
-                 // 初始化刪除按钮
-                $('#notelist tbody').on('click', 'i.delete', function(e) {
-                    alert('del')
-                    e.preventDefault();
-                    console.log('$(this):'+$(this).innerText)
-                    console.log('e:'+e.innerHtml)
-                    console.log('$e:'+$(e))
-                    // if (confirm("确定要删除该属性？")) {
-                        var table = $('#notelist').DataTable();
-                        table.row($(this).parents('tr')).remove().draw();
-                        // console.log(table.row($(this).parents('tr')).data())
-
-                    // }
-
-
-                });
-
                 var preDom = obj.previousElementSibling;
                 preDom.click();//成功  明天吧<i>隐藏了
-
-                //获取触发函数的元素
-                // let obj = this;
-                // var tab = $('#notelist')
-                // var rowIndex = obj.parentElement.parentElement.rowIndex;
-                // console.log('rowIndex:'+rowIndex)
-                // // // alert(rowIndex)
-                // tab.deleteRow(rowIndex);  //测试成功  删除成功
-                // alert(obj.parent().parent())
-                // obj.parent().parent().remove();
-
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.status);
-                alert(XMLHttpRequest.readyState);
-                alert(textStatus);
             }
-        });
+
+
+            //获取触发函数的元素
+            // let obj = this;
+            // var tab = $('#notelist')
+            // var rowIndex = obj.parentElement.parentElement.rowIndex;
+            // console.log('rowIndex:'+rowIndex)
+            // // // alert(rowIndex)
+            // tab.deleteRow(rowIndex);  //测试成功  删除成功
+            // alert(obj.parent().parent())
+            // obj.parent().parent().remove();
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
 }
 
 // $("#basic-datatables").dataTable({
@@ -195,10 +218,10 @@ function delete_note(nid,obj){
 
 //初始化页面
 function initPage() {
-    alert('ii')
+    // alert('ii')
     $.ajax({
         type: "GET",
-        url: '/api/mgr/note?action=list_note',
+        url: '/api/mgr/note?action=init_nav',
         // data:'id='+id,
         dataType: "json",
         success: function (data) {
@@ -214,10 +237,10 @@ function initPage() {
             document.getElementById('userid').value = user.id
             // document.getElementById('user_last_login').innerText = user.last_login
 
-            console.log(data.retlist)
-            $('#tbody').html("<tr><td>" + "jfp" + "</td><td>" + "fiob" + "</td><tr>")
-            alert('ok')
-            $.each(data.retlist, function (index, val) {
+            // console.log(data.retlist)
+            // $('#tbody').html("<tr><td>" + "jfp" + "</td><td>" + "fiob" + "</td><tr>")
+            // alert('ok')
+            // $.each(data.retlist, function (index, val) {
                 //this必须加引号，否则报错
                 // $('#basic-datatables').append("<tr><td>" + val.title + "</td><td>" + val.content + "</td><td>" + val.keyword + "</td><td>" + val.abstract + "</td><td>" + val.publish_date + "</td><td>" + " " +
                 //     "<button class="btn btn-link" style="float: left;"   data-toggle="tooltip"  data-original-title="查看" onclick=edit_customer(" + val.id + ")> <i class="fas fa-book-open" style="font-size: 18px;"></i></button>" + "" +
@@ -225,7 +248,7 @@ function initPage() {
                 // $('#tbody').innerHTML="<tr><td>" + val.title + "</td><td>" + val.content + "</td><tr>"
                 // $('#basic-datatables').append("<tr><td>" + val.title + "</td><td>" + val.content + "</td><td>" + val.keyword + "</td><td>" + val.abstract + "</td><td>" + val.publish_date + "</td><td>" + "<button onclick=edit_customer(" + val.id + ")>编辑</button>" + "<button onclick=delete_customer(" + val.id + ",this" + ")>删除</button>" + "</td></tr>")
 
-            });
+            // });
 
             // alert(data.retlist);
             // console.log(data.retlist)
