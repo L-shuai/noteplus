@@ -46,7 +46,7 @@
 <!--<script type="text/javascript" src="//cdn.datatables.net/responsive/1.0.5/js/dataTables.responsive.js"></script>-->
 <script type="text/javascript" src="../static/src/assets/DataTables/Responsive-2.2.7/js/dataTables.responsive.min.js"></script>
     <!--    datatables-->
-    <script src="../static/src/m_js/list.js"></script>
+    <script src="../static/src/m_js/recycle.js"></script>
 
 </head>
 
@@ -104,7 +104,8 @@
                                             <div class="notif-center">
                                                 <a href="#">
                                                     <div class="notif-img">
-                                                        <img src="../static/src/assets/img/jm_denis.jpg" alt="Img Profile">
+                                                        <img src="../static/src/assets/img/jm_denis.jpg"
+                                                             alt="Img Profile">
                                                     </div>
                                                     <div class="notif-content">
                                                         <span class="subject">Jimmy Denis</span>
@@ -116,7 +117,8 @@
                                                 </a>
                                                 <a href="#">
                                                     <div class="notif-img">
-                                                        <img src="../static/src/assets/img/chadengle.jpg" alt="Img Profile">
+                                                        <img src="../static/src/assets/img/chadengle.jpg"
+                                                             alt="Img Profile">
                                                     </div>
                                                     <div class="notif-content">
                                                         <span class="subject">Chad</span>
@@ -214,7 +216,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a class="see-all" href="/collection.html">查看全部<i
+                                <a class="see-all" href="/notecollection.html">查看全部<i
                                         class="fa fa-angle-right"></i> </a>
                             </li>
                         </ul>
@@ -571,6 +573,7 @@
     </div>
     <!-- End Sidebar -->
 
+
     <div class="main-panel" id='app'>
       <div class="content">
         <div class="page-inner">
@@ -584,7 +587,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="notelist"  class="display table table-striped table-hover">
+                            <table id="recyclelist"  class="display table table-striped table-hover">
                                 <thead>
                                     <tr>
 
@@ -708,7 +711,7 @@
 <!--                                    </td>-->
 <!--                                        </td>-->
 <!--                                    </tr>-->
-                                   
+
 <!--                                </tbody>-->
 <!--                            </table>-->
                         </div>
@@ -721,7 +724,7 @@
       </div>
     </div>
 
-     
+
     </div>
   </div>
 
@@ -1006,7 +1009,6 @@
             }
           }).then((willDelete) => {
             if (willDelete) {
-
               swal("Poof! Your imaginary file has been deleted!", {
                 icon: "success",
                 buttons: {

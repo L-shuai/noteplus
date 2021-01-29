@@ -15,6 +15,7 @@ from datetime import datetime
 from django.shortcuts import render
 
 from common.models import Note, Sort
+from mgr.user import get_notelist
 
 
 def dispatcher(request):
@@ -71,6 +72,10 @@ def dispatcher(request):
 		return get_note_byid(request)
 	elif action == 'init_nav':
 		return init_nav(request)
+	elif action == 'get_sort_list':
+		return get_sort_list(request)
+	elif action == 'recover_note':
+		return recover_note(request)
 	# elif action == 'del_customer':
 	# 	return deletecustomer(request)
 	# elif action == 'find_customer':
@@ -84,7 +89,7 @@ def dispatcher(request):
 
 def init_page_note(request):
 	"""
-	这是登录成功后到note.html的请求
+	这是登录成功后到write.html的请求
 	这里要处理的业务：
 		1，获取session中登录的用户username和userid以及email和last_login
 		2，获取session中存的各种分类列表等
@@ -113,7 +118,18 @@ def init_page_note(request):
 	# }
 	# print("user:", user)
 	# request.session['user'] = user
-	return JsonResponse({'ret': 0, 'user': user})
+	# deletelist = request.session.get('deletelist', default=None)
+	# usagelist = request.session.get('usagelist', default=None)
+	# collectlist = request.session.get('collectlist', default=None)
+
+	retlist = get_notelist(request)
+	# print(retlist)
+	notelist = retlist['notelist']
+	collectlist = notelist['collectlist']
+	deletelist = notelist['deletelist']
+	usagelist = notelist['usagelist']
+	return JsonResponse({'ret': 0, 'user': user,
+	                     'notelist': {'deletelist': deletelist, 'collectlist': collectlist, 'usagelist': usagelist}})
 
 
 # ==========================================================================================================================
@@ -147,7 +163,18 @@ def add_note(request):
 	                             content=content,
 	                             abstract=abstract, img_url=img_url, user=user, sort=sort, keyword=keyword,
 	                             collected=False, deleted=False)
+
+	# 向session中添加刚刚创建的笔记
+	# usagelist = request.session.get('usagelist', default=None)
+	# usagelist.append(record)
+	# request.session['usagelist'] = usagelist
 	# print(record.id)
+	retlist = get_notelist(request)
+	# print(retlist)
+	notelist = retlist['notelist']
+	collectlist = notelist['collectlist']
+	deletelist = notelist['deletelist']
+	usagelist = notelist['usagelist']
 	return JsonResponse({'ret': 0, 'id': record.id})
 
 
@@ -162,17 +189,55 @@ def list_note(request):
 	:return:
 	"""
 	print('*' * 100)
+
+	# print('sid_get:', sid_get)
 	# 先获取session中登录的用户id
 	user = request.session.get('user', default=None)
+
+	# 从session中查sid，若没有 代表查询全部笔记 ，否则按照sid分类查询
+	sid = request.session.get('sid', default=None)
 	userid = user['id']
 	print('userid:', userid)
-	# qs是QuerySet对象，包含属于该用户的未被删除的全部笔记
-	qs = Note.objects.filter(user_id=userid, deleted=False).values()
+	retlist = []
+	if 'sid' in request.params:
+		sid_get = request.params['sid']
+		if sid_get is not None:
+			# retlist = None
+			# 查询回收站
+			if sid_get == '-1':
+				print('sid-get=-1')
+				# qs是QuerySet对象，包含属于该用户的未被删除的全部笔记
+				qs = Note.objects.filter(user_id=userid, deleted=True).values()
+				retlist = list(qs)
+				return JsonResponse({'data': retlist})
+			# 查询我的收藏
+			elif sid_get == '-2':
+				print('sid-get=-2')
+				qs = Note.objects.filter(user_id=userid, deleted=False, collected=True).values()
+				retlist = list(qs)
+				return JsonResponse({'data': retlist})
+			else:
+				return JsonResponse({'ret': 1})
+
+	# print('if over')
+	if sid is not None:
+		print('sid is not None')
+		qs = Note.objects.filter(user_id=userid, deleted=False, sort_id=sid).values()
+		# 	查看后 销毁session
+		request.session['sid'] = None
+		retlist = list(qs)
+		return JsonResponse({'data': retlist})
+	else:
+		print('sid is  None')
+		# qs是QuerySet对象，包含属于该用户的未被删除的全部笔记
+		qs = Note.objects.filter(user_id=userid, deleted=False).values()
 	# 将QuerySet对象转换为list类型。否则不能转化为json字符串
 	retlist = list(qs)
-
-	# return JsonResponse({'ret':0,'user':user,'retlist':retlist})
 	return JsonResponse({'data': retlist})
+
+
+# return JsonResponse({'ret':0,'user':user,'retlist':retlist})
+# return JsonResponse({'data': retlist})
 
 
 # ==========================================================================================================================
@@ -181,10 +246,81 @@ def list_note(request):
 # ==========================================================================================================================
 def delete_note(request):
 	"""
-	根据笔记的id进行删除
+	根据笔记的id进行删除，模式包括假删除和彻底删除
 	:return:
 	"""
-	nid = request.params['id']
+	nid = request.params['nid']
+	n_type = request.params['n_type']
+	print('nid:', nid)
+	try:
+		# 根据id从数据库中找到相应的客户记录
+		note = Note.objects.get(id=nid)
+	except Note.DoesNotExist:
+		return {
+			'ret': 1,
+			'msg': f'id为`{nid}`的笔记不存在'
+		}
+	# 假删除
+	if n_type == 0:
+		print('n_type = 0')
+		# delete方法就将该记录从数据库中删除了
+		# 这里不使用真正的删除  而是修改deleted变量
+		note.deleted = True
+		# 注意，一定要执行save才能将修改信息保存到数据库中
+		note.save()
+	# usagelist = request.session.get('usagelist', default=None)
+	# usagelist.remove(note)
+	# request.session['usagelist'] = usagelist
+	# collectlist = request.session.get('collectlist', default=None)
+	# if note in collectlist:
+	# 	usagelist.remove(note)
+	# request.session['collectlist'] = collectlist
+
+
+
+	# 	同步session
+
+	# deletelist = request.session.get('deletelist', default=None)
+	# deletelist.append(note)
+	# request.session['deletelist'] = deletelist
+	# return JsonResponse({'ret': 0, 'msg':'删除成功',
+	#                      'notelist': {'deletelist': deletelist, 'collectlist': collectlist,
+	#                                   'usagelist': usagelist}})
+
+	# 真删除
+	elif n_type == 1:
+		print('n_type = 1')
+		# deletelist = request.session.get('deletelist', default=None)
+		# deletelist.remove(note)
+		# request.session['deletelist'] = deletelist
+		note.delete()
+	# return JsonResponse({'ret': 1, 'msg': '删除成功','deletelist': deletelist})
+	else:
+		return JsonResponse({'ret': -1})
+
+	retlist = get_notelist(request)
+	# print(retlist)
+	notelist = retlist['notelist']
+	collectlist = notelist['collectlist']
+	deletelist = notelist['deletelist']
+	usagelist = notelist['usagelist']
+
+	return JsonResponse({'ret': 0, 'msg': '删除成功',
+	                     'notelist': {'deletelist': deletelist, 'collectlist': collectlist,
+	                                  'usagelist': usagelist}})
+
+
+# ==========================================================================================================================
+
+
+# ==========================================================================================================================
+def recover_note(request):
+	"""
+	从回收站中恢复该笔记
+	:param request:
+	:return:
+	"""
+	nid = request.params['nid']
 	print('nid:', nid)
 	try:
 		# 根据id从数据库中找到相应的客户记录
@@ -196,11 +332,26 @@ def delete_note(request):
 		}
 	# delete方法就将该记录从数据库中删除了
 	# 这里不使用真正的删除  而是修改deleted变量
-	note.deleted = True
+	note.deleted = False
 	# 注意，一定要执行save才能将修改信息保存到数据库中
 	note.save()
-	return JsonResponse({'ret': 0, 'msg': '删除成功'})
+	retlist = get_notelist(request)
+	# print(retlist)
+	notelist = retlist['notelist']
+	collectlist = notelist['collectlist']
+	deletelist = notelist['deletelist']
+	usagelist = notelist['usagelist']
 
+	return JsonResponse({'ret': 0, 'msg': '恢复成功',
+	                     'notelist': {'deletelist': deletelist, 'collectlist': collectlist,
+	                                  'usagelist': usagelist}})
+
+
+# return JsonResponse({})
+# ==========================================================================================================================
+
+
+# ==========================================================================================================================
 
 # ==========================================================================================================================
 
@@ -233,7 +384,13 @@ def init_nav(request):
 	:return:
 	"""
 	user = request.session.get('user', default=None)
-	return JsonResponse({'ret':0,'user':user})
+	deletelist = request.session.get('deletelist', default=None)
+	usagelist = request.session.get('usagelist', default=None)
+	collectlist = request.session.get('collectlist', default=None)
+
+	return JsonResponse({'ret': 0, 'user': user,
+	                     'notelist': {'deletelist': deletelist, 'collectlist': collectlist, 'usagelist': usagelist}})
+
 
 # ==========================================================================================================================
 
@@ -245,8 +402,8 @@ def get_note_byid(request):
 	:param request:
 	:return:
 	"""
-	nid = request.session.get('nid',default=None)
-	n_type = request.session.get('n_type',default=None)
+	nid = request.session.get('nid', default=None)
+	n_type = request.session.get('n_type', default=None)
 	print('nid-id:', nid, 'n_type:', n_type)
 	try:
 		# 根据id从数据库中找到相应的客户记录
@@ -257,11 +414,41 @@ def get_note_byid(request):
 			'msg': f'id为`{nid}`的笔记不存在'
 		}
 	user = request.session.get('user', default=None)
-	# print('note:',note)
-	return JsonResponse({'ret':0,'note':model_to_dict(note),'user':user,'n_type':n_type,'msg':'返回成功'})
 
+	retlist = get_notelist(request)
+	# print(retlist)
+	notelist = retlist['notelist']
+	collectlist = notelist['collectlist']
+	deletelist = notelist['deletelist']
+	usagelist = notelist['usagelist']
+
+	# print('note:',note)
+	return JsonResponse({'ret': 0, 'note': model_to_dict(note), 'user': user, 'n_type': n_type, 'msg': '返回成功','notelist': {'deletelist': deletelist, 'collectlist': collectlist,
+	                                  'usagelist': usagelist}})
 
 
 # ==========================================================================================================================
 
 
+# ==========================================================================================================================
+def get_sort_list(request):
+	"""
+	向session中存入要查看的分类id
+	:param request:
+	:return:
+	"""
+	sid = request.params['sid']
+
+	print('sid:', sid, )
+	request.session['sid'] = sid
+	redirect = './list.html'
+	return JsonResponse({'ret': 0, 'redirect': redirect})
+
+# return JsonResponse({})
+# ==========================================================================================================================
+
+
+# ==========================================================================================================================
+
+
+# ==========================================================================================================================

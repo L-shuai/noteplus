@@ -9,8 +9,9 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from datetime import datetime
 
-
 # ==========================================================================================================================
+from common.models import Note
+
 
 def dispatcher(request):
 	# 将请求参数统一放到request的params属性中，方便后续处理  这个params属性是我自定义的
@@ -24,13 +25,12 @@ def dispatcher(request):
 		# 根据接口，post put 和delete请求的消息体都是json格式
 		request.params = json.loads(request.body)
 
-
 	# 根据session判断用户是否登录
 	action = request.params['action']
 	# 若是注册时的请求  则直接跳过  不验证登录
 	login = True
 	if action != 'register':
-		user = request.session.get('user',default = None)
+		user = request.session.get('user', default=None)
 		if user is not None:
 			if 'username' not in user:
 				login = False
@@ -49,8 +49,6 @@ def dispatcher(request):
 	# 		'msg': '用户非mgr类型',
 	# 		'redirect': '/mgr/sign.html'},
 	# 		status=302)
-
-
 
 	# 	根据不同action分派给不同的函数进行处理
 	# action = request.params['action']
@@ -83,8 +81,8 @@ def init_page(request):
 	"""
 	# username = request.session['username']
 	# userid = request.session['userid']
-	user_dic = request.session.get('user',default = None)
-	print('user_dic:',user_dic)
+	user_dic = request.session.get('user', default=None)
+	print('user_dic:', user_dic)
 	print('username11:', user_dic['username'], 'id:', user_dic['id'])
 	user = User.objects.get(id=user_dic['id'])
 	print('user', user.email)
@@ -101,9 +99,77 @@ def init_page(request):
 		'email': user.email,
 		'last_login': tmp,
 	}
-	print("user:", user)
+	# print("user:", user)
 	request.session['user'] = user
-	return JsonResponse({'ret': 0, 'user': user})
+
+	retlist = get_notelist(request)
+	# print(retlist)
+	notelist = retlist['notelist']
+	collectlist = notelist['collectlist']
+	deletelist = notelist['deletelist']
+	usagelist = notelist['usagelist']
+
+	# 获取回收站列表
+	# qs是QuerySet对象，包含属于该用户的未被删除的全部笔记
+	# deleteqs = Note.objects.filter(user_id=user['id'], deleted=True).values()
+	# 将QuerySet对象转换为list类型。否则不能转化为json字符串
+	# deletelist = list(deleteqs)
+	# print('deletelist:',deletelist)
+	# 存入session
+	# request.session['deletelist'] = deletelist
+	# request.session['collectlist'] = collectlist
+	# request.session['usagelist'] = usagelist
+	return JsonResponse({'ret': 0, 'user': user,
+	                     'notelist': {'deletelist': deletelist, 'collectlist': collectlist, 'usagelist': usagelist}})
+
+
+# ==========================================================================================================================
+
+
+# ==========================================================================================================================
+def get_notelist(request):
+	# request.session['user'] = user
+	user_dic = request.session.get('user', default=None)
+	# 获取属于该用户的全部笔记  用于以后的分类
+	allListqs = Note.objects.filter(user_id=user_dic['id']).values('id', 'title', 'content', 'sort_id', 'collected',
+	                                                           'deleted')
+	# 将QuerySet对象转换为list类型。否则不能转化为json字符串
+	alllist = list(allListqs)
+	# 遍历笔记列表
+	list_len = len(alllist)
+	if list_len > 0:
+		deletelist = []
+		collectlist = []
+		usagelist = []
+
+		for i in range(list_len):
+			note = alllist[i]
+			if note['deleted']:
+				deletelist.append(note)
+			elif note['collected']:
+				collectlist.append(note)
+			else:
+				# sortId = note['sort_id']
+				# print('sortId:',sortId)
+				# sortId = 'sort'
+				usagelist.append(note)
+
+	# print('deletelist:',deletelist)
+	# print('collectlist:',collectlist)
+	# print('usagelist:',usagelist)
+
+	# 获取回收站列表
+	# qs是QuerySet对象，包含属于该用户的未被删除的全部笔记
+	# deleteqs = Note.objects.filter(user_id=user['id'], deleted=True).values()
+	# 将QuerySet对象转换为list类型。否则不能转化为json字符串
+	# deletelist = list(deleteqs)
+	# print('deletelist:',deletelist)
+	# 存入session
+	request.session['deletelist'] = deletelist
+	request.session['collectlist'] = collectlist
+	request.session['usagelist'] = usagelist
+	notelist = {'notelist': {'deletelist': deletelist, 'collectlist': collectlist, 'usagelist': usagelist}}
+	return notelist
 
 
 # ==========================================================================================================================
@@ -124,13 +190,13 @@ def register(request):
 			# context = {}
 			# context['register_info'] = True
 			# context['previous_page'] = request.GET.get('from_page')
-			return JsonResponse({'ret':1,'msg':'用户名已被注册！'})
-			# return render(request, 'register.html', context)
+			return JsonResponse({'ret': 1, 'msg': '用户名已被注册！'})
+		# return render(request, 'register.html', context)
 		else:
-			user = User.objects.create_user(username=username,email=email, password=password)
+			user = User.objects.create_user(username=username, email=email, password=password)
 			user.save()
-			return JsonResponse({'ret':0,'msg':'注册成功！'})
+			return JsonResponse({'ret': 0, 'msg': '注册成功！'})
 
-			# return HttpResponseRedirect(request.GET.get('from_page'))
+		# return HttpResponseRedirect(request.GET.get('from_page'))
 	except:
 		return JsonResponse({'ret': 1, 'msg': '注册过程异常，请重新注册！！'})

@@ -80,6 +80,8 @@ function initPage() {
                 var url = data.redirect; //获取服务端返回的要重定向的页面
                 location.href = url
             }
+
+
             // alert('ok')
             if (data.ret == 0)
             {
@@ -105,6 +107,9 @@ function initPage() {
                 // preview()
             }
             }
+
+            var notelist = data.notelist;
+            fillout(notelist)
 
             // document.getElementById('user_last_login').innerText = user.last_login
             // alert(data.retlist);
@@ -160,3 +165,66 @@ function addnote(){
 
 // alert('write.js  over')
 
+function fillout(notelist){
+    var deletelist = notelist.deletelist;
+            var collectlist = notelist.collectlist;
+            var usagelist = notelist.usagelist;
+            // alert('deletelist-length'+deletelist.length)
+            //设置长度
+            // $('#deletenum').text('共有'+deletelist.length+'篇笔记')
+            $('.deletenum').text(deletelist.length)
+            // console.log('deletelist-length:'+deletelist.lenth)
+            $('#deletelist').html(null)
+            for (var d in deletelist){
+                if (d>=5){
+                    break;
+                }
+                console.log('d[id]:'+deletelist[d].id)
+                var str = "<li> <a> <div class='notif-content' style='width: 100%'> <span class=subject>"+deletelist[d].title+" <button class='btn btn-link btn-xs btn-danger' onclick='recover2_note("+deletelist[d].id+")'  style='float: right;'><i class='fas fa-redo'></i> 恢复</button></span> <span class=time>"+deletelist[d].content.substring(0,14)+"...</span> </div> </a> </li>";
+                $('#deletelist').append(str)
+            }
+
+
+            //填充回收站列表
+
+            //填充我的收藏列表
+             //设置长度
+            // $('.collectnum').text('共有'+collectlist.length+'篇笔记')
+            $('.collectnum').text(collectlist.length)
+            // console.log('deletelist-length:'+deletelist.lenth)
+    $('#collectlist').html(null)
+            for (var d in collectlist){
+                if (d>=5){
+                    break;
+                }
+                console.log('d[id]:'+collectlist[d].id)
+                var str = "<li> <a> <div class='notif-content' style='width: 100%'> <span class=subject>"+collectlist[d].title+" <button class='btn btn-link btn-xs' onclick='get_note("+collectlist[d].id+',0'+")'  style='float: right;'><i class='far fa-folder-open'></i> 查看</button></span> <span class=time>"+collectlist[d].content.substring(0,14)+"...</span> </div> </a> </li>";
+                $('#collectlist').append(str)
+            }
+            //填充我的收藏列表
+
+
+            //填充左侧分类列表
+            //设置长度
+            $('.totalnum').text(usagelist.length)
+            // console.log('deletelist-length:'+deletelist.lenth)
+            var sortnum=[]
+            for(var i=1;i<=13;i++){
+                sortnum[i]=0;
+            }
+            // var sortnum1=0,sortnum2=0,sortnum3=0,sortnum4=0,sortnum5=0,sortnum6=0,sortnum7=0,sortnum8=0,sortnum9=0,sortnum10=0,sortnum11=0,sortnum12=0,sortnum13=0;
+            for (var d in usagelist){
+                console.log('sort[id]:'+usagelist[d].sort_id)
+                var sortId = 'sort'+usagelist[d].sort_id;
+                console.log(sortId)
+                var str = "<li> <a onclick='get_note("+usagelist[d].id+",0)' style='cursor: pointer'> <span class='sub-item'>"+usagelist[d].title+"</span> </a> </li>"
+                $('#'+sortId).append(str)
+                // eval(sortnum+usagelist[d].sort_id)=1;
+                sortnum[usagelist[d].sort_id]++;
+
+            }
+            for(var i=1;i<=13;i++){
+                $('.sortnum'+i).text(sortnum[i])
+                // alert(sortnum[i])
+            }
+}

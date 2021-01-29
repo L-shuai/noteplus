@@ -2,7 +2,7 @@
 $(document).ready(function () {
     // alert(0)
     // initPage()
-    var table = $('#notelist').DataTable({
+    var table = $('#recyclelist').DataTable({
         // "ajax": '/api/mgr/note?action=list_note',
         responsive: true,
         "columns": [
@@ -18,11 +18,11 @@ $(document).ready(function () {
         ajax: {
             url: "/api/mgr/note?action=list_note",
             dataSrc: "data",
-//             data: function (d) {
-//                 var sid = 0;
-// // 添加额外的参数传给服务器
-//                 d.sid = sid;
-//             }
+            data: function (d) {
+                var sid = -1;//传入参数-1   代表查询回收站的列表
+// 添加额外的参数传给服务器
+                d.sid = sid;
+            }
         },
         "columnDefs": [{
 // 定义操作列,######以下是重点########
@@ -30,9 +30,10 @@ $(document).ready(function () {
             "data": null,
             "render": function (data, type, row) {
                 var id = '"' + row.id + '"';
-                var html = "<a href='javascript:void(0);' onclick='get_note(" + id + ',0' + ")'  class='btn btn-link btn-xs'  ><i class='far fa-folder-open'></i> 查看</a>"
-                html += "<a href='javascript:void(0);' onclick='get_note(" + id + ',1' + ")' class='btn btn-link btn-xs'><i class='fas fa-edit'></i> 编辑</a>"
-                html += "<i class='delete' style='display: none'></i><a href='javascript:void(0);'    class='btn btn-link btn-danger btn-xs' onclick='delete_note(" + id + ',this' +',0'+ ")' ><i class='fa fa-times'></i> 删除</a>"
+                var html = "<i class='delete' style='display: none'></i><a href='javascript:void(0);' onclick='recover_note(" + id + ',this' + ")'  class='btn btn-link btn-xs'  ><i class='fas fa-redo'></i> 恢复</a>"
+                html += "<i class='delete' style='display: none'></i><a href='javascript:void(0);'    class='btn btn-link btn-danger btn-xs' onclick='delete_note(" + id + ',this' +',1' +")' ><i class='fa fa-times'></i> 彻底删除</a>"
+                //                 html += "<i class='delete' style='display: none'></i><a href='javascript:void(0);'    class='btn btn-link btn-danger btn-xs' onclick='recover_note(" + id + ',this' + ")' ><i class='fa fa-times'></i> 删除</a>"
+
                 return html;
             }
         }],
@@ -72,14 +73,12 @@ $(document).ready(function () {
 
 
     // 初始化刪除按钮
-    $('#notelist tbody').on('click', 'i.delete', function (e) {
+    $('#recyclelist tbody').on('click', 'i.delete', function (e) {
         // alert('del')
         e.preventDefault();
-        console.log('$(this):' + $(this).innerText)
-        console.log('e:' + e.innerHtml)
-        console.log('$e:' + $(e))
+
         // if (confirm("确定要删除该属性？")) {
-        var table = $('#notelist').DataTable();
+        var table = $('#recyclelist').DataTable();
         table.row($(this).parents('tr')).remove().draw();
         // console.log(table.row($(this).parents('tr')).data())
 
@@ -90,6 +89,101 @@ $(document).ready(function () {
 
     // alert(1)
 })
+
+
+//从回收站恢复笔记
+function recover_note(nid,obj){
+     console.log('nid:' + nid)
+    console.log('this:' + obj)
+    var rowIndex = obj.parentElement.parentElement.rowIndex;
+    console.log('rowIndex:' + rowIndex)
+    if (rowIndex < 0)
+        return;
+    // // alert(rowIndex)
+
+
+
+    //
+    swal({
+            title: '是否确认从回收站恢复？?',
+            text: "恢复后可以查看和编辑",
+            type: 'warning',
+            buttons: {
+              cancel: {
+                visible: true,
+                text: '取消',
+                className: 'btn btn-danger'
+              },
+              confirm: {
+                text: '确认恢复',
+                className: 'btn btn-success'
+              }
+            }
+          }).then((willDelete) => {
+            if (willDelete) {
+
+              //  ajax
+                   var tab = document.getElementById('recyclelist')
+    // obj.parents().parents().remove();
+    //             tab.deleteRow(rowIndex);  //测试成功  删除成功
+    // var jsonstr = {"action": 'delete_note', "nid": nid,"n_type":n_type};
+
+
+    $.ajax({
+        type: "GET",
+        url: '/api/mgr/note?action=recover_note&nid='+nid,
+        // data: JSON.stringify(jsonstr),//将json对象转换成json字符串发送
+        dataType: "json",
+        success: function (data) {
+            if (data.ret == 0 && data.msg == '恢复成功') {
+                console.log('恢复成功')
+                var preDom = obj.previousElementSibling;
+                preDom.click();//成功  明天吧<i>隐藏了
+
+                swal("恢复成功", {
+                icon: "success",
+                buttons: {
+                  confirm: {
+                    className: 'btn btn-success'
+                  }
+                }
+              });
+            }
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+              //  ajax
+
+
+            } else {
+              swal("已取消恢复", {
+                buttons: {
+                  confirm: {
+                    className: 'btn btn-success'
+                  }
+                }
+              });
+            }
+          });
+    //
+
+
+
+
+
+    // obj.parents().parents().remove();
+    //             tab.deleteRow(rowIndex);  //测试成功  删除成功
+    // var jsonstr = {"action": 'recover_note', "id": nid};
+
+
+
+
+}
 
 //查看或者编辑笔记
 function get_note(nid,n_type){
@@ -141,13 +235,9 @@ function delete_note(nid, obj,n_type) {
         return;
     // // alert(rowIndex)
 
-
-
-
-    //
     swal({
-            title: '是否确认删除？?',
-            text: "删除后可在回收站中恢复",
+            title: '是否确认将该笔记彻底删除?',
+            text: "彻底删除后无法恢复",
             type: 'warning',
             buttons: {
               cancel: {
@@ -164,33 +254,24 @@ function delete_note(nid, obj,n_type) {
             if (willDelete) {
 
               //  ajax
-                    var tab = document.getElementById('notelist')
+                   var tab = document.getElementById('recyclelist')
     // obj.parents().parents().remove();
     //             tab.deleteRow(rowIndex);  //测试成功  删除成功
-    var jsonstr = {"action": 'delete_note', "nid": nid,"n_type":n_type};
+    // var jsonstr = {"action": 'delete_note', "nid": nid,"n_type":n_type};
+   var jsonstr = {"action": 'delete_note', "nid": nid,"n_type":n_type};
 
-
-    $.ajax({
+     $.ajax({
         type: "DELETE",
         url: '/api/mgr/note',
         data: JSON.stringify(jsonstr),//将json对象转换成json字符串发送
         dataType: "json",
         success: function (data) {
-
             if (data.ret == 0 && data.msg == '删除成功') {
                 console.log('删除成功')
                 var preDom = obj.previousElementSibling;
                 preDom.click();//成功  明天吧<i>隐藏了
 
-                 //更新顶部小圆圈
-                 // var n = parseInt($('.deletenum').eq(0).text())
-                // alert(n)
-                // $('.deletenum').text(n-1)
-                //更新dropdown
-                var notelist = data.notelist;
-                fillout(data.notelist)
-
-                swal("已删除", {
+                swal("删除成功", {
                 icon: "success",
                 buttons: {
                   confirm: {
@@ -199,8 +280,6 @@ function delete_note(nid, obj,n_type) {
                 }
               });
             }
-
-
 
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -223,6 +302,13 @@ function delete_note(nid, obj,n_type) {
             }
           });
     //
+
+
+    // var tab = document.getElementById('notelist')
+    // obj.parents().parents().remove();
+    //             tab.deleteRow(rowIndex);  //测试成功  删除成功
+
+
 
 
 
@@ -285,12 +371,9 @@ function initPage() {
             document.getElementById('useremail').innerText = user.email
             document.getElementById('userid').value = user.id
             // document.getElementById('user_last_login').innerText = user.last_login
-
-           //填充回收站列表
-            // $('#deletelist').html('<h1>test</h1>')
-            // $('#deletelist').append("<li id='new'> new Li </li>");
-            var notelist = data.notelist;
+             var notelist = data.notelist;
             fillout(notelist)
+
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.status);
@@ -364,103 +447,3 @@ function fillout(notelist){
                 // alert(sortnum[i])
             }
 }
-
-//从回收站恢复笔记
-function recover2_note(nid){
-     console.log('nid:' + nid)
-    // console.log('this:' + obj)
-    // var rowIndex = obj.parentElement.parentElement.rowIndex;
-    // console.log('rowIndex:' + rowIndex)
-    // if (rowIndex < 0)
-    //     return;
-    // // alert(rowIndex)
-
-
-
-    //
-    swal({
-            title: '是否确认从回收站恢复？?',
-            text: "恢复后可以查看和编辑",
-            type: 'warning',
-            buttons: {
-              cancel: {
-                visible: true,
-                text: '取消',
-                className: 'btn btn-danger'
-              },
-              confirm: {
-                text: '确认恢复',
-                className: 'btn btn-success'
-              }
-            }
-          }).then((willDelete) => {
-            if (willDelete) {
-
-              //  ajax
-                   var tab = document.getElementById('recyclelist')
-    // obj.parents().parents().remove();
-    //             tab.deleteRow(rowIndex);  //测试成功  删除成功
-    // var jsonstr = {"action": 'delete_note', "nid": nid,"n_type":n_type};
-
-
-    $.ajax({
-        type: "GET",
-        url: '/api/mgr/note?action=recover_note&nid='+nid,
-        // data: JSON.stringify(jsonstr),//将json对象转换成json字符串发送
-        dataType: "json",
-        success: function (data) {
-            if (data.ret == 0 && data.msg == '恢复成功') {
-                console.log('恢复成功')
-                // var preDom = obj.previousElementSibling;
-                // preDom.click();//成功  明天吧<i>隐藏了
-                // var n = parseInt($('.deletenum').eq(0).text())
-                // alert(n)
-                // $('.deletenum').text(n-1)
-var notelist = data.notelist;
-            fillout(notelist)
-
-                swal("恢复成功", {
-                icon: "success",
-                buttons: {
-                  confirm: {
-                    className: 'btn btn-success'
-                  }
-                }
-              });
-            }
-
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(XMLHttpRequest.status);
-            alert(XMLHttpRequest.readyState);
-            alert(textStatus);
-        }
-    });
-              //  ajax
-
-
-            } else {
-              swal("已取消恢复", {
-                buttons: {
-                  confirm: {
-                    className: 'btn btn-success'
-                  }
-                }
-              });
-            }
-          });
-    //
-
-
-
-
-
-    // obj.parents().parents().remove();
-    //             tab.deleteRow(rowIndex);  //测试成功  删除成功
-    // var jsonstr = {"action": 'recover_note', "id": nid};
-
-
-
-
-}
-
