@@ -12,4 +12,5 @@ for i in range(1):
     po=mod.summarize(text, 3)
     import types
     print(type(po[0]))
+    print(type(po))
     print(datetime.datetime.now() - old_time)

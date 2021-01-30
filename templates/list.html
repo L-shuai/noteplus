@@ -59,7 +59,7 @@
         <!-- Logo Header -->
         <div class="logo-header">
 
-            <a href="write.html" class="logo">
+            <a href="index.html" class="logo">
                 <img src="../static/src/assets/img/logoNotePlus.png" alt="navbar brand" class="navbar-brand" width="150px">
             </a>
             <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
@@ -87,7 +87,8 @@
                             <div class="input-group-prepend">
                                 <button type="submit" class="btn btn-search pr-1 nav-link dropdown-toggle"
                                         id="messageDropdown"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                onclick="find_note()">
                                     <i class="fa fa-search search-icon"></i>
                                 </button>
                                 <ul class="dropdown-menu messages-notif-box animated fadeIn"
@@ -96,71 +97,38 @@
                                     <li>
                                         <div class="dropdown-title d-flex justify-content-between align-items-center">
                                             查询结果
-                                            <a href="#" class="small">共5条</a>
+                                            <a href="#" class="small">共<em id="searchnum">-</em>条</a>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="message-notif-scroll scrollbar-outer">
                                             <div class="notif-center">
-                                                <a href="#">
-                                                    <div class="notif-img">
-                                                        <img src="../static/src/assets/img/jm_denis.jpg" alt="Img Profile">
-                                                    </div>
-                                                    <div class="notif-content">
-                                                        <span class="subject">Jimmy Denis</span>
-                                                        <span class="block">
-                                How are you ?
-                              </span>
-                                                        <span class="time">5 minutes ago</span>
-                                                    </div>
-                                                </a>
-                                                <a href="#">
-                                                    <div class="notif-img">
-                                                        <img src="../static/src/assets/img/chadengle.jpg" alt="Img Profile">
-                                                    </div>
-                                                    <div class="notif-content">
-                                                        <span class="subject">Chad</span>
-                                                        <span class="block">
-                                Ok, Thanks !
-                              </span>
-                                                        <span class="time">12 minutes ago</span>
-                                                    </div>
-                                                </a>
-                                                <a href="#">
-                                                    <div class="notif-img">
-                                                        <img src="../static/src/assets/img/mlane.jpg" alt="Img Profile">
-                                                    </div>
-                                                    <div class="notif-content">
-                                                        <span class="subject">Jhon Doe</span>
-                                                        <span class="block">
-                                Ready for the meeting today...
-                              </span>
-                                                        <span class="time">12 minutes ago</span>
-                                                    </div>
-                                                </a>
-                                                <a href="#">
-                                                    <div class="notif-img">
-                                                        <img src="../static/src/assets/img/talha.jpg" alt="Img Profile">
-                                                    </div>
-                                                    <div class="notif-content">
-                                                        <span class="subject">Talha</span>
-                                                        <span class="block">
-                                Hi, Apa Kabar ?
-                              </span>
-                                                        <span class="time">17 minutes ago</span>
-                                                    </div>
-                                                </a>
+                                                <ul id="searchlist" style="list-style-type: none;margin-left: -20px;">
+                                            <!--                                            <li>-->
+                                            <!--                                                <a href="#">-->
+                                            <!--                                                    <div class="notif-content" style="width: 100%">-->
+                                            <!--                                                        <span class="subject">我的标题 <button-->
+                                            <!--                                                                class="btn btn-link btn-xs btn-danger "-->
+                                            <!--                                                                style="float: right"><i-->
+                                            <!--                                                                class="fas fa-redo"></i> 恢复</button></span>-->
+                                            <!--                                                        <span class="time">我的笔记内容我的笔记内容我的...</span>-->
+                                            <!--                                                    </div>-->
+                                            <!--                                                </a>-->
+                                            <!--                                            </li>-->
+
+                                        </ul>
+
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <a class="see-all" href="javascript:void(0);">See all messages<i
-                                                class="fa fa-angle-right"></i>
-                                        </a>
-                                    </li>
+<!--                                    <li>-->
+<!--                                        <a class="see-all" href="javascript:void(0);">查看全部<i-->
+<!--                                                class="fa fa-angle-right"></i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
                                 </ul>
                             </div>
-                            <input type="text" placeholder="Search ..." class="form-control">
+                            <input type="text" id="searchinput" placeholder="Search ..." class="form-control">
 
                         </div>
                     </form>

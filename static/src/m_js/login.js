@@ -96,8 +96,8 @@ function login(){
         var _email = document.getElementById('email').value;
         var _password = document.getElementById('password1').value;
         var _confirmpassword = document.getElementById('password2').value;
-        console.log('_password = '+_password)
-        console.log('_confirmpassword = '+_confirmpassword)
+        //console.log('_password = '+_password)
+        //console.log('_confirmpassword = '+_confirmpassword)
         if (_password != _confirmpassword)
         {
             alert('两次密码不匹配！')

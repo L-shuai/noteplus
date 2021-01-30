@@ -82,28 +82,28 @@ def init_page(request):
 	# username = request.session['username']
 	# userid = request.session['userid']
 	user_dic = request.session.get('user', default=None)
-	print('user_dic:', user_dic)
-	print('username11:', user_dic['username'], 'id:', user_dic['id'])
+	# print('user_dic:', user_dic)
+	# print('username11:', user_dic['username'], 'id:', user_dic['id'])
 	user = User.objects.get(id=user_dic['id'])
-	print('user', user.email)
+	# print('user', user.email)
 	last_login = str(user.last_login)  # 2021-01-23T03:18:54.836Z
 
 	tmp = last_login[0:10] + ' '
 
 	tmp += last_login[11:19]
 
-	print(tmp)
+	# print(tmp)
 	user = {
 		'id': user.id,
 		'username': user.username,
 		'email': user.email,
 		'last_login': tmp,
 	}
-	# print("user:", user)
+	# # print("user:", user)
 	request.session['user'] = user
 
 	retlist = get_notelist(request)
-	# print(retlist)
+	# # print(retlist)
 	notelist = retlist['notelist']
 	collectlist = notelist['collectlist']
 	deletelist = notelist['deletelist']
@@ -114,7 +114,7 @@ def init_page(request):
 	# deleteqs = Note.objects.filter(user_id=user['id'], deleted=True).values()
 	# 将QuerySet对象转换为list类型。否则不能转化为json字符串
 	# deletelist = list(deleteqs)
-	# print('deletelist:',deletelist)
+	# # print('deletelist:',deletelist)
 	# 存入session
 	# request.session['deletelist'] = deletelist
 	# request.session['collectlist'] = collectlist
@@ -131,16 +131,16 @@ def get_notelist(request):
 	# request.session['user'] = user
 	user_dic = request.session.get('user', default=None)
 	# 获取属于该用户的全部笔记  用于以后的分类
-	allListqs = Note.objects.filter(user_id=user_dic['id']).values('id', 'title', 'content', 'sort_id', 'collected',
-	                                                           'deleted')
+	allListqs = Note.objects.filter(user_id=user_dic['id']).values('id', 'title', 'content', 'sort_id', 'collected','keyword','deleted')
 	# 将QuerySet对象转换为list类型。否则不能转化为json字符串
 	alllist = list(allListqs)
 	# 遍历笔记列表
 	list_len = len(alllist)
+	deletelist = []
+	collectlist = []
+	usagelist = []
 	if list_len > 0:
-		deletelist = []
-		collectlist = []
-		usagelist = []
+
 
 		for i in range(list_len):
 			note = alllist[i]
@@ -150,24 +150,24 @@ def get_notelist(request):
 				collectlist.append(note)
 			else:
 				# sortId = note['sort_id']
-				# print('sortId:',sortId)
+				# # print('sortId:',sortId)
 				# sortId = 'sort'
 				usagelist.append(note)
 
-	# print('deletelist:',deletelist)
-	# print('collectlist:',collectlist)
-	# print('usagelist:',usagelist)
+	# # print('deletelist:',deletelist)
+	# # print('collectlist:',collectlist)
+	# # print('usagelist:',usagelist)
 
 	# 获取回收站列表
 	# qs是QuerySet对象，包含属于该用户的未被删除的全部笔记
 	# deleteqs = Note.objects.filter(user_id=user['id'], deleted=True).values()
 	# 将QuerySet对象转换为list类型。否则不能转化为json字符串
 	# deletelist = list(deleteqs)
-	# print('deletelist:',deletelist)
+	# # print('deletelist:',deletelist)
 	# 存入session
-	request.session['deletelist'] = deletelist
-	request.session['collectlist'] = collectlist
-	request.session['usagelist'] = usagelist
+	# request.session['deletelist'] = deletelist
+	# request.session['collectlist'] = collectlist
+	# request.session['usagelist'] = usagelist
 	notelist = {'notelist': {'deletelist': deletelist, 'collectlist': collectlist, 'usagelist': usagelist}}
 	return notelist
 

@@ -77,7 +77,8 @@
                             <div class="input-group-prepend">
                                 <button type="submit" class="btn btn-search pr-1 nav-link dropdown-toggle"
                                         id="messageDropdown"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                onclick="find_note()">
                                     <i class="fa fa-search search-icon"></i>
                                 </button>
                                 <ul class="dropdown-menu messages-notif-box animated fadeIn"
@@ -86,73 +87,38 @@
                                     <li>
                                         <div class="dropdown-title d-flex justify-content-between align-items-center">
                                             查询结果
-                                            <a href="#" class="small">共5条</a>
+                                            <a href="#" class="small">共<em id="searchnum">-</em>条</a>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="message-notif-scroll scrollbar-outer">
                                             <div class="notif-center">
-                                                <a href="#">
-                                                    <div class="notif-img">
-                                                        <img src="../static/src/assets/img/jm_denis.jpg"
-                                                             alt="Img Profile">
-                                                    </div>
-                                                    <div class="notif-content">
-                                                        <span class="subject">Jimmy Denis</span>
-                                                        <span class="block">
-                                How are you ?
-                              </span>
-                                                        <span class="time">5 minutes ago</span>
-                                                    </div>
-                                                </a>
-                                                <a href="#">
-                                                    <div class="notif-img">
-                                                        <img src="../static/src/assets/img/chadengle.jpg"
-                                                             alt="Img Profile">
-                                                    </div>
-                                                    <div class="notif-content">
-                                                        <span class="subject">Chad</span>
-                                                        <span class="block">
-                                Ok, Thanks !
-                              </span>
-                                                        <span class="time">12 minutes ago</span>
-                                                    </div>
-                                                </a>
-                                                <a href="#">
-                                                    <div class="notif-img">
-                                                        <img src="../static/src/assets/img/mlane.jpg" alt="Img Profile">
-                                                    </div>
-                                                    <div class="notif-content">
-                                                        <span class="subject">Jhon Doe</span>
-                                                        <span class="block">
-                                Ready for the meeting today...
-                              </span>
-                                                        <span class="time">12 minutes ago</span>
-                                                    </div>
-                                                </a>
-                                                <a href="#">
-                                                    <div class="notif-img">
-                                                        <img src="../static/src/assets/img/talha.jpg" alt="Img Profile">
-                                                    </div>
-                                                    <div class="notif-content">
-                                                        <span class="subject">Talha</span>
-                                                        <span class="block">
-                                Hi, Apa Kabar ?
-                              </span>
-                                                        <span class="time">17 minutes ago</span>
-                                                    </div>
-                                                </a>
+                                                <ul id="searchlist" style="list-style-type: none;margin-left: -20px;">
+                                            <!--                                            <li>-->
+                                            <!--                                                <a href="#">-->
+                                            <!--                                                    <div class="notif-content" style="width: 100%">-->
+                                            <!--                                                        <span class="subject">我的标题 <button-->
+                                            <!--                                                                class="btn btn-link btn-xs btn-danger "-->
+                                            <!--                                                                style="float: right"><i-->
+                                            <!--                                                                class="fas fa-redo"></i> 恢复</button></span>-->
+                                            <!--                                                        <span class="time">我的笔记内容我的笔记内容我的...</span>-->
+                                            <!--                                                    </div>-->
+                                            <!--                                                </a>-->
+                                            <!--                                            </li>-->
+
+                                        </ul>
+
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <a class="see-all" href="javascript:void(0);">See all messages<i
-                                                class="fa fa-angle-right"></i>
-                                        </a>
-                                    </li>
+<!--                                    <li>-->
+<!--                                        <a class="see-all" href="javascript:void(0);">查看全部<i-->
+<!--                                                class="fa fa-angle-right"></i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
                                 </ul>
                             </div>
-                            <input type="text" placeholder="Search ..." class="form-control">
+                            <input type="text" id="searchinput" placeholder="Search ..." class="form-control">
 
                         </div>
                     </form>
@@ -599,7 +565,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-3" style="cursor: pointer">
+                    <div onclick="open_page(0)" class="col-sm-6 col-md-3" style="cursor: pointer">
                         <div class="card card-stats card-round">
                             <div class="card-body">
                                 <div class="row align-items-center">
@@ -618,7 +584,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-3" style="cursor: pointer">
+                    <div onclick="open_page(1)" class="col-sm-6 col-md-3" style="cursor: pointer">
                         <div class="card card-stats card-round">
                             <div class="card-body">
                                 <div class="row align-items-center">
@@ -940,51 +906,51 @@
     </div>
 
     <!-- Custom template | don't include it in your project! -->
-    <div class="custom-template" style="width: ;">
+<!--    <div class="custom-template" style="width: ;">-->
 
-        <div class="custom-toggle" style="height:105px ;padding: 0;background: none">
-            <!-- <i class="fas fa-file-import"></i> -->
-            <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist"
-                style="list-style-type: none;margin-left: 10px;margin-top:0px;">
-                <li>
-                    <button class="btn btn-secondary btn-sm" class="nav-link btn-xs active" id="pills-home-tab"
-                            data-toggle="pill"
-                            href="#pills-home"
-                            role="tab" aria-controls="pills-home" aria-selected="true">编辑
-                    </button>
-                </li>
+<!--        <div class="custom-toggle" style="height:105px ;padding: 0;background: none">-->
+<!--            &lt;!&ndash; <i class="fas fa-file-import"></i> &ndash;&gt;-->
+<!--            <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist"-->
+<!--                style="list-style-type: none;margin-left: 10px;margin-top:0px;">-->
+<!--                <li>-->
+<!--                    <button class="btn btn-secondary btn-sm" class="nav-link btn-xs active" id="pills-home-tab"-->
+<!--                            data-toggle="pill"-->
+<!--                            href="#pills-home"-->
+<!--                            role="tab" aria-controls="pills-home" aria-selected="true">编辑-->
+<!--                    </button>-->
+<!--                </li>-->
 
-                <li>
-                    <button class="btn btn-info btn-sm" id="pills-profile-tab" data-toggle="pill"
-                            href="#pills-profile"
-                            role="tab" aria-controls="pills-profile" aria-selected="false"
-                            onclick="preview()">预览
-                    </button>
-                </li>
-                <li>
-                    <button id="alert_demo_3_3" class="btn btn-success btn-sm">保存</button>
-                </li>
+<!--                <li>-->
+<!--                    <button class="btn btn-info btn-sm" id="pills-profile-tab" data-toggle="pill"-->
+<!--                            href="#pills-profile"-->
+<!--                            role="tab" aria-controls="pills-profile" aria-selected="false"-->
+<!--                            onclick="preview()">预览-->
+<!--                    </button>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <button id="alert_demo_3_3" class="btn btn-success btn-sm">保存</button>-->
+<!--                </li>-->
 
-                <li>
-                    <button id="pills-contact-tab" class="btn btn-danger btn-sm">删除</button>
-                </li>
-                <li>
-                    <button onclick="getMD()" class="btn btn-default btn-sm">MD值</button>
-                </li>
-                <li>
-                    <button onclick="getHtml()" class="btn btn-default btn-sm">Html</button>
-                </li>
-                <li>
-                    <button onclick="setMD()" class="btn btn-default btn-sm">赋值</button>
-                </li>
-                <!--                    <li><div class="icon-class">保存1</div></li>-->
+<!--                <li>-->
+<!--                    <button id="pills-contact-tab" class="btn btn-danger btn-sm">删除</button>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <button onclick="getMD()" class="btn btn-default btn-sm">MD值</button>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <button onclick="getHtml()" class="btn btn-default btn-sm">Html</button>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <button onclick="setMD()" class="btn btn-default btn-sm">赋值</button>-->
+<!--                </li>-->
+<!--                &lt;!&ndash;                    <li><div class="icon-class">保存1</div></li>&ndash;&gt;-->
 
-            </ul>
-            <!--                <div class="icon-class">保存1</div>-->
-            <!--                <div class="icon-class">保存1</div>-->
-        </div>
+<!--            </ul>-->
+<!--            &lt;!&ndash;                <div class="icon-class">保存1</div>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <div class="icon-class">保存1</div>&ndash;&gt;-->
+<!--        </div>-->
 
-    </div>
+<!--    </div>-->
     <!-- End Custom template -->
 </div>
 </div>

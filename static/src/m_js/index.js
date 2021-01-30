@@ -24,7 +24,7 @@ function initPage() {
             document.getElementById('userid').value = user.id
             document.getElementById('user_last_login').innerText = user.last_login
             // alert(data.retlist);
-            // console.log(data.retlist)
+            // //console.log(data.retlist)
 
             //填充回收站列表
             // $('#deletelist').html('<h1>test</h1>')
@@ -54,12 +54,12 @@ function fillout(notelist){
             //设置长度
             // $('#deletenum').text('共有'+deletelist.length+'篇笔记')
             $('.deletenum').text(deletelist.length)
-            // console.log('deletelist-length:'+deletelist.lenth)
+            // //console.log('deletelist-length:'+deletelist.lenth)
             for (var d in deletelist){
                 if (d>=5){
                     break;
                 }
-                console.log('d[id]:'+deletelist[d].id)
+                //console.log('d[id]:'+deletelist[d].id)
                 var str = "<li> <a> <div class='notif-content' style='width: 100%'> <span class=subject>"+deletelist[d].title+" <button class='btn btn-link btn-xs btn-danger' onclick='recover2_note("+deletelist[d].id+")'  style='float: right;'><i class='fas fa-redo'></i> 恢复</button></span> <span class=time>"+deletelist[d].content.substring(0,14)+"...</span> </div> </a> </li>";
                 $('#deletelist').append(str)
             }
@@ -71,12 +71,12 @@ function fillout(notelist){
              //设置长度
             // $('.collectnum').text('共有'+collectlist.length+'篇笔记')
             $('.collectnum').text(collectlist.length)
-            // console.log('deletelist-length:'+deletelist.lenth)
+            // //console.log('deletelist-length:'+deletelist.lenth)
             for (var d in collectlist){
                 if (d>=5){
                     break;
                 }
-                console.log('d[id]:'+collectlist[d].id)
+                //console.log('d[id]:'+collectlist[d].id)
                 var str = "<li> <a> <div class='notif-content' style='width: 100%'> <span class=subject>"+collectlist[d].title+" <button class='btn btn-link btn-xs' onclick='get_note("+collectlist[d].id+',0'+")'  style='float: right;'><i class='far fa-folder-open'></i> 查看</button></span> <span class=time>"+collectlist[d].content.substring(0,14)+"...</span> </div> </a> </li>";
                 $('#collectlist').append(str)
             }
@@ -86,16 +86,16 @@ function fillout(notelist){
             //填充左侧分类列表
             //设置长度
             $('.totalnum').text(usagelist.length)
-            // console.log('deletelist-length:'+deletelist.lenth)
+            // //console.log('deletelist-length:'+deletelist.lenth)
             var sortnum=[]
             for(var i=1;i<=13;i++){
                 sortnum[i]=0;
             }
             // var sortnum1=0,sortnum2=0,sortnum3=0,sortnum4=0,sortnum5=0,sortnum6=0,sortnum7=0,sortnum8=0,sortnum9=0,sortnum10=0,sortnum11=0,sortnum12=0,sortnum13=0;
             for (var d in usagelist){
-                console.log('sort[id]:'+usagelist[d].sort_id)
+                //console.log('sort[id]:'+usagelist[d].sort_id)
                 var sortId = 'sort'+usagelist[d].sort_id;
-                console.log(sortId)
+                //console.log(sortId)
                 var str = "<li> <a onclick='get_note("+usagelist[d].id+",0)' style='cursor: pointer'> <span class='sub-item'>"+usagelist[d].title+"</span> </a> </li>"
                 $('#'+sortId).append(str)
                 // eval(sortnum+usagelist[d].sort_id)=1;
@@ -110,10 +110,10 @@ function fillout(notelist){
 
 //从回收站恢复笔记
 function recover2_note(nid){
-     console.log('nid:' + nid)
-    // console.log('this:' + obj)
+     //console.log('nid:' + nid)
+    // //console.log('this:' + obj)
     // var rowIndex = obj.parentElement.parentElement.rowIndex;
-    // console.log('rowIndex:' + rowIndex)
+    // //console.log('rowIndex:' + rowIndex)
     // if (rowIndex < 0)
     //     return;
     // // alert(rowIndex)
@@ -153,7 +153,7 @@ function recover2_note(nid){
         dataType: "json",
         success: function (data) {
             if (data.ret == 0 && data.msg == '恢复成功') {
-                console.log('恢复成功')
+                //console.log('恢复成功')
                 // var preDom = obj.previousElementSibling;
                 // preDom.click();//成功  明天吧<i>隐藏了
                 // var n = parseInt($('.deletenum').eq(0).text())
@@ -224,7 +224,7 @@ function get_sort_list(sid){
         dataType: "json",
         success: function (data) {
             if (data.ret == 0) {
-                console.log('传参成功')
+                //console.log('传参成功')
                 url = data.redirect; //获取服务端返回的要重定向的页面
                 location.href = url
             }
@@ -242,8 +242,9 @@ function get_sort_list(sid){
 
 //查看或者编辑笔记
 function get_note(nid,n_type){
+    // alert(1)
     //type = 0 为查看笔记    type=1 为编辑笔记
-    console.log('nid : '+nid+'  n_type: '+n_type);
+    //console.log('nid : '+nid+'  n_type: '+n_type);
     var jsonstr = {"action": 'get_note', "nid": nid,'n_type':n_type};
     $.ajax({
         type: "GET",
@@ -252,8 +253,9 @@ function get_note(nid,n_type){
         dataType: "json",
         success: function (data) {
             if (data.ret == 0) {
-                console.log('传参成功')
-                url = data.redirect; //获取服务端返回的要重定向的页面
+                // alert('传参成功')
+                //console.log('传参成功')
+                var url = data.redirect; //获取服务端返回的要重定向的页面
                 location.href = url
             }
 
@@ -262,7 +264,7 @@ function get_note(nid,n_type){
             // let obj = this;
             // var tab = $('#notelist')
             // var rowIndex = obj.parentElement.parentElement.rowIndex;
-            // console.log('rowIndex:'+rowIndex)
+            // //console.log('rowIndex:'+rowIndex)
             // // // alert(rowIndex)
             // tab.deleteRow(rowIndex);  //测试成功  删除成功
             // alert(obj.parent().parent())
@@ -297,4 +299,57 @@ function signout() {
             alert(textStatus);
         }
     });
+}
+
+
+//查询笔记find_note
+function find_note(){
+    // alert(1)
+    var keyword = $('#searchinput').val()
+    // console.log(keyword)
+    $.ajax({
+        type: "GET",  //这里退出不需要传参数。get和post都可以
+        url: '/api/mgr/note?action=find_note&keyword='+keyword,
+        // data: JSON.stringify(jsonstr),//将json对象转换成json字符串发送
+        dataType: "json",
+        success: function (data) {
+            if (data.ret == 0) {
+                searchlist = data.retlist
+                if (searchlist.length <= 0)
+                {
+                    $('#searchlist').text('未查询到结果')
+                    return;
+                }
+                $('#searchnum').text(searchlist.length)
+                for (var d in searchlist){
+                //console.log('d[id]:'+collectlist[d].id)
+                var str = "<li  onclick='get_note("+searchlist[d].id+',0'+")' style='cursor: pointer'> <a> <div class='notif-content' style='width: 100%'> <span class=subject>"+searchlist[d].title+" </span> <span class=time>"+searchlist[d].content.substring(0,14)+"...</span> </div> </a> </li>";
+                $('#searchlist').append(str)
+            }
+            } else{
+                alert('查询失败')
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        }
+    });
+}
+
+
+//点击回收站  进入回收站
+function open_page(id)
+{
+    if (id == 0)//打开我的收藏
+    {
+        location.href = './collection.html'
+    }
+    else if (id ==1)
+    {
+        //打开回收占】
+        location.href = './recycle.html'
+
+    }
 }
