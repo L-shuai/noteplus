@@ -38,6 +38,7 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="../static/src/assets/css/demo.css">
 <!--    <script src="../static/src/m_js/write.js"></script>-->
+    <link rel="stylesheet" href="../static/src/assets/css/fonts.css">
 </head>
 
 <!--<body onload="initPage()">-->
@@ -584,8 +585,11 @@
                                     <!--                                        <button type="button" class="btn btn-icon btn-round btn-danger">-->
                                     <!--											<i class="fa fa-heart"></i>-->
                                     <!--										</button>-->
-                                    <button class="btn btn-link">
-                                        <i class="fas fa-heart" style="font-size: 25px;color: #f3545d;"></i>
+<!--                                    隐藏域  填充collected-->
+                                    <input type="hidden" id="collected">
+                                    <button class="btn btn-link" id="collectbtn">
+<!--                                        <i class="fas fa-heart" style="font-size: 25px;color: #f3545d;"></i>-->
+                                        <i id="collectbtn2" class="fas fa-heart" style="font-size: 25px;color: lightgray;"></i>
                                     </button>
 <!--                                    上次修改：-->
 <!--                                    <code id="modify_date"></code></h5>-->

@@ -71,6 +71,7 @@ function modify_password(){
             if (psw.length<=8)
         {
             alert('密码长度过短，请设置8位以上的密码')
+            return;
         }
         }
 
@@ -189,6 +190,25 @@ function sendcode() {
     if (email == '' || email == null) {
             msg = '  邮箱  '
             // b = false
+        var content = {};
+            content.message = msg + '不能为空';
+            content.title = '密码修改失败';
+            content.icon = 'fa fa-bell';
+
+            // content.url = 'login.html';
+            // content.target = '_blank';
+
+            $.notify(content, {
+                type: 'default',
+                placement: {
+                    from: 'top',
+                    align: 'right'
+                },
+                time: 300,
+                delay: 0,
+            });
+
+
         }
     else{
         if (checkEmail(email))

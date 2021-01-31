@@ -134,6 +134,75 @@ function initPage() {
                 //显示预览按钮
                 document.getElementById('pills-profile-tab').style.display='inline'
             }
+
+            $('#collected').val(note.collected)
+                var col = $('#collected').val()
+               if (note.collected)  //这里是bool值  并非字符串
+               {
+                    //由于note.html默认值收藏按钮是灰色  未被收藏   这里需要改为被收藏  红色的样式
+                   $("#collectbtn2").css('color','#f3545d')
+               }
+
+            /*收藏按钮*/
+
+                $("#collectbtn").click(function (){
+                    // var col = $('#collected').val()
+                    // var val = 1;
+                    var msg = ''
+                    if (col=='true')  //这里是字符串 并非bool值
+                    {
+                    //    目前已经被收藏  需要取消收藏
+                            col = 'false'
+                    //    将颜色改为灰色
+                        $("#collectbtn2").css('color','lightgray')
+                        msg = '已取消收藏'
+                    }else {
+                    //    需要被收藏
+                    //         val = 1
+                        col = 'true'
+                    //    将颜色改为红色
+                        $("#collectbtn2").css('color','#f3545d')
+                        msg = '已添加收藏'
+                    }
+                    //
+                    swal(msg, {
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-success'
+                        }
+                    },
+                });
+                //
+                //    获取当前文章id
+                    var nid= note.id
+                //发送ajax
+                            $.ajax({
+                type: "GET",  //这里退出不需要传参数。get和post都可以
+                url: '/api/mgr/note?action=collect_note&nid='+nid+'&n_type='+col,  //col为true代表需要收藏
+                // data: JSON.stringify(jsonstr),//将json对象转换成json字符串发送
+                dataType: "json",
+                success: function (data) {
+                    if (data.ret == 0) {
+                        // alert('退出成功get')
+                        var notelist = data.notelist;
+                         fillout(notelist)
+                    } else {
+                        // alert('退出失败')
+
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
+                }
+            });
+                //发送ajax
+
+
+                })
+
+
             }
 //填充底部的笔记摘要和关键字 以及词云图
                 ////console.log('data.note:'+data.note)
@@ -224,7 +293,7 @@ function modify_note(nid){
                 // ////console.log('data.note:'+data.note)
                 fill_abstract(data.note);
 
-                swal("保存成功", "You clicked the button!", {
+                swal("保存成功", "笔记已修改", {
                     icon: "success",
                     buttons: {
                         confirm: {
@@ -257,7 +326,7 @@ function addnote(){
             success: function (data) {
                 alert('添加成功  id=' + data.id)
                 // alert(data.id)
-                swal("保存成功", "You clicked the button!", {
+                swal("保存成功", "笔记已保存", {
                     icon: "success",
                     buttons: {
                         confirm: {
@@ -350,6 +419,7 @@ function fillout(notelist){
             var sortnum=[]
             for(var i=1;i<=13;i++){
                 sortnum[i]=0;
+                $('#sort'+i).html(null)
             }
             // var sortnum1=0,sortnum2=0,sortnum3=0,sortnum4=0,sortnum5=0,sortnum6=0,sortnum7=0,sortnum8=0,sortnum9=0,sortnum10=0,sortnum11=0,sortnum12=0,sortnum13=0;
             for (var d in usagelist){

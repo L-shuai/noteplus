@@ -93,6 +93,8 @@ def dispatcher(request):
 		return modify_note(request)
 	elif action == 'find_note':
 		return find_note(request)
+	elif action == 'collect_note':
+		return collect_note(request)
 	# elif action == 'del_customer':
 	# 	return deletecustomer(request)
 	# elif action == 'find_customer':
@@ -671,5 +673,46 @@ def find_note(request):
 	retlist = list(qs)
 	return JsonResponse({'ret':0,'retlist':retlist})
 
+
+# ==========================================================================================================================
+
+
+# ==========================================================================================================================
+def collect_note(request):
+	"""
+	收藏笔记  或者取消收藏笔记
+	n_type为true代表需要收藏      为false代表取消收藏
+	:param request:
+	:return:
+	"""
+	nid = request.params['nid']
+	n_type = request.params['n_type']
+	try:
+		# 根据id从数据库中找到相应的客户记录
+		note = Note.objects.get(id=nid)
+		if n_type == 'false':
+			# 需要取消收藏  将collected改为false
+			note.collected = False
+		if n_type == 'true':
+			note.collected = 'True'
+		note.save()
+		retlist = get_notelist(request)
+		# # print(retlist)
+		notelist = retlist['notelist']
+		collectlist = notelist['collectlist']
+		deletelist = notelist['deletelist']
+		usagelist = notelist['usagelist']
+		# # print('model_to_dict(note):',model_to_dict(note))
+		# # print('note:',note)
+		return JsonResponse({'ret': 0, 'note': model_to_dict(note),  'n_type': n_type, 'msg': '收藏/取消收藏成功',
+		                     'notelist': {'deletelist': deletelist, 'collectlist': collectlist,
+		                                  'usagelist': usagelist}})
+
+	except Note.DoesNotExist:
+		return {
+			'ret': 1,
+			'msg': f'id为`{nid}`的笔记不存在'
+		}
+	return JsonResponse({'ret': 1, 'msg': '收藏/取消收藏失败'})
 
 # ==========================================================================================================================

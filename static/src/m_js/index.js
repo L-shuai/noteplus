@@ -54,6 +54,8 @@ function fillout(notelist){
             //设置长度
             // $('#deletenum').text('共有'+deletelist.length+'篇笔记')
             $('.deletenum').text(deletelist.length)
+            //先清空回收站列表
+            $('#deletelist').html(null)
             // //console.log('deletelist-length:'+deletelist.lenth)
             for (var d in deletelist){
                 if (d>=5){
@@ -71,6 +73,8 @@ function fillout(notelist){
              //设置长度
             // $('.collectnum').text('共有'+collectlist.length+'篇笔记')
             $('.collectnum').text(collectlist.length)
+    // alert('collectlist.length'+collectlist.length)
+            $('.collectlist').html(null)
             // //console.log('deletelist-length:'+deletelist.lenth)
             for (var d in collectlist){
                 if (d>=5){
@@ -90,6 +94,7 @@ function fillout(notelist){
             var sortnum=[]
             for(var i=1;i<=13;i++){
                 sortnum[i]=0;
+                $('#sort'+i).html(null)
             }
             // var sortnum1=0,sortnum2=0,sortnum3=0,sortnum4=0,sortnum5=0,sortnum6=0,sortnum7=0,sortnum8=0,sortnum9=0,sortnum10=0,sortnum11=0,sortnum12=0,sortnum13=0;
             for (var d in usagelist){
