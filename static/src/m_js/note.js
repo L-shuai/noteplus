@@ -352,6 +352,8 @@ function fill_abstract(note){
     key_list = note['keyword']
     ////console.log("abs_list:"+abs_list)
     ////console.log("key_list:"+key_list)
+//    先清空li
+    $('#abstract_list').html(null)
 //    填充笔记摘要
     for (var d in abs_list){
         ////console.log(abs_list[d])
@@ -359,6 +361,7 @@ function fill_abstract(note){
         var str = "<li> <p>"+abs_list[d]+"</p> </li>"
         $('#abstract_list').append(str)
     }
+    $('#keyword_list').html(null)
     //    填充关键字
     for (var d in key_list){
         ////console.log(key_list[d])
