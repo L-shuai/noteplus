@@ -82,6 +82,12 @@
 					<label for="email" class="placeholder">邮箱</label>
 				</div>
 				<div class="form-group form-floating-label">
+					<input  id="code" name="email" type="email" class="form-control input-border-bottom"  required>
+
+					<label for="code" class="placeholder">验证码</label>
+					<button onclick="sendcode()" id="sendcodebtn" class="btn btn-info btn-xs" style="float: right;margin-top: -50px;">获取验证码</button>
+				</div>
+				<div class="form-group form-floating-label">
 					<input  id="password1" name="password1" type="password" class="form-control input-border-bottom" required>
 					<label for="password1" class="placeholder">密码</label>
 					<div class="show-password">
@@ -97,8 +103,8 @@
 				</div>
 				<div class="row form-sub m-0">
 					<div class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="agree" id="agree">
-						<label class="custom-control-label" for="agree">我同意条款</label>
+						<input type="checkbox" class="custom-control-input"  name="agree" id="agree">
+						<label class="custom-control-label" for="agree">我同意<a href="items.html">网站使用条款</a></label>
 					</div>
 				</div>
 				<div class="form-action">

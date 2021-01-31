@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style type="text/css">
+        .swal-icon--error {
+        border-color: #f27474;
+        -webkit-animation: animateErrorIcon .5s;
+        animation: animateErrorIcon .5s
+    }
+
+    .swal-icon--error__x-mark {
+        position: relative;
+        display: block;
+        -webkit-animation: animateXMark .5s;
+        animation: animateXMark .5s
+    }
+
+    .swal-icon--error__line {
+        position: absolute;
+        height: 5px;
+        width: 47px;
+        background-color: #f27474;
+        display: block;
+        top: 37px;
+        border-radius: 2px
+    }
+
+    .swal-icon--error__line--left {
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        left: 17px
+    }
+
+    .swal-icon--error__line--right {
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        right: 16px
+    }
+
+    @-webkit-keyframes animateErrorIcon {
+        0% {
+            -webkit-transform: rotateX(100deg);
+            transform: rotateX(100deg);
+            opacity: 0
+        }
+        to {
+            -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+            opacity: 1
+        }
+    }
+
+    @keyframes animateErrorIcon {
+        0% {
+            -webkit-transform: rotateX(100deg);
+            transform: rotateX(100deg);
+            opacity: 0
+        }
+        to {
+            -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+            opacity: 1
+        }
+    }
+
+    @-webkit-keyframes animateXMark {
+        0% {
+            -webkit-transform: scale(.4);
+            transform: scale(.4);
+            margin-top: 26px;
+            opacity: 0
+        }
+        50% {
+            -webkit-transform: scale(.4);
+            transform: scale(.4);
+            margin-top: 26px;
+            opacity: 0
+        }
+        80% {
+            -webkit-transform: scale(1.15);
+            transform: scale(1.15);
+            margin-top: -6px
+        }
+        to {
+            -webkit-transform: scale(1);
+            transform: scale(1);
+            margin-top: 0;
+            opacity: 1
+        }
+    }
+
+    @keyframes animateXMark {
+        0% {
+            -webkit-transform: scale(.4);
+            transform: scale(.4);
+            margin-top: 26px;
+            opacity: 0
+        }
+        50% {
+            -webkit-transform: scale(.4);
+            transform: scale(.4);
+            margin-top: 26px;
+            opacity: 0
+        }
+        80% {
+            -webkit-transform: scale(1.15);
+            transform: scale(1.15);
+            margin-top: -6px
+        }
+        to {
+            -webkit-transform: scale(1);
+            transform: scale(1);
+            margin-top: 0;
+            opacity: 1
+        }
+    }
+
+    .swal-icon--warning {
+        border-color: #f8bb86;
+        -webkit-animation: pulseWarning .75s infinite alternate;
+        animation: pulseWarning .75s infinite alternate
+    }
+
+    .swal-icon--warning__body {
+        width: 5px;
+        height: 47px;
+        top: 10px;
+        border-radius: 2px;
+        margin-left: -2px
+    }
+
+    .swal-icon--warning__body, .swal-icon--warning__dot {
+        position: absolute;
+        left: 50%;
+        background-color: #f8bb86
+    }
+
+    .swal-icon--warning__dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        margin-left: -4px;
+        bottom: -11px
+    }
+
+    @-webkit-keyframes pulseWarning {
+        0% {
+            border-color: #f8d486
+        }
+        to {
+            border-color: #f8bb86
+        }
+    }
+
+    @keyframes pulseWarning {
+        0% {
+            border-color: #f8d486
+        }
+        to {
+            border-color: #f8bb86
+        }
+    }
+
+    .swal-icon--success {
+        border-color: #a5dc86
+    }
+
+    .swal-icon--success:after, .swal-icon--success:before {
+        content: "";
+        border-radius: 50%;
+        position: absolute;
+        width: 60px;
+        height: 120px;
+        background: #fff;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg)
+    }
+
+    .swal-icon--success:before {
+        border-radius: 120px 0 0 120px;
+        top: -7px;
+        left: -33px;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        -webkit-transform-origin: 60px 60px;
+        transform-origin: 60px 60px
+    }
+
+    .swal-icon--success:after {
+        border-radius: 0 120px 120px 0;
+        top: -11px;
+        left: 30px;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        -webkit-transform-origin: 0 60px;
+        transform-origin: 0 60px;
+        -webkit-animation: rotatePlaceholder 4.25s ease-in;
+        animation: rotatePlaceholder 4.25s ease-in
+    }
+
+    .swal-icon--success__ring {
+        width: 80px;
+        height: 80px;
+        border: 4px solid hsla(98, 55%, 69%, .2);
+        border-radius: 50%;
+        box-sizing: content-box;
+        position: absolute;
+        left: -4px;
+        top: -4px;
+        z-index: 2
+    }
+
+    .swal-icon--success__hide-corners {
+        width: 5px;
+        height: 90px;
+        background-color: #fff;
+        padding: 1px;
+        position: absolute;
+        left: 28px;
+        top: 8px;
+        z-index: 1;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg)
+    }
+
+    .swal-icon--success__line {
+        height: 5px;
+        background-color: #a5dc86;
+        display: block;
+        border-radius: 2px;
+        position: absolute;
+        z-index: 2
+    }
+
+    .swal-icon--success__line--tip {
+        width: 25px;
+        left: 14px;
+        top: 46px;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        -webkit-animation: animateSuccessTip .75s;
+        animation: animateSuccessTip .75s
+    }
+
+    .swal-icon--success__line--long {
+        width: 47px;
+        right: 8px;
+        top: 38px;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        -webkit-animation: animateSuccessLong .75s;
+        animation: animateSuccessLong .75s
+    }
+
+    @-webkit-keyframes rotatePlaceholder {
+        0% {
+            -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg)
+        }
+        5% {
+            -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg)
+        }
+        12% {
+            -webkit-transform: rotate(-405deg);
+            transform: rotate(-405deg)
+        }
+        to {
+            -webkit-transform: rotate(-405deg);
+            transform: rotate(-405deg)
+        }
+    }
+
+    @keyframes rotatePlaceholder {
+        0% {
+            -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg)
+        }
+        5% {
+            -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg)
+        }
+        12% {
+            -webkit-transform: rotate(-405deg);
+            transform: rotate(-405deg)
+        }
+        to {
+            -webkit-transform: rotate(-405deg);
+            transform: rotate(-405deg)
+        }
+    }
+
+    @-webkit-keyframes animateSuccessTip {
+        0% {
+            width: 0;
+            left: 1px;
+            top: 19px
+        }
+        54% {
+            width: 0;
+            left: 1px;
+            top: 19px
+        }
+        70% {
+            width: 50px;
+            left: -8px;
+            top: 37px
+        }
+        84% {
+            width: 17px;
+            left: 21px;
+            top: 48px
+        }
+        to {
+            width: 25px;
+            left: 14px;
+            top: 45px
+        }
+    }
+
+    @keyframes animateSuccessTip {
+        0% {
+            width: 0;
+            left: 1px;
+            top: 19px
+        }
+        54% {
+            width: 0;
+            left: 1px;
+            top: 19px
+        }
+        70% {
+            width: 50px;
+            left: -8px;
+            top: 37px
+        }
+        84% {
+            width: 17px;
+            left: 21px;
+            top: 48px
+        }
+        to {
+            width: 25px;
+            left: 14px;
+            top: 45px
+        }
+    }
+
+    @-webkit-keyframes animateSuccessLong {
+        0% {
+            width: 0;
+            right: 46px;
+            top: 54px
+        }
+        65% {
+            width: 0;
+            right: 46px;
+            top: 54px
+        }
+        84% {
+            width: 55px;
+            right: 0;
+            top: 35px
+        }
+        to {
+            width: 47px;
+            right: 8px;
+            top: 38px
+        }
+    }
+
+    @keyframes animateSuccessLong {
+        0% {
+            width: 0;
+            right: 46px;
+            top: 54px
+        }
+        65% {
+            width: 0;
+            right: 46px;
+            top: 54px
+        }
+        84% {
+            width: 55px;
+            right: 0;
+            top: 35px
+        }
+        to {
+            width: 47px;
+            right: 8px;
+            top: 38px
+        }
+    }
+
+    .swal-icon--info {
+        border-color: #c9dae1
+    }
+
+    .swal-icon--info:before {
+        width: 5px;
+        height: 29px;
+        bottom: 17px;
+        border-radius: 2px;
+        margin-left: -2px
+    }
+
+    .swal-icon--info:after, .swal-icon--info:before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        background-color: #c9dae1
+    }
+
+    .swal-icon--info:after {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        margin-left: -3px;
+        top: 19px
+    }
+
+    .swal-icon {
+        width: 80px;
+        height: 80px;
+        border-width: 4px;
+        border-style: solid;
+        border-radius: 50%;
+        padding: 0;
+        position: relative;
+        box-sizing: content-box;
+        margin: 20px auto
+    }
+
+    .swal-icon:first-child {
+        margin-top: 32px
+    }
+
+    .swal-icon--custom {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        border: none;
+        border-radius: 0
+    }
+
+    .swal-icon img {
+        max-width: 100%;
+        max-height: 100%
+    }
+
+    .swal-title {
+        color: rgba(0, 0, 0, .65);
+        font-weight: 600;
+        text-transform: none;
+        position: relative;
+        display: block;
+        padding: 13px 16px;
+        font-size: 27px;
+        line-height: normal;
+        text-align: center;
+        margin-bottom: 0
+    }
+
+    .swal-title:first-child {
+        margin-top: 26px
+    }
+
+    .swal-title:not(:first-child) {
+        padding-bottom: 0
+    }
+
+    .swal-title:not(:last-child) {
+        margin-bottom: 13px
+    }
+
+    .swal-text {
+        font-size: 16px;
+        position: relative;
+        float: none;
+        line-height: normal;
+        vertical-align: top;
+        text-align: left;
+        display: inline-block;
+        margin: 0;
+        padding: 0 10px;
+        font-weight: 400;
+        color: rgba(0, 0, 0, .64);
+        max-width: calc(100% - 20px);
+        overflow-wrap: break-word;
+        box-sizing: border-box
+    }
+
+    .swal-text:first-child {
+        margin-top: 45px
+    }
+
+    .swal-text:last-child {
+        margin-bottom: 45px
+    }
+
+    .swal-footer {
+        text-align: right;
+        padding-top: 13px;
+        margin-top: 13px;
+        padding: 13px 16px;
+        border-radius: inherit;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0
+    }
+
+    .swal-button-container {
+        margin: 5px;
+        display: inline-block;
+        position: relative
+    }
+
+    .swal-button {
+        background-color: #7cd1f9;
+        color: #fff;
+        border: none;
+        box-shadow: none;
+        border-radius: 5px;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 10px 24px;
+        margin: 0;
+        cursor: pointer
+    }
+
+    .swal-button:not([disabled]):hover {
+        background-color: #78cbf2
+    }
+
+    .swal-button:active {
+        background-color: #70bce0
+    }
+
+    .swal-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgba(43, 114, 165, .29)
+    }
+
+    .swal-button[disabled] {
+        opacity: .5;
+        cursor: default
+    }
+
+    .swal-button::-moz-focus-inner {
+        border: 0
+    }
+
+    .swal-button--cancel {
+        color: #555;
+        background-color: #efefef
+    }
+
+    .swal-button--cancel:not([disabled]):hover {
+        background-color: #e8e8e8
+    }
+
+    .swal-button--cancel:active {
+        background-color: #d7d7d7
+    }
+
+    .swal-button--cancel:focus {
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgba(116, 136, 150, .29)
+    }
+
+    .swal-button--danger {
+        background-color: #e64942
+    }
+
+    .swal-button--danger:not([disabled]):hover {
+        background-color: #df4740
+    }
+
+    .swal-button--danger:active {
+        background-color: #cf423b
+    }
+
+    .swal-button--danger:focus {
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgba(165, 43, 43, .29)
+    }
+
+    .swal-content {
+        padding: 0 20px;
+        margin-top: 20px;
+        font-size: medium
+    }
+
+    .swal-content:last-child {
+        margin-bottom: 20px
+    }
+
+    .swal-content__input, .swal-content__textarea {
+        -webkit-appearance: none;
+        background-color: #fff;
+        border: none;
+        font-size: 14px;
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        border: 1px solid rgba(0, 0, 0, .14);
+        padding: 10px 13px;
+        border-radius: 2px;
+        transition: border-color .2s
+    }
+
+    .swal-content__input:focus, .swal-content__textarea:focus {
+        outline: none;
+        border-color: #6db8ff
+    }
+
+    .swal-content__textarea {
+        resize: vertical
+    }
+
+    .swal-button--loading {
+        color: transparent
+    }
+
+    .swal-button--loading ~ .swal-button__loader {
+        opacity: 1
+    }
+
+    .swal-button__loader {
+        position: absolute;
+        height: auto;
+        width: 43px;
+        z-index: 2;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+        text-align: center;
+        pointer-events: none;
+        opacity: 0
+    }
+
+    .swal-button__loader div {
+        display: inline-block;
+        float: none;
+        vertical-align: baseline;
+        width: 9px;
+        height: 9px;
+        padding: 0;
+        border: none;
+        margin: 2px;
+        opacity: .4;
+        border-radius: 7px;
+        background-color: hsla(0, 0%, 100%, .9);
+        transition: background .2s;
+        -webkit-animation: swal-loading-anim 1s infinite;
+        animation: swal-loading-anim 1s infinite
+    }
+
+    .swal-button__loader div:nth-child(3n+2) {
+        -webkit-animation-delay: .15s;
+        animation-delay: .15s
+    }
+
+    .swal-button__loader div:nth-child(3n+3) {
+        -webkit-animation-delay: .3s;
+        animation-delay: .3s
+    }
+
+    @-webkit-keyframes swal-loading-anim {
+        0% {
+            opacity: .4
+        }
+        20% {
+            opacity: .4
+        }
+        50% {
+            opacity: 1
+        }
+        to {
+            opacity: .4
+        }
+    }
+
+    @keyframes swal-loading-anim {
+        0% {
+            opacity: .4
+        }
+        20% {
+            opacity: .4
+        }
+        50% {
+            opacity: 1
+        }
+        to {
+            opacity: .4
+        }
+    }
+
+    .swal-overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 0;
+        overflow-y: auto;
+        background-color: rgba(0, 0, 0, .4);
+        z-index: 10000;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity .3s
+    }
+
+    .swal-overlay:before {
+        content: " ";
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%
+    }
+
+    .swal-overlay--show-modal {
+        opacity: 1;
+        pointer-events: auto
+    }
+
+    .swal-overlay--show-modal .swal-modal {
+        opacity: 1;
+        pointer-events: auto;
+        box-sizing: border-box;
+        -webkit-animation: showSweetAlert .3s;
+        animation: showSweetAlert .3s;
+        will-change: transform
+    }
+
+    .swal-modal {
+        width: 478px;
+        opacity: 0;
+        pointer-events: none;
+        background-color: #fff;
+        text-align: center;
+        border-radius: 5px;
+        position: static;
+        margin: 20px auto;
+        display: inline-block;
+        vertical-align: middle;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        -webkit-transform-origin: 50% 50%;
+        transform-origin: 50% 50%;
+        z-index: 10001;
+        transition: opacity .2s, -webkit-transform .3s;
+        transition: transform .3s, opacity .2s;
+        transition: transform .3s, opacity .2s, -webkit-transform .3s
+    }
+
+    @media (max-width: 500px) {
+        .swal-modal {
+            width: calc(100% - 20px)
+        }
+    }
+
+    @-webkit-keyframes showSweetAlert {
+        0% {
+            -webkit-transform: scale(1);
+            transform: scale(1)
+        }
+        1% {
+            -webkit-transform: scale(.5);
+            transform: scale(.5)
+        }
+        45% {
+            -webkit-transform: scale(1.05);
+            transform: scale(1.05)
+        }
+        80% {
+            -webkit-transform: scale(.95);
+            transform: scale(.95)
+        }
+        to {
+            -webkit-transform: scale(1);
+            transform: scale(1)
+        }
+    }
+
+    @keyframes showSweetAlert {
+        0% {
+            -webkit-transform: scale(1);
+            transform: scale(1)
+        }
+        1% {
+            -webkit-transform: scale(.5);
+            transform: scale(.5)
+        }
+        45% {
+            -webkit-transform: scale(1.05);
+            transform: scale(1.05)
+        }
+        80% {
+            -webkit-transform: scale(.95);
+            transform: scale(.95)
+        }
+        to {
+            -webkit-transform: scale(1);
+            transform: scale(1)
+        }
+    }</style>
+
+    <title>网站注册服务条款</title>
+    <link rel="stylesheet" href="./网站注册服务条款_files/font-awesome.min.css">
+    <script src="./网站注册服务条款_files/jquery-2.1.3.min.js.下载"></script>
+    <link rel="stylesheet" href="./网站注册服务条款_files/bootstrap.min.css">
+</head>
+<body style="padding-left: 120px;padding-right: 120px;padding-top: 50px;">
+<div class="main">
+    <div class="container">
+        <h1 id="honor">网站注册服务条款</h1>
+        <div class="maincontainer">
+            <div>
+                <h5><strong>尊敬的用户：</strong></h5>
+                <h5>
+                    <strong> 欢迎您成为本网站用户。在第一次登陆前请您仔细阅读如下服务条款。</strong>
+                </h5>
+                <div class="maincontainer-one">
+                    <p>
+                        本服务协议双方为本网站与本网站用户，本服务协议具有合同效力。您确认本服务协议后，本服务协议即在您和本网站之间产生法律效力。请您务必在注册之前认真阅读全部服务协议内容，如有任何疑问，可向本网站咨询。</p>
+                    <p>
+                        无论您事实上是否在注册之前认真阅读了本服务协议，只要您点击协议正本下方的"注册"按钮并按照本网站注册程序成功注册为用户，或者第一次成功登陆本网站后，您的行为仍然表示您同意并签署了本服务协议。
+                    </p>
+                </div>
+            </div>
+            <div class="item">
+                <h5><strong>1.本网站服务条款的确认和接纳</strong></h5>
+                <p>本网站各项服务的所有权和运作权归本网站拥有。</p>
+            </div>
+            <div class="item">
+                <h5><strong>2．用户必须：</strong></h5>
+                <ul>
+                    <li>自行配备上网的所需设备，包括个人电脑、调制解调器或其他必备上网装置。</li>
+                    <li>自行负担个人上网所支付的与此服务有关的电话费用、网络费用。</li>
+                </ul>
+            </div>
+            <div class="item">
+                <h5><strong>3.用户的言行不得违反相关的法律法规的规定，不得在本网站上交易平台上发布下列违法信息：</strong></h5>
+                <ul>
+                    <li>反对宪法所确定的基本原则的；</li>
+                    <li>危害国家安全，泄露国家秘密，颠覆国家政权，破坏国家统一的；</li>
+                    <li>损害国家荣誉和利益的；</li>
+                    <li>煽动民族仇恨、民族歧视，破坏民族团结的；</li>
+                    <li>破坏国家宗教政策，宣扬邪教和封建迷信的；</li>
+                    <li>散布谣言，扰乱社会秩序，破坏社会稳定的；</li>
+                    <li>散布淫秽、色情、赌博、暴力、凶杀、恐怖或者教唆犯罪的；</li>
+                    <li>侮辱或者诽谤他人，侵害他人合法权益的；</li>
+                    <li>含有法律、行政法规禁止的其他内容的。</li>
+                </ul>
+            </div>
+            <div class="item">
+                <h5><strong>4．有关个人资料</strong></h5>
+                <p>用户同意：</p>
+                <ul>
+                    <li>提供及时、详尽及准确的个人资料。</li>
+                    <li>同意接收来自本网站的信息。</li>
+                    <li>不断更新注册资料，符合及时、详尽准确的要求。所有原始键入的资料将引用为注册资料。</li>
+                    <li>本网站不公开用户的姓名、地址、电子邮箱和笔名，以下情况除外：
+                        <ul>
+                            <li>a.用户授权本网站透露这些信息注；</li>
+                            <li>b.相关的法律或政府主管部门要求本网站提供用户的个人资料，如果用户提供的资料包含有不正确的信息，本网站保留结束用户使用本网站信息服务资格的权利。</li>
+                        </ul>
+                    </li>
+                    <li>
+                        用户在注册时应当选择稳定性及安全性相对较好的电子邮箱，并且同意接受并阅读本网站发往用户的各类电子邮件。如用户未及时从自己的电子邮箱接受电子邮件或因用户电子邮箱或用户电子邮件接收及阅读程序本身的问题使电子邮件无法正常接收或阅读的，只要本网站成功发送了电子邮件，应当视为用户已经接收到相关的电子邮件。电子邮件在发信服务器上所记录的发出时间视为送达时间。
+                    </li>
+                </ul>
+                <p><strong>注：针对参加华大组织的任何形式培训人员，包括内部员工培训，认证培训等，网站有权将培训课程成绩转交给培训组织方。</strong></p>
+            </div>
+            <div class="item">
+                <h5><strong>5．服务条款的修改</strong></h5>
+                <p>
+                    本网站有权在必要时修改服务条款，本网站服务条款一旦发生变动，将会在重要页面上提示修改内容。如不同意所改动的内容，用户可以主动取消获得的本网站信息服务。如果用户继续享用本网站信息服务，则视为接受服务条款的变动。本网站保留随时修改服务而不需通知用户的权利；如需中断服务，本网站将尽可能提前告知用户。本网站行使修改或中断服务的权利，不需对用户或第三方负责。
+                </p>
+            </div>
+            <div class="item">
+                <h5><strong>6．用户隐私制度</strong></h5>
+                <p>
+                    尊重用户个人隐私是本网站的一项基本政策。所以，本网站一定不会在未经合法用户授权时公开、编辑或透露其注册资料及保存在本网站中的非公开内容，以下情况除外：
+                </p>
+                <ul>
+                    <li>遵守有关法律规定，或遵从本网站合法服务程序；</li>
+                    <li>保持维护本网站的合法权益（包括但不限于本网站的商标所有权等）；</li>
+                    <li>不断更新注册资料，符合及时、详尽准确的要求。所有原始键入的资料将引用为注册资料。</li>
+                    <li>在紧急情况下竭力维护用户个人和社会大众的隐私安全；</li>
+                    <li>按照相关政府主管部门的要求；</li>
+                    <li>用于本网站相关政策的相关条款所述的其它目的。</li>
+                </ul>
+            </div>
+            <div class="item">
+                <h5><strong>7.用户的帐号、密码和安全性</strong></h5>
+                <p>
+                    任何人一旦注册成功/第一次登陆成为用户，将得到一个密码和帐号，用户须自行保管好自己的帐号并确保密码安全。如因黑客行为或用户的保管疏忽导致帐号、密码遭他人非法使用，本网站有权拒绝承担任何责任。此外，用户须对其帐户中的所有活动和事件负全责。用户可随时根据指示改变密码。用户若发现任何非法使用其帐号或存在安全漏洞的情况，应立即通知本网站。
+                </p>
+            </div>
+            <div class="item">
+                <h5><strong>8.拒绝提供担保</strong></h5>
+                <p>
+                    用户明确同意信息服务的使用由用户个人承担风险。本网站不担保服务不会受中断，对服务的及时性，安全性，出错发生都不作担保，但会在能力范围内，避免出错。若因硬件故障或其它不可抗力而导致暂停服务，于暂停服务期间造成的一切不便与损失，本网站不负任何责任。
+                </p>
+            </div>
+            <div class="item">
+                <h5><strong>9.有限责任</strong></h5>
+                <p>
+                    本网站对任何直接、间接、偶然、特殊及继起的损害不负责任，这些损害来自：不正当使用本网站服务，或用户传送的信息不符合规定等。这些行为都有可能导致本网站形象受损，所以本网站事先提出这种损害的可能性，同时会尽量避免这种损害的发生。
+                </p>
+            </div>
+            <div class="item">
+                <h5><strong>10.信息的储存及限制</strong></h5>
+                <p>
+                    本网站有判定用户的行为是否符合本网站服务条款的要求和精神的权利，如果用户违背本网站服务条款的规定，本网站有权随时中断或终止其服务的帐号而不承担违约责任。
+                </p>
+            </div>
+            <div class="item">
+                <h5><strong>11.用户管理</strong></h5>
+                <p><strong>用户必须遵循：</strong></p>
+                <ul>
+                    <li>使用信息服务不作非法用途；</li>
+                    <li>不干扰或混乱网络服务；</li>
+                    <li>遵守所有使用服务的网络协议、规定、程序和惯例。用户的行为准则是以因特网法规，政策、程序和惯例为根据的。</li>
+                </ul>
+            </div>
+            <div class="item">
+                <h5><strong>12．保障</strong></h5>
+                <p>
+                    用户同意保障和维护本网站全体成员的利益，如因用户违反有关法律、法规或本协议项下的任何条款而给本网站或任何其他第三人造成损失，用户需承担因此造成的损害赔偿责任（包括但不限于：用户使用超出服务范围引起的律师费用，违反服务条款的损害补偿费用，其它人使用用户的电脑、帐号和其它知识产权的追索费等）。
+                </p>
+            </div>
+            <div class="item">
+                <h5><strong>13．结束服务</strong></h5>
+                <p>
+                    用户或本网站可随时根据实际情况中断一项或多项服务。本网站不需对任何个人或第三方负责而随时中断服务。用户若反对任何服务条款的建议或对后来的条款修改有异议，或对本网站服务不满，用户可以行使如下权利：
+                </p>
+                <ul>
+                    <li>不再使用本网站信息服务；</li>
+                    <li>通知本网站停止对该用户的服务。</li>
+                </ul>
+                <p>结束用户服务后，用户使用本网站服务的权利马上中止。从那时起，用户没有权利要求，本网站也没有义务传送任何未处理的信息或未完成的服务给用户或第三方。</p>
+            </div>
+            <div class="item">
+                <h5><strong>14．通告</strong></h5>
+                <p>
+                    所有发给用户的通告都可通过重要页面的公告或电子邮件或常规的信件传送。服务条款的修改、服务变更、或其它重要事件的通告都会以此形式进行。
+                </p>
+            </div>
+            <div class="item">
+                <h5><strong>15．信息内容的所有权</strong></h5>
+                <p>
+                    本网站定义的“信息内容”包括：文字、软件、声音、相片、录象、图表；在广告中全部内容；本网站为用户提供的其它信息。所有这些内容受我国《著作权法》、《商标法》、《物权法》等相关法律法规的保护。所以，用户只能在本网站和广告商授权下才能使用这些
+                    内容 ，而不能擅自复制、再造、传播这些内容、或创造与内容有关的派生产品。
+                </p>
+            </div>
+            <div class="item">
+                <h5><strong>16．法律</strong></h5>
+                <p>
+                    本网站信息服务条款要与中华人民共和国的法律解释一致。用户和本网站一致同意服从本网站所在地有管辖权的人民法院管辖。如发生本网站服务条款与中华人民共和国法律相抵触时，则这些条款将完全按法律规定重新解释，而其它条款则依旧保持对用户的约束力。
+                </p>
+            </div>
+            <div class="item">
+                <h5><strong>17．其它</strong></h5>
+                <p>
+                    本协议构成双方对本协议之约定事项及其他有关事宜的完整协议，除本协议规定的之外，未赋予本协议各方其他权利
+                </p>
+                <p>
+                    如本协议中的任何条款无论因何种原因完全或部分无效或不具有执行力，本协议的其余条款仍应有效并且有约束力。
+                </p>
+                <p>
+                    本协议中的标题仅为方便而设，在解释本协议时应被忽略。
+                </p>
+                <p>
+                    本协议最终解释权归属noteplus网站。
+                </p>
+            </div>
+        </div>
+    </div>
+    <center>
+        © 2021 noteplus, Inc 版权所有
+    </center>
+</div>
+
+
+<style>
+    #honor {
+        margin: 0px;
+        background: #fff;
+        text-align: center;
+        font-size: 30px;
+        padding-top: 40px;
+    }
+
+    .maincontainer-one {
+        margin-top: 20px;
+    }
+
+    .item {
+        margin-top: 40px;
+    }
+
+    .maincontainer {
+        margin-top: 30px;
+    }
+
+    .maincontainer li {
+        color: #666;
+    }
+
+    .maincontainer p {
+        text-indent: 30px;
+        color: #666;
+    }
+
+    .maincontainer h5 {
+        font-size: 16px;
+    }
+</style>
+<audio controls="controls" style="display: none;"></audio>
+<div class="layui-xzxform-label"></div>
+</body>
+<style type="text/css">#yddContainer {
+    display: block;
+    font-family: Microsoft YaHei;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: -4px;
+    left: -4px;
+    font-size: 12px;
+    border: 1px solid
+}
+
+#yddTop {
+    display: block;
+    height: 22px
+}
+
+#yddTopBorderlr {
+    display: block;
+    position: static;
+    height: 17px;
+    padding: 2px 28px;
+    line-height: 17px;
+    font-size: 12px;
+    color: #5079bb;
+    font-weight: bold;
+    border-style: none solid;
+    border-width: 1px
+}
+
+#yddTopBorderlr .ydd-sp {
+    position: absolute;
+    top: 2px;
+    height: 0;
+    overflow: hidden
+}
+
+.ydd-icon {
+    left: 5px;
+    width: 17px;
+    padding: 0px 0px 0px 0px;
+    padding-top: 17px;
+    background-position: -16px -44px
+}
+
+.ydd-close {
+    right: 5px;
+    width: 16px;
+    padding-top: 16px;
+    background-position: left -44px
+}
+
+#yddKeyTitle {
+    float: left;
+    text-decoration: none
+}
+
+#yddMiddle {
+    display: block;
+    margin-bottom: 10px
+}
+
+.ydd-tabs {
+    display: block;
+    margin: 5px 0;
+    padding: 0 5px;
+    height: 18px;
+    border-bottom: 1px solid
+}
+
+.ydd-tab {
+    display: block;
+    float: left;
+    height: 18px;
+    margin: 0 5px -1px 0;
+    padding: 0 4px;
+    line-height: 18px;
+    border: 1px solid;
+    border-bottom: none
+}
+
+.ydd-trans-container {
+    display: block;
+    line-height: 160%
+}
+
+.ydd-trans-container a {
+    text-decoration: none;
+}
+
+#yddBottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 22px;
+    line-height: 22px;
+    overflow: hidden;
+    background-position: left -22px
+}
+
+.ydd-padding010 {
+    padding: 0 10px
+}
+
+#yddWrapper {
+    color: #252525;
+    z-index: 10001;
+    /*background: url(chrome-extension://eopjamdnofihpioajgfdikhhbobonhbb/ab20.png);*/
+}
+
+#yddContainer {
+    background: #fff;
+    border-color: #4b7598
+}
+
+#yddTopBorderlr {
+    border-color: #f0f8fc
+}
+
+#yddWrapper .ydd-sp {
+    /*background-image: url(chrome-extension://eopjamdnofihpioajgfdikhhbobonhbb/ydd-sprite.png)*/
+}
+
+#yddWrapper a, #yddWrapper a:hover, #yddWrapper a:visited {
+    color: #50799b
+}
+
+#yddWrapper .ydd-tabs {
+    color: #959595
+}
+
+.ydd-tabs, .ydd-tab {
+    background: #fff;
+    border-color: #d5e7f3
+}
+
+#yddBottom {
+    color: #363636
+}
+
+#yddWrapper {
+    min-width: 250px;
+    max-width: 400px;
+}</style>
+</html>

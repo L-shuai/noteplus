@@ -666,8 +666,8 @@ def find_note(request):
 	# 获取当前登录的用户
 	user_dic = request.session.get('user', default=None)
 	keyword = request.params['keyword']
-	print('keyword:',keyword)
-	qs = Note.objects.filter(Q(title__icontains=keyword) | Q(content__icontains=keyword)).values('id','title','content')
+	# print('keyword:',keyword)
+	qs = Note.objects.filter((Q(title__icontains=keyword) | Q(content__icontains=keyword)) & Q(user_id=user_dic['id']) &Q(deleted=False)).values('id','title','content','deleted')
 	retlist = list(qs)
 	return JsonResponse({'ret':0,'retlist':retlist})
 

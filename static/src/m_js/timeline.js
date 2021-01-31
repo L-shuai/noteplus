@@ -134,8 +134,11 @@ function find_note(){
                 $('#searchnum').text(searchlist.length)
                 for (var d in searchlist){
                 //console.log('d[id]:'+collectlist[d].id)
-                var str = "<li  onclick='get_note("+searchlist[d].id+',0'+")' style='cursor: pointer'> <a> <div class='notif-content' style='width: 100%'> <span class=subject>"+searchlist[d].title+" </span> <span class=time>"+searchlist[d].content.substring(0,14)+"...</span> </div> </a> </li>";
-                $('#searchlist').append(str)
+               if (!searchlist[d].deleted)
+                    {
+                        var str = "<li  onclick='get_note("+searchlist[d].id+',0'+")' style='cursor: pointer'> <a> <div class='notif-content' style='width: 100%'> <span class=subject>"+searchlist[d].title+" </span> <span class=time>"+searchlist[d].content.substring(0,14)+"...</span> </div> </a> </li>";
+                        $('#searchlist').append(str)
+                    }
             }
             } else{
                 alert('查询失败')

@@ -1,6 +1,6 @@
-//处理index.html的js
+//处理profile.html的js
 $(document).ready(function(){
-        initPage()
+        // initPage()
 })
 
 //登录成功后初始化页面
@@ -19,10 +19,17 @@ function initPage() {
             }
 
             user = data.user
-            document.getElementById('username').innerText = user.username
-            document.getElementById('useremail').innerText = user.email
-            document.getElementById('userid').value = user.id
-            document.getElementById('user_last_login').innerText = user.last_login
+            // document.getElementById('username').innerText = user.username
+            // document.getElementById('useremail').innerText = user.email
+            // document.getElementById('userid').value = user.id
+            // document.getElementById('user_last_login').innerText = user.last_login
+            $('.username').text(user.username)
+            $('.useremail').text(user.email)
+            $('.userid').text(user.id)
+             $('.username').val(user.username)
+            $('.useremail').val(user.email)
+            $('.last_login').val(user.last_login)
+            $('.date_joined').val(user.date_joined)
             // alert(data.retlist);
             // //console.log(data.retlist)
 
@@ -45,6 +52,233 @@ function initPage() {
         }
     });
 }
+
+//修改密码
+function modify_password(){
+    var code = $("#code").val()
+    var psw = $("#psw").val()
+    var msg = ''
+    if (code == '' || code == null) {
+            msg = '  验证码  '
+            // b = false
+        }
+        if (psw == null || psw == '') {
+            msg += '  新密码  '
+            // b = false
+        }
+        else
+        {
+            if (psw.length<=8)
+        {
+            alert('密码长度过短，请设置8位以上的密码')
+        }
+        }
+
+        if (msg != '') {
+            var content = {};
+            content.message = msg + '不能为空';
+            content.title = '密码修改失败';
+            content.icon = 'fa fa-bell';
+
+            // content.url = 'login.html';
+            // content.target = '_blank';
+
+            $.notify(content, {
+                type: 'default',
+                placement: {
+                    from: 'top',
+                    align: 'right'
+                },
+                time: 300,
+                delay: 0,
+            });
+        return;
+        }
+        else
+        {
+        //    密码都不为空
+     var jsonstr = {
+        "action": 'modify_password',
+        'data': { 'code': code, 'psw': psw}
+    };
+    $.ajax({
+        type: "POST",
+        url: '/api/mgr/user',
+        data: JSON.stringify(jsonstr),//将json对象转换成json字符串发送
+        dataType: "json",
+        success: function (data) {
+            // alert('注册  id=' + data.id)
+            // alert(data.id)
+            var content = {};
+            //    注册成功
+            if (data.ret == 0) {
+                content.message = '请使用新密码登录';
+                content.title = '密码修改成功';
+
+
+            } else {
+                content.message = data.msg;
+                content.title = '密码修改失败';
+            }
+
+
+            content.icon = 'fa fa-bell';
+
+            // content.url = 'login.html';
+            // content.target = '_blank';
+
+            $.notify(content, {
+                type: 'default',
+                placement: {
+                    from: 'top',
+                    align: 'right'
+                },
+                time: 300,
+                delay: 0,
+            });
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            // alert(XMLHttpRequest.readyState);
+            // alert(textStatus);
+        }
+    });
+        }
+}
+
+//校验邮箱
+function checkEmail(email) {
+    var reg = /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/; //正则表达式
+
+    if (!reg.test(email)) { //正则验证不通过，格式不对
+        var content = {};
+        content.message = '邮箱格式错误';
+        content.title = '获取验证码失败';
+        content.icon = 'fa fa-bell';
+
+        // content.url = 'login.html';
+        // content.target = '_blank';
+
+        $.notify(content, {
+            type: 'default',
+            placement: {
+                from: 'top',
+                align: 'right'
+            },
+            time: 300,
+            delay: 0,
+        });
+
+
+        return false;
+    } else {
+        // alert("通过！");
+        return true;
+    }
+}
+
+
+//发送邮箱验证码
+function sendcode() {
+
+    var code = $("#code").val()
+    var psw = $("#psw").val()
+    var email = $("#email").val()
+    var msg = ''
+    if (email == '' || email == null) {
+            msg = '  邮箱  '
+            // b = false
+        }
+    else{
+        if (checkEmail(email))
+        {
+            //邮箱格式正确  发送邮件
+            //    发送验证码
+            $("#sendcodebtn").text("正在发送");
+            $("#sendcodebtn").attr("disabled", true);//禁用按钮
+            var content = {};
+            $.ajax({
+                type: "GET",  //这里退出不需要传参数。get和post都可以
+                url: '/api/mgr/user?action=sendCode',
+                // data: JSON.stringify(jsonstr),//将json对象转换成json字符串发送
+                dataType: "json",
+                success: function (data) {
+                    if (data.ret == 0) {
+                        // alert('发送成功')
+
+                        content.message = data.msg;
+                content.title = '发送成功';
+                content.icon = 'fa fa-bell';
+
+                // content.url = 'login.html';
+                // content.target = '_blank';
+
+                $.notify(content, {
+                    type: 'default',
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    },
+                    time: 300,
+                    delay: 0,
+                });
+
+                        var btn = document.getElementById('sendcodebtn')
+                        var count = 60
+                        var timer = setInterval(function () {
+                            count--;
+                            $("#sendcodebtn").text(count + "秒");
+                            if (count == 0) {
+                                clearInterval(timer);
+                                $("#sendcodebtn").attr("disabled", false);//启用按钮
+                                $("#sendcodebtn").text("重新发送验证码");
+                                // code = "";//清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
+                            }
+                        }, 1000);
+
+
+                        btn.innerText = count + '秒'
+                    } else {
+                         $("#sendcodebtn").attr("disabled", false);//启用按钮
+                                $("#sendcodebtn").text("重新发送验证码");
+                        // alert('发送')
+                        content.message = data.msg;
+                content.title = '发送失败';
+                content.icon = 'fa fa-bell';
+
+                // content.url = 'login.html';
+                // content.target = '_blank';
+
+                $.notify(content, {
+                    type: 'default',
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    },
+                    time: 300,
+                    delay: 0,
+                });
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
+                }
+            });
+        }
+    }
+
+        // var _username = document.getElementById('username1').value;
+        // var _email = document.getElementById('email').value;
+        // if (checkEmail(_email)) {
+            //邮箱格式正确
+
+        // }
+
+}
+
 
 function fillout(notelist){
     var deletelist = notelist.deletelist;
