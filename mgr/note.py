@@ -371,12 +371,22 @@ def list_note(request):
 				# qs是QuerySet对象，包含属于该用户的未被删除的全部笔记
 				qs = Note.objects.filter(user_id=userid, deleted=True).values()
 				retlist = list(qs)
+				for i in range(len(retlist)):
+					if len(retlist[i]['content']) > 60:
+						retlist[i]['content'] = retlist[i]['content'][0:60] + '...'
+						if len(retlist[i]['abstract']) > 30:
+							retlist[i]['abstract'] = retlist[i]['abstract'][0:30] + '...]'
 				return JsonResponse({'data': retlist})
 			# 查询我的收藏
 			elif sid_get == '-2':
 				# print('sid-get=-2')
 				qs = Note.objects.filter(user_id=userid, deleted=False, collected=True).values()
 				retlist = list(qs)
+				for i in range(len(retlist)):
+					if len(retlist[i]['content']) > 60:
+						retlist[i]['content'] = retlist[i]['content'][0:60] + '...'
+						if len(retlist[i]['abstract']) > 30:
+							retlist[i]['abstract'] = retlist[i]['abstract'][0:30] + '...]'
 				return JsonResponse({'data': retlist})
 			else:
 				return JsonResponse({'ret': 1})
@@ -388,6 +398,11 @@ def list_note(request):
 		# 	查看后 销毁session
 		request.session['sid'] = None
 		retlist = list(qs)
+		for i in range(len(retlist)):
+			if len(retlist[i]['content']) > 60:
+				retlist[i]['content'] = retlist[i]['content'][0:60] + '...'
+				if len(retlist[i]['abstract']) > 30:
+					retlist[i]['abstract'] = retlist[i]['abstract'][0:30] + '...]'
 		return JsonResponse({'data': retlist})
 	else:
 		# print('sid is  None')
@@ -395,6 +410,11 @@ def list_note(request):
 		qs = Note.objects.filter(user_id=userid, deleted=False).values()
 	# 将QuerySet对象转换为list类型。否则不能转化为json字符串
 	retlist = list(qs)
+	for i in range(len(retlist)):
+		if len(retlist[i]['content']) > 60:
+			retlist[i]['content'] = retlist[i]['content'][0:60]+'...'
+			if len(retlist[i]['abstract']) > 30:
+				retlist[i]['abstract'] = retlist[i]['abstract'][0:30]+'...]'
 	return JsonResponse({'data': retlist})
 
 
@@ -716,3 +736,21 @@ def collect_note(request):
 	return JsonResponse({'ret': 1, 'msg': '收藏/取消收藏失败'})
 
 # ==========================================================================================================================
+
+
+# ==========================================================================================================================
+def share(request):
+	"""
+	返回值为字典形式
+	:param request:
+	:return:
+	"""
+	# print('nid:',nid)
+	nid = request.GET.get('nid')
+	print('nid:',nid)
+	views_dict = {'name':'菜鸟教程','age':22}
+	return render(request,'share.html',{'views_dict':views_dict})
+
+# ==========================================================================================================================
+
+

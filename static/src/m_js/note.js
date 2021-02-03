@@ -112,6 +112,7 @@ function initPage() {
                 // alert('0')
                 // preview()
                 document.getElementById('preview').innerHTML = note.content_html
+                // $('pre').addClass('prettyprint linenums prettyprinted')
                 ////console.log('note.content_html:'+note.content_html)
                 // document.getElementById('preview').style.fontSize='30px'
                // var nodes = document.querySelectorAll('#preview');
@@ -134,6 +135,10 @@ function initPage() {
                 //显示预览按钮
                 document.getElementById('pills-profile-tab').style.display='inline'
             }
+
+
+            //highlight代码高亮
+            //     hljs.initHighlightingOnLoad();
 
             $('#collected').val(note.collected)
                 var col = $('#collected').val()

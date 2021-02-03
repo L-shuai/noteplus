@@ -10,4 +10,5 @@ urlpatterns = [
 	path('signout',sign_in_out.signout),
 	# path('medicines',medicine.dispatcher),
 	# path('orders', order.dispatcher),
+
 ]

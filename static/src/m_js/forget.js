@@ -220,7 +220,7 @@ function sendcode() {
             var content = {};
             $.ajax({
                 type: "GET",  //这里退出不需要传参数。get和post都可以
-                url: '/api/mgr/user?action=sendCode',
+                url: '/api/mgr/user?action=sendCode&email='+email,
                 // data: JSON.stringify(jsonstr),//将json对象转换成json字符串发送
                 dataType: "json",
                 success: function (data) {

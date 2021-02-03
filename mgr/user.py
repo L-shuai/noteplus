@@ -16,7 +16,6 @@ from common.models import Note
 
 def dispatcher(request):
 	# 将请求参数统一放到request的params属性中，方便后续处理  这个params属性是我自定义的
-
 	# GET请求  参数在request对象的GET属性中
 	if request.method == 'GET':
 		request.params = request.GET
@@ -28,9 +27,12 @@ def dispatcher(request):
 
 	# 根据session判断用户是否登录
 	action = request.params['action']
+	# print('request-url:',action)
+
 	# 若是注册时的请求  则直接跳过  不验证登录
 	login = True
-	if action != 'register':
+	if action != 'register' and action != 'sendCode':
+		print('common')
 		user = request.session.get('user', default=None)
 		if user is not None:
 			if 'username' not in user:
@@ -157,6 +159,8 @@ def get_notelist(request):
 	if list_len > 0:
 
 		for i in range(list_len):
+			if len(alllist[i]['content'])>35:
+				alllist[i]['content'] = alllist[i]['content'][0:35]
 			note = alllist[i]
 			if note['deleted']:
 				deletelist.append(note)
@@ -386,10 +390,10 @@ def sendCode(request):
 	try:
 		# data是传过来的json  我自定义的data            var jsonstr = {"action": 'add_customer', 'data': {'name': _name, 'phonenumber': _phonenumber, 'address': _address}};
 		# info = request.params['data']
-		user_dic = request.session.get('user')
-		user = User.objects.get(id=user_dic['id'])
-		receiver = user.email
-
+		# user_dic = request.session.get('user')
+		# user = User.objects.get(id=user_dic['id'])
+		# receiver = user.email
+		receiver = request.params['email']
 		# 可以发送邮件
 		my_sender = 'noteplus@88.com'  # 发件人邮箱账号
 		my_pass = 'xvm2HKBPmcyESBUI'  # 发件人邮箱的授权码
@@ -397,6 +401,7 @@ def sendCode(request):
 
 		# same = ['leeshuai@88.com', 'WTCIfPyJinpCnPK5','smtp.88.com','欢迎注册noteplus','尊敬的用户：您好！ 您正在进行注册操作，请填入验证码：','。此为系统邮件，请勿回复！']
 		code = getcode(6)  # 生成6位数
+		# print('code:',code)
 		ret = True
 		try:
 			msg = MIMEText('尊敬的用户：您好！ 您正在进行修改密码操作，请填入验证码：' + code + '。此为系统邮件，请勿回复！', 'plain', 'utf-8')
@@ -417,5 +422,5 @@ def sendCode(request):
 		else:
 			return JsonResponse({'ret': 1, 'msg': '发送失败'})
 	except Exception as e:
-		# print('e',e)
-		return JsonResponse({'ret': 1, 'msg': '注册过程异常，请重新注册！！'})
+		print('e',e)
+		return JsonResponse({'ret': 1, 'msg': '修改密码过程异常，请重新操作！！'})
