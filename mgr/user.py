@@ -31,7 +31,7 @@ def dispatcher(request):
 
 	# 若是注册时的请求  则直接跳过  不验证登录
 	login = True
-	if action != 'register' and action != 'sendCode':
+	if action != 'register' and action != 'sendCode' and action != 'sendEmail' and action != 'modify_password':
 		print('common')
 		user = request.session.get('user', default=None)
 		if user is not None:
@@ -360,7 +360,10 @@ def modify_password(request):
 
 			try:
 				# 根据id从数据库中找到相应的客户记录
-				user = User.objects.get(id=user['id'])
+				# user = User.objects.get(id=user['id'])
+				if 'email' in info:
+					email = info['email']
+					user = User.objects.get(email=email)
 			except User.DoesNotExist:
 				return {
 					'ret': 1,

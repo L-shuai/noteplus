@@ -24,7 +24,7 @@ from django.db.models import Q
 # ==========================================================================================================================
 from django.shortcuts import render
 
-from common.models import Note, Sort
+from common.models import Note  , Sort
 from mgr.textUtils.word_cloud import get_WC
 from mgr.user import get_notelist
 
@@ -170,8 +170,6 @@ def add_note(request):
 	# 文本摘要算法
 	mod_sen = FastTextRank4Sentence(use_w2v=False, tol=0.0001)
 	# abstract = '这是笔记摘要'
-
-
 	# abstract = ''
 	# for sen in abstract_list:
 	# 	abstract += sen

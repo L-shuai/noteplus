@@ -13,7 +13,7 @@ $(function () {
         syncScrolling: "single",  //
         // 一定要改
         path: "../static/src/assets/editor.md-master/lib/",
-        autoFocus: true,  //页面打开时不自动获取焦点
+        autoFocus: true,  //页面打开时自动获取焦点
         //这个配置可以让构造出来的HTML代码直接在第二个隐藏的textarea域中，方便post提交表单。
         saveHTMLToTextarea: true,
     });
@@ -41,7 +41,7 @@ function getMD() {
     // 获取markdown值
     var md = testEditor.getMarkdown()
     // alert(md)
-    //console.log('获取到的md:'+md)
+    console.log('获取到的md:'+md)
     testEditor.value = ""
     return md;
 }
@@ -50,7 +50,7 @@ function getHtml() {
     // 获取html值
     var html = testEditor.getHTML()
     // alert(html)
-    //console.log('获取到的html:'+html)
+    console.log('获取到的html:'+html)
     return html;
 }
 

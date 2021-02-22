@@ -57,9 +57,15 @@ function initPage() {
 function modify_password(){
     var code = $("#code").val()
     var psw = $("#psw").val()
+    var email = $("#email").val()
+
     var msg = ''
     if (code == '' || code == null) {
             msg = '  验证码  '
+            // b = false
+        }
+    if (email == '' || email == null) {
+            msg = '  邮箱  '
             // b = false
         }
         if (psw == null || psw == '') {
@@ -100,7 +106,7 @@ function modify_password(){
         //    密码都不为空
      var jsonstr = {
         "action": 'modify_password',
-        'data': { 'code': code, 'psw': psw}
+        'data': { 'email':email,'code': code, 'psw': psw}
     };
     $.ajax({
         type: "POST",
@@ -151,6 +157,7 @@ function modify_password(){
 //校验邮箱
 function checkEmail(email) {
     var reg = /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/; //正则表达式
+
 
     if (!reg.test(email)) { //正则验证不通过，格式不对
         var content = {};

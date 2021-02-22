@@ -18,12 +18,9 @@ from django.urls import path, include
 from django.conf.urls import handler400, handler403, handler404, handler500
 # 静态资源文件服务
 from django.conf.urls.static import static
-
 from noteplus import views
 from mgr import note
-
 from django.conf.urls import url
-
 urlpatterns = [
 	              path('admin/', admin.site.urls),
 	              # 以api/mgr/开头的url，由mgr模块的urls.py处理
@@ -32,7 +29,6 @@ urlpatterns = [
 	              path('share', note.share),
 	              # 静态资源目录
               ] + static("/", document_root="./templates")  # 若上面的路由没有匹配上，就匹配这个z_dist目录下
-
 # 自定义错误页面
 handler400 = views.bad_request
 handler403 = views.permission_denied

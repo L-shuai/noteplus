@@ -1,0 +1,4 @@
+*.csv
+mgr/textUtils/*.csv
+*.pkl
+mgr/textUtils/*.pkl
