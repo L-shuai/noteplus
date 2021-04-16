@@ -4,6 +4,8 @@
 # 分发函数
 import json
 # 返回json的数据
+import jieba
+import joblib
 from bs4 import BeautifulSoup
 from django.forms import model_to_dict
 from django.http import JsonResponse
@@ -18,13 +20,12 @@ import datetime
 # 关键词
 from FastTextRank.FastTextRank4Word import FastTextRank4Word
 
-
 # 多条件查询  Q
 from django.db.models import Q
 # ==========================================================================================================================
 from django.shortcuts import render
 
-from common.models import Note  , Sort
+from common.models import Note, Sort
 from mgr.textUtils.word_cloud import get_WC
 from mgr.user import get_notelist
 
@@ -179,15 +180,15 @@ def add_note(request):
 	# keyword = '关键词1|关键词2|关键词3'
 	cont_len = len(content)
 	if cont_len >= 200:
-		keyword_list = mod_word.summarize(content, 5)  #取出5个关键词
+		keyword_list = mod_word.summarize(content, 5)  # 取出5个关键词
 		# 抽取3个摘要句子  返回数组
 		abstract_list = mod_sen.summarize(content, 3)
 	elif 100 < cont_len < 200:
-		keyword_list = mod_word.summarize(content, 3)  #取出2个关键词
+		keyword_list = mod_word.summarize(content, 3)  # 取出2个关键词
 		# 抽取3个摘要句子  返回数组
 		abstract_list = mod_sen.summarize(content, 2)
-	elif 0< cont_len <= 100:
-		keyword_list = mod_word.summarize(content, 1)  #取出1个关键词
+	elif 0 < cont_len <= 100:
+		keyword_list = mod_word.summarize(content, 1)  # 取出1个关键词
 		# 抽取3个摘要句子  返回数组
 		abstract_list = mod_sen.summarize(content, 1)
 	else:
@@ -206,10 +207,22 @@ def add_note(request):
 	# # print('keyword:',keyword)
 	filepath = get_WC(content)
 	# img_url = 'https://t7.baidu.com/it/u=1657358789,951623903&fm=193&f=GIF'
-	img_url = 'http://www.noteplus.top/static/space/'+filepath
+	img_url = 'http://www.noteplus.top/static/space/' + filepath
 	user = User.objects.get(id=userid)
+	text_clf = joblib.load('mgr/textUtils/text_clf.pkl')
+	tfidf = joblib.load('mgr/textUtils/tfidf.pkl')
+	# print('content:', content)
+	text = segmentWord(content)  # 这里应为list
+	# print('text:', text)
+	train_x = tfidf.transform(text)
+
+	predicted = text_clf.predict(train_x)
+	# print(set(predicted))
+	# print('predict:', predicted[0])
+	s = str(predicted[0])
 	# 这里最好别用filter   因为filter返回的是querySet
-	sort = Sort.objects.get(name='python')
+	# sort = Sort.objects.get(name='python')
+	sort = Sort.objects.get(name=s)
 	# 从请求消息中  获取要添加客户的信息
 	# 并且添加到数据库中
 	# 若添加成功，则返回添加后对应的id   record是note类型的  是个对象
@@ -231,7 +244,7 @@ def add_note(request):
 	collectlist = notelist['collectlist']
 	deletelist = notelist['deletelist']
 	usagelist = notelist['usagelist']
-	return JsonResponse({'ret': 0, 'id': record.id,'note':model_to_dict(record),
+	return JsonResponse({'ret': 0, 'id': record.id,'sort':s,'note': model_to_dict(record),
 	                     'notelist': {'deletelist': deletelist, 'collectlist': collectlist,
 	                                  'usagelist': usagelist}})
 
@@ -256,7 +269,6 @@ def modify_note(request):
 			'ret': 1,
 			'msg': '笔记不存在'
 		}
-
 
 	soup = BeautifulSoup(note['content_html'], 'html.parser')
 	content = soup.get_text()
@@ -301,9 +313,23 @@ def modify_note(request):
 	# # print('keyword:',keyword)
 	filepath = get_WC(content)
 	# img_url = 'https://t7.baidu.com/it/u=1657358789,951623903&fm=193&f=GIF'
-	img_url = 'http://www.noteplus.top/static/space/'+filepath
+	img_url = 'http://www.noteplus.top/static/space/' + filepath
+	text_clf = joblib.load('mgr/textUtils/text_clf.pkl')
+	tfidf = joblib.load('mgr/textUtils/tfidf.pkl')
+	# print('content:', content)
+	text = segmentWord(content)  # 这里应为list
+	# print('text:', text)
+	train_x = tfidf.transform(text)
+
+	predicted = text_clf.predict(train_x)
+	# print(set(predicted))
+	# print('predict:', predicted[0])
+	s = str(predicted[0])
 	# 这里最好别用filter   因为filter返回的是querySet
-	sort = Sort.objects.get(name='python')
+	# sort = Sort.objects.get(name='python')
+	sort = Sort.objects.get(name=s)
+	# 这里最好别用filter   因为filter返回的是querySet
+	# sort = Sort.objects.get(name='python')
 	# 从请求消息中  获取要添加客户的信息
 	# 并且添加到数据库中
 	# 若添加成功，则返回添加后对应的id   record是note类型的  是个对象
@@ -334,9 +360,10 @@ def modify_note(request):
 	collectlist = notelist['collectlist']
 	deletelist = notelist['deletelist']
 	usagelist = notelist['usagelist']
-	return JsonResponse({'ret': 0, 'id': note_.id, 'note': model_to_dict(note_),
+	return JsonResponse({'ret': 0, 'id': note_.id,'sort':s,'note': model_to_dict(note_),
 	                     'notelist': {'deletelist': deletelist, 'collectlist': collectlist,
 	                                  'usagelist': usagelist}})
+
 
 # ==========================================================================================================================
 
@@ -410,9 +437,9 @@ def list_note(request):
 	retlist = list(qs)
 	for i in range(len(retlist)):
 		if len(retlist[i]['content']) > 60:
-			retlist[i]['content'] = retlist[i]['content'][0:60]+'...'
+			retlist[i]['content'] = retlist[i]['content'][0:60] + '...'
 			if len(retlist[i]['abstract']) > 30:
-				retlist[i]['abstract'] = retlist[i]['abstract'][0:30]+'...]'
+				retlist[i]['abstract'] = retlist[i]['abstract'][0:30] + '...]'
 	return JsonResponse({'data': retlist})
 
 
@@ -455,8 +482,6 @@ def delete_note(request):
 	# if note in collectlist:
 	# 	usagelist.remove(note)
 	# request.session['collectlist'] = collectlist
-
-
 
 	# 	同步session
 
@@ -629,18 +654,18 @@ def get_note_byid(request):
 	try:
 		# 根据id从数据库中找到相应的客户记录
 		note = Note.objects.get(id=nid)
-	# 	将摘要和关键字转为list
+		# 	将摘要和关键字转为list
 		note.abstract = eval(note.abstract)
 		note.keyword = eval(note.keyword)
 
-		# last_modify = str(note.modify_date)  # 2021-01-23T03:18:54.836Z
-		# # print('last_modify:'+last_modify)
-		# tmp = last_modify[0:10] + ' '
+	# last_modify = str(note.modify_date)  # 2021-01-23T03:18:54.836Z
+	# # print('last_modify:'+last_modify)
+	# tmp = last_modify[0:10] + ' '
 
-		# tmp += last_modify[11:19]
-		# # print('tmp:' + tmp)
+	# tmp += last_modify[11:19]
+	# # print('tmp:' + tmp)
 
-		# note.publish_date = tmp
+	# note.publish_date = tmp
 	except Note.DoesNotExist:
 		return {
 			'ret': 1,
@@ -656,7 +681,8 @@ def get_note_byid(request):
 	usagelist = notelist['usagelist']
 	# # print('model_to_dict(note):',model_to_dict(note))
 	# # print('note:',note)
-	return JsonResponse({'ret': 0, 'note': model_to_dict(note), 'user': user, 'n_type': n_type, 'msg': '返回成功','notelist': {'deletelist': deletelist, 'collectlist': collectlist,
+	return JsonResponse({'ret': 0, 'note': model_to_dict(note), 'user': user, 'n_type': n_type, 'msg': '返回成功',
+	                     'notelist': {'deletelist': deletelist, 'collectlist': collectlist,
 	                                  'usagelist': usagelist}})
 
 
@@ -677,6 +703,7 @@ def get_sort_list(request):
 	redirect = './list.html'
 	return JsonResponse({'ret': 0, 'redirect': redirect})
 
+
 # return JsonResponse({})
 # ==========================================================================================================================
 
@@ -687,9 +714,11 @@ def find_note(request):
 	user_dic = request.session.get('user', default=None)
 	keyword = request.params['keyword']
 	# print('keyword:',keyword)
-	qs = Note.objects.filter((Q(title__icontains=keyword) | Q(content__icontains=keyword)) & Q(user_id=user_dic['id']) &Q(deleted=False)).values('id','title','content','deleted')
+	qs = Note.objects.filter(
+		(Q(title__icontains=keyword) | Q(content__icontains=keyword)) & Q(user_id=user_dic['id']) & Q(
+			deleted=False)).values('id', 'title', 'content', 'deleted')
 	retlist = list(qs)
-	return JsonResponse({'ret':0,'retlist':retlist})
+	return JsonResponse({'ret': 0, 'retlist': retlist})
 
 
 # ==========================================================================================================================
@@ -722,7 +751,7 @@ def collect_note(request):
 		usagelist = notelist['usagelist']
 		# # print('model_to_dict(note):',model_to_dict(note))
 		# # print('note:',note)
-		return JsonResponse({'ret': 0, 'note': model_to_dict(note),  'n_type': n_type, 'msg': '收藏/取消收藏成功',
+		return JsonResponse({'ret': 0, 'note': model_to_dict(note), 'n_type': n_type, 'msg': '收藏/取消收藏成功',
 		                     'notelist': {'deletelist': deletelist, 'collectlist': collectlist,
 		                                  'usagelist': usagelist}})
 
@@ -732,6 +761,7 @@ def collect_note(request):
 			'msg': f'id为`{nid}`的笔记不存在'
 		}
 	return JsonResponse({'ret': 1, 'msg': '收藏/取消收藏失败'})
+
 
 # ==========================================================================================================================
 
@@ -745,10 +775,91 @@ def share(request):
 	"""
 	# print('nid:',nid)
 	nid = request.GET.get('nid')
-	print('nid:',nid)
-	views_dict = {'name':'菜鸟教程','age':22}
-	return render(request,'share.html',{'views_dict':views_dict})
+	print('nid:', nid)
+	views_dict = {'name': '菜鸟教程', 'age': 22}
+	return render(request, 'share.html', {'views_dict': views_dict})
+
 
 # ==========================================================================================================================
 
 
+from jieba import analyse
+
+
+# 创建停用词list
+def stopwordslist(filepath):
+	stopwords = [line.strip() for line in open(filepath, 'r', encoding='utf-8').readlines()]
+	return stopwords
+
+
+analyse.set_stop_words("mgr/textUtils/baidu_stopwords.txt")
+
+
+# 对列表进行分词并用空格连接
+def segmentWord2(cont):
+	c = []
+	# 引入TF-IDF关键词抽取接口
+	tfidf = analyse.extract_tags
+	count = 1
+	rate = 100
+	for i in cont:
+		if (count > rate):
+			print(rate)
+			rate = rate + 3000
+		count = count + 1
+		outstr = ''
+		# 基于TF-IDF算法进行关键词抽取
+		keywords = tfidf(i, topK=100)
+		kw = ''
+		for keyword in keywords:
+			kw += keyword
+			kw += ' '
+		# a = list(jieba.cut(i))
+		# b = " ".join(a)
+		c.append(kw)
+	return c
+
+
+# 对列表进行分词并用空格连接
+def segmentWord(cont):
+	# stopwords = stopwordslist('/content/drive/Shareddrives/leeshuai55/毕业设计/数据集/baidu_stopwords.txt')
+	c = []
+	count = 1
+	rate = 100
+	sentence_seged = jieba.cut(cont)
+	outstr = ''
+	for word in sentence_seged:
+		word = str(word)
+		# if word not in stopwords:
+		if word != '\t':
+			if len(word) > 1:
+				outstr += word
+				outstr += " "
+	# a = list(jieba.cut(i))
+	# b = " ".join(a)
+	c.append(outstr)
+	return c
+
+# 对列表进行分词并用空格连接
+# def segmentWord(cont):
+# 	# stopwords = stopwordslist('mgr/textUtils/baidu_stopwords.txt')
+# 	c = []
+# 	count = 1
+# 	rate = 100
+# 	for i in cont:
+# 		if (count > rate):
+# 			print(rate)
+# 			rate = rate + 3000
+# 		count = count + 1
+# 		outstr = ''
+# 		sentence_seged = jieba.cut(i.strip())
+# 		for word in sentence_seged:
+# 			# if word not in stopwords:
+# 			if word != '\t':
+# 				if len(word) > 1:
+# 					outstr += word
+# 					outstr += " "
+# 			# a = list(jieba.cut(i))
+# 			# b = " ".join(a)
+# 		c.append(outstr)
+# 	return c

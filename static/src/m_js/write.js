@@ -110,6 +110,7 @@ function initPage() {
 
 
 function addnote(){
+    console.log('add_note')
 //    添加笔记
     var title = document.getElementById('title').value
     var content_md = getMD()
@@ -148,6 +149,11 @@ function addnote(){
             success: function (data) {
                 // alert('添加成功  id=' + data.id)
                 // alert(data.id)
+                var sort = data.sort
+                 //选中select
+                $("#sortSelect").val(data.note.sort);
+                // alert(data.note.sort)
+                // alert(data.sort)
                  var notelist = data.notelist;
                  fillout(notelist);
 
@@ -155,7 +161,7 @@ function addnote(){
                 // //console.log('data.note:'+data.note)
                 fill_abstract(data.note);
 
-                swal("保存成功", "You clicked the button!", {
+                swal("保存成功", "为您预测的笔记分类为："+data.sort, {
                     icon: "success",
                     buttons: {
                         confirm: {
