@@ -17,6 +17,12 @@ $(function () {
         //这个配置可以让构造出来的HTML代码直接在第二个隐藏的textarea域中，方便post提交表单。
         saveHTMLToTextarea: true,
     });
+    //不要一开始立马就调用getMarkdown()方法，当editor对象创建好以后，让程序睡上500ms，再调用，就没事了
+    //     setTimeout(function(){
+    //         // alert('sleep 500ms')
+    //         // console.log(testEditor.getMarkdown());
+    //     },500);
+        // alert('sleep over')
     // 这里必须先声明，上面的js按钮才能用
     testEditor.getMarkdown();       // 获取 Markdown 源码
     testEditor.getHTML();           // 获取 Textarea 保存的 HTML 源码
@@ -31,9 +37,16 @@ function preview() {
     if (b!=1)
     {
             // 获取html值
-    var html = testEditor.getHTML()
+    // var html = testEditor.getHTML()
+    //       setTimeout(function(){
+            // alert('sleep 500ms')
+        var html = testEditor.getHTML()
+              $('#preview').html(html)
+        // alert('获取到了')
+            // console.log(testEditor.getMarkdown());
+        // },500);
     // ////console.log('html-preview:'+html)
-        $('#preview').html(html)
+    //     $('#preview').html(html)
 
     }
 
@@ -47,19 +60,36 @@ function preview() {
 
 function getMD() {
     // 获取markdown值
-    var md = testEditor.getMarkdown()
+
+    // setTimeout(function(){
+            // alert('sleep 500ms')
+        var md = testEditor.getMarkdown()
+        // alert('getMD获取到了')
+            // console.log(testEditor.getMarkdown());
+        testEditor.value = ""
+            return md;
+        // },500);
+    // alert('继续执行getMD')
     // alert(md)
     ////console.log('获取到的md:'+md)
-    testEditor.value = ""
-    return md;
+    // testEditor.value = ""
+    // return md;
 }
 
 function getHtml() {
     // 获取html值
-    var html = testEditor.getHTML()
+    // var html = testEditor.getHTML()
+    //   setTimeout(function(){
+            // alert('sleep 500ms')
+        var html = testEditor.getHTML()
+          return html;
+        // alert('获取到了')
+            // console.log(testEditor.getMarkdown());
+        // },500);
+
     // alert(html)
     ////console.log('获取到的html:'+html)
-    return html;
+    // return html;
 }
 
 function setMD(cont) {
@@ -69,7 +99,17 @@ function setMD(cont) {
     // cont = document.getElementById("textarea").value;
     // alert(cont)
     // 直接从数据库中读出   可以得
-    testEditor.setMarkdown(cont)
+    // testEditor.setMarkdown(cont)
+
+    setTimeout(function(){
+            // alert('sleep 500ms')
+            // console.log(testEditor.getMarkdown());
+        testEditor.setMarkdown(cont)
+        // alert('setMD ok')
+        // alert('已设置')
+        },1000);
+
+    // alert('继续执行setMD')
 }
 
 
@@ -96,7 +136,14 @@ function initPage() {
             document.getElementById('useremail').innerText = user.email
             document.getElementById('userid').value = user.id
             var note = data.note
-            setMD(note.content_md)
+                // alert(note.content_md)
+                // setMD(note.content_md)
+
+                  // setTimeout(function(){
+                    setMD(note.content_md)
+                // alert('在init中'+getMD())
+              // },500);
+
                 document.getElementById('title').value = note.title
                 document.getElementById('preview-input').value = 1
             //选中sort select
@@ -129,7 +176,7 @@ function initPage() {
             else{
                 //是编辑
                                 document.getElementById('preview').innerHTML = note.content_html
-
+                                // setMD()
             //    隐藏编辑按钮
                 document.getElementById('pills-home-tab').style.display='none'
                 //显示预览按钮
@@ -246,7 +293,7 @@ function initPage() {
 //点击编辑按钮
 function edit_note()
 {
-
+    // alert('在edit_note中的'+getMD())
     document.getElementById('pills-home-tab').style.display='none'
     document.getElementById('pills-profile-tab').style.display='inline'
 }
