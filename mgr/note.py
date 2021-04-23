@@ -154,7 +154,8 @@ def init_page_note(request):
 
 # ==========================================================================================================================
 
-
+text_clf = joblib.load('mgr/textUtils/text_clf.pkl')
+tfidf = joblib.load('mgr/textUtils/tfidf.pkl')
 # ==========================================================================================================================
 def add_note(request):
 	"""
@@ -209,8 +210,8 @@ def add_note(request):
 	# img_url = 'https://t7.baidu.com/it/u=1657358789,951623903&fm=193&f=GIF'
 	img_url = 'http://www.noteplus.top/static/space/' + filepath
 	user = User.objects.get(id=userid)
-	text_clf = joblib.load('mgr/textUtils/text_clf.pkl')
-	tfidf = joblib.load('mgr/textUtils/tfidf.pkl')
+	# text_clf = joblib.load('mgr/textUtils/text_clf.pkl')
+	# tfidf = joblib.load('mgr/textUtils/tfidf.pkl')
 	# print('content:', content)
 	text = segmentWord(content)  # 这里应为list
 	# print('text:', text)
@@ -314,8 +315,8 @@ def modify_note(request):
 	filepath = get_WC(content)
 	# img_url = 'https://t7.baidu.com/it/u=1657358789,951623903&fm=193&f=GIF'
 	img_url = 'http://www.noteplus.top/static/space/' + filepath
-	text_clf = joblib.load('mgr/textUtils/text_clf.pkl')
-	tfidf = joblib.load('mgr/textUtils/tfidf.pkl')
+	# text_clf = joblib.load('mgr/textUtils/text_clf.pkl')
+	# tfidf = joblib.load('mgr/textUtils/tfidf.pkl')
 	# print('content:', content)
 	text = segmentWord(content)  # 这里应为list
 	# print('text:', text)
